@@ -5,9 +5,9 @@
     <meta charset="utf-8">
     <title>Gamepage</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static "BasicApp/css/indexPage.css" %}"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="{% static "BasicApp/css/indexPage.css" %}"/>
   </head>
 
   <body>
@@ -40,6 +40,52 @@
     <!--Introduction-->
     <div class="jumbotron">
       <div class="container">
+        <form id = "gameInput">
+          <div class="form-group"> {% csrf_token %}
+            <label>Coordinate X:</label>
+            <input type="text" class="form-control" name="dx" id="dx" placeholder="Float Accepted ">
+            <small id="coordinateHelp" class="form-text text-muted">Just a Demo example so far</small>
+          </div>
+
+          <div class="form-group">
+            <label>Coordinate Y:</label>
+            <input type="text" class="form-control" name="dy" id="dy" placeholder="Float Accepted ">
+            <small id="coordinateHelp" class="form-text text-muted">Just a Demo example so far</small>
+          </div>
+          <input type="submit" class="btn btn-primary" value="submarine_move"></input>
+        </form>
+        <script>
+          $(document).on('submit', '#gameInput', function(e){
+            e.preventDefault();
+            console.log("sending data to backend...");
+            $.ajax({
+              type : "POST",
+              url : "/game/",
+              data : {
+                coordinate_x : $('#dx').val(),
+                coordinate_y : $('#dy').val(),
+                csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val(),
+              },
+
+              success : function(received_json){
+                console.log(received_json);
+                dx = received_json['dx'];
+                dy = received_json['dy'];
+                console.log(dx);
+                console.log(dy);
+                submarine_move(dx, dy);
+              }
+
+            });
+
+          });
+        </script>
+      </div>
+    </div>
+
+    <!--
+    <div class="jumbotron">
+      <div class="container">
       <form method = "POST">
       {{ form.as_p }}
       {% csrf_token %}
@@ -48,13 +94,16 @@
       </div>
 
     </div>
-
+    -->
+    <!--
     <div class="jumbotron">
         <h1>Testing Communication...</h1>
         {{ form }}
     </div>
+    -->
 
 
+    <!-- Game Canvas Place -->
     <div>
     <h1>This is a game place</h2>
     <script type="text/javascript" src="{% static "BasicApp/js/phaser.js" %}"></script>
@@ -66,16 +115,12 @@
         background: #001f3f;
       }
     </style>
-    <!--color picker : #edd5b4-->
-
-    <!-- include the main game file -->
     <script>
       var backgroundPic_url = "{% static "BasicApp/images/water_background.jpg" %}";
       var submarinePic_url = "{% static "BasicApp/images/submarine.png" %}";
       var finish_linePic_url = "{% static "BasicApp/images/finish_line.png" %}";
     </script>
     <script src="{% static "BasicApp/js/main.js" %}"> </script>
-
     </div>
 
   </body>
