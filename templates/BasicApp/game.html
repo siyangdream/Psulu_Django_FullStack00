@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Gamepage</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{% static "BasicApp/css/indexPage.css" %}"/>
+  </head>
+
+  <body>
+
+    <!--Navigation Bar Section-->
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Psulu-HAL</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+          <ul class="nav navbar-nav">
+            <li><a href="{% url 'index'%}">Home</a></li>
+            <li class="active"><a href="{% url 'game'%}">Game</a></li>
+            <li><a href="#">Background</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!--Introduction-->
+    <div class="jumbotron">
+      <div class="container">
+      <form method = "POST">
+      {{ form.as_p }}
+      {% csrf_token %}
+      <input type="submit" class="btn btn-primary" value="submarine_move"></input>
+      </form>
+      </div>
+
+    </div>
+
+    <div class="jumbotron">
+        <h1>Testing Communication...</h1>
+        {{ form }}
+    </div>
+
+
+    <div>
+    <h1>This is a game place</h2>
+    <script type="text/javascript" src="{% static "BasicApp/js/phaser.js" %}"></script>
+
+    <style>
+      body {
+        padding: 0px;
+        margin: 2px;
+        background: #001f3f;
+      }
+    </style>
+    <!--color picker : #edd5b4-->
+
+    <!-- include the main game file -->
+    <script>
+      var backgroundPic_url = "{% static "BasicApp/images/water_background.jpg" %}";
+      var submarinePic_url = "{% static "BasicApp/images/submarine.png" %}";
+      var finish_linePic_url = "{% static "BasicApp/images/finish_line.png" %}";
+    </script>
+    <script src="{% static "BasicApp/js/main.js" %}"> </script>
+
+    </div>
+
+  </body>
+</html>
