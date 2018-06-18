@@ -26,14 +26,18 @@ def game_view(request):
     """
 
     if request.method == 'POST':
-        received_x = request.POST.get('coordinate_x')
-        received_y = request.POST.get('coordinate_y')
+        received_risk = request.POST.get('risk')
+        received_waypoints = request.POST.get('waypoints')
+        received_x = request.POST.get('curr_x')
+        received_y = request.POST.get('curr_y')
 
         response_data = {}
 
         response_data['message'] = 'Hello from backend : This is my response: )'
-        response_data['dx'] = received_x
-        response_data['dy'] = received_y
+        response_data['risk'] = received_risk
+        response_data['waypoints'] = received_waypoints
+        response_data['curr_x'] = received_x
+        response_data['curr_y'] = received_y
 
         return HttpResponse(json.dumps(response_data), content_type = "application/json")
 
