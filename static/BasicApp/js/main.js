@@ -63,13 +63,13 @@ var GameState = {
     background.scale.setTo(2, 2);
 
     //*Draw Submarine
-    submarine = this.game.add.sprite(100, 1000, 'submarine');
+    submarine = this.game.add.sprite(100, 1100, 'submarine');
     submarine.anchor.setTo(0.5, 0.5);
     submarine.scale.setTo(-0.06, 0.06);
     this.game.physics.arcade.enable(submarine);
 
     //*Draw Finish Line
-    finish_line = this.game.add.sprite(1000, 100, 'finish_line');
+    finish_line = this.game.add.sprite(1100, 100, 'finish_line');
     finish_line.anchor.setTo(0.5, 0.5);
     finish_line.scale.setTo(0.3, 0.3);
     this.game.physics.arcade.enable(finish_line);
@@ -77,7 +77,7 @@ var GameState = {
 
     //*Draw Obstacle Objects
     for (var i = 0; i < m2pos.length; ++i) {
-        var polyObject = new Phaser.Polygon([ new Phaser.Point(bias + m2pos[i][0][0] * scale, (1 - m2pos[i][0][1]) * scale), new Phaser.Point(bias + m2pos[i][1][0] * scale, (1 - m2pos[i][1][1]) * scale), new Phaser.Point(bias + m2pos[i][2][0] * scale, (1 - m2pos[i][2][1]) * scale), new Phaser.Point(bias + m2pos[i][3][0] * scale, (1 - m2pos[i][3][1]) * scale) ]);
+        var polyObject = new Phaser.Polygon([ new Phaser.Point(bias + m2pos[i][0][0] * scale, bias + (1 - m2pos[i][0][1]) * scale), new Phaser.Point(bias + m2pos[i][1][0] * scale, bias + (1 - m2pos[i][1][1]) * scale), new Phaser.Point(bias + m2pos[i][2][0] * scale, bias + (1 - m2pos[i][2][1]) * scale), new Phaser.Point(bias + m2pos[i][3][0] * scale, bias + (1 - m2pos[i][3][1]) * scale) ]);
         map2_obstacles_object.push(polyObject)
     }
 
@@ -136,7 +136,7 @@ function submarine_move(x, y) {
       }
 
       //*Reach the target and won the game!
-      if (flag == false && submarine.x == 1000 && submarine.y == 100) {
+      if (flag == false && submarine.x == 1100 && submarine.y == 100) {
         alert("Won!!!");
         game.state.start('GameState');
       }
@@ -205,7 +205,7 @@ function sample2DCoordinate(source_x, source_y, target_x, target_y, precision) {
 //MARK: Entry Point of the Program
 
 //initiate the Phaser framework
-var game = new Phaser.Game(1100, 1100, Phaser.AUTO);
+var game = new Phaser.Game(scale + 2 * bias, scale + 2 * bias, Phaser.AUTO);
 
 game.state.add('GameState', GameState);
 game.state.start('GameState');

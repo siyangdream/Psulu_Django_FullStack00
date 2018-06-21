@@ -57,6 +57,8 @@
         <script>
           $(document).on('submit', '#gameInput', function(e){
             e.preventDefault();
+            console.log(submarine.x)
+            console.log(submarine.y)
             console.log("sending data to backend...");
             $.ajax({
               type : "POST",
@@ -64,8 +66,8 @@
               data : {
                 risk : $('#risk').val(),
                 waypoints : $('#waypoints').val(),
-                curr_x : submarine.x,
-                curr_y : submarine.y,
+                curr_x : (submarine.x - bias) / scale,
+                curr_y : 1.0 - (submarine.y - bias) / scale,
                 csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val(),
               },
 
