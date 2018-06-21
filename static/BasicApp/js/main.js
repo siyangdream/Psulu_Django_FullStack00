@@ -1,10 +1,13 @@
 //Author : Siyang Chen
+
 //Global Variable (since it has to be interacted with html5, and it will be easier)
-//:basic properties
+//:basic properties of game stuffs
 var background;
 var submarine;
 var finish_line;
 var graphics;
+var plan_path; // show the plan_path
+var real_path; // record the walked path
 
 var backgroundPic_source = backgroundPic_url;
 var submarinePic_source = submarinePic_url;
@@ -63,13 +66,13 @@ var GameState = {
     background.scale.setTo(2, 2);
 
     //*Draw Submarine
-    submarine = this.game.add.sprite(100, 1100, 'submarine');
+    submarine = this.game.add.sprite(0 * scale + bias, 1 * scale + bias, 'submarine');
     submarine.anchor.setTo(0.5, 0.5);
     submarine.scale.setTo(-0.06, 0.06);
     this.game.physics.arcade.enable(submarine);
 
     //*Draw Finish Line
-    finish_line = this.game.add.sprite(1100, 100, 'finish_line');
+    finish_line = this.game.add.sprite(1 * scale + bias, 0 * scale + bias, 'finish_line');
     finish_line.anchor.setTo(0.5, 0.5);
     finish_line.scale.setTo(0.3, 0.3);
     this.game.physics.arcade.enable(finish_line);
@@ -87,6 +90,14 @@ var GameState = {
         graphics.drawPolygon(map2_obstacles_object[i].points); //it is possible that in future phaser.poly.points will be deprecated according to official documenthttps://www.w3schools.com/jsref/jsref_length_array.asp
     }
     graphics.endFill();
+
+
+    // //#Draw the plan path object
+    plan_path = game.add.graphics(0, 0);
+
+    //#Draw the recorded path object
+    real_path = game.add.graphics(0, 0);
+
   },
 
   //this is executed multiple times per second
@@ -101,10 +112,68 @@ var GameState = {
 
 //////////////////////////////////////////////////////////////////////////////////////////
 //MARK: STEP2 : INTERACTION ---
-
 //Interaction with Front-End User
+
+//Show the Plan Path and clear Plan Path
+/*
+ * @ param : routes - expected coordinate received from backend : [[x0, y0], [x1, y1]...]
+ * @ return : nothing
+ * draw the plan_path
+ */
+function showPlanPath(expected_routes) {
+  clearPlanPath();
+  plan_path.lineStyle(3, 0x33FF00);
+  plan_path.moveTo(submarine.x,submarine.y);
+  for (var i = 1; i < expected_routes.length; ++i) {
+    plan_path.lineTo(expected_routes[i][0] * scale + bias, (1.0 - expected_routes[i][1]) * scale + bias);
+  }
+
+}
+/*
+ * clear the drawed plan_path
+ */
+function clearPlanPath() {
+  plan_path.clear();
+}
+
+
+//Run the Submarine from several coordinates
+//(call function "submarine_move(x, y)" many times)
+//Different to expected_routes, here are the real_routes coorindates
+var acutual_routes = [];
+function decidedToGo() {
+    if (acutual_routes.length != 0) {
+      real_path.lineStyle(3, 0xffcd59);
+      real_path.moveTo(submarine.x,submarine.y);
+      for (var i = 1; i < acutual_routes.length; ++i) {
+        nextX = acutual_routes[i][0] * scale + bias;
+        nextY = (1.0 - acutual_routes[i][1]) * scale + bias;
+        submarine_move(nextX, nextY);
+        real_path.lineTo(nextX, nextY);
+        if (crashed_flag == true) {
+          break;
+        }
+      }
+      clearPlanPath();
+    } else {
+      alert("please do the plan first, always!");
+    }
+    acutual_routes = [];
+}
+
+
+//Submarine Movenment Control and Collision Detection
+//(only from one coordinate to another one coordinate)
 var origin_x;
 var origin_y;
+var crashed_flag;
+/*
+ * @param : x - destination x, y - destination y
+ * @return : None
+ * This function responsible for tweening the submarine and detect whether the submarine
+ * is crashed and restart the game
+ * global variable : crashed_flag is used for conforming the submarine is crashed
+ */
 function submarine_move(x, y) {
     var dx = parseFloat(x);
     var dy = parseFloat(y);
@@ -117,57 +186,34 @@ function submarine_move(x, y) {
     //*Callback Events!
     submarine_movement.onComplete.add(function(){
 
-      //Still Deciding!
-      //* Option1 : Crash into obstacles in the path and lost the game!
+      //* Crash into obstacles in the path and lost the game!
       var trackPoints = sample2DCoordinate(origin_x, origin_y, submarine.x, submarine.y, precision);
-      var flag = false;
+      crashed_flag = false;
       for (var idx = 0; idx < trackPoints.length; ++idx) {
-        if (flag) {
+        if (crashed_flag) {
             break;
         }
         for (var i = 0; i < map2_obstacles_object.length; ++i) {
           if (map2_obstacles_object[i].contains(trackPoints[idx][0], trackPoints[idx][1])) {
               alert("Crashed and Failed!!!");
               game.state.start('GameState');
-              flag = true;
+              crashed_flag = true;
               break;
             }
         }
       }
 
       //*Reach the target and won the game!
-      if (flag == false && submarine.x == 1100 && submarine.y == 100) {
+      if (crashed_flag == false && submarine.x >= 0.95 * scale + bias && submarine.x <= 1.05 * scale + bias && submarine.y >= -0.05 * scale + bias && submarine.y <= 0.05 * scale + bias) {
         alert("Won!!!");
         game.state.start('GameState');
       }
 
     }, this);
 
-
-    //Still Deciding!
-    //* Option 2 : Crash into obstacles in the path and lost the game!
-//    var trackPoints = sample2DCoordinate(dx, dy, submarine.x, submarine.y, precision);
-//    var flag = false
-//    for (var idx = 0; idx < trackPoints.length; ++idx) {
-//      if (flag) {
-//        break;
-//      }
-//      for (var i = 0; i < map2_obstacles_object.length; ++i) {
-//        if (map2_obstacles_object[i].contains(trackPoints[idx][0], trackPoints[idx][1])) {
-//          alert("Crashed and Failed!!!");
-//          game.state.start('GameState');
-//          flag = true;
-//          break;
-//        }
-//      }
-//    }
-
-
-    //*with Option 1 to detect collision
     origin_x = submarine.x;
     origin_y = submarine.y;
     submarine_movement.start();
-
 }
 
 

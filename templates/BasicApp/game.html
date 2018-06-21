@@ -53,12 +53,13 @@
             <small id="waypointsHelp" class="form-text text-muted">Not Sure : Range only valid from 1 ~ 12</small>
           </div>
           <input type="submit" class="btn btn-primary btn-lg" value="Plan"></input>
+          <button type="button" class="btn btn-danger btn-lg" onclick="decidedToGo()">Let's Go!</button>
         </form>
         <script>
           $(document).on('submit', '#gameInput', function(e){
             e.preventDefault();
-            console.log(submarine.x)
-            console.log(submarine.y)
+            //console.log(submarine.x)
+            //console.log(submarine.y)
             console.log("sending data to backend...");
             $.ajax({
               type : "POST",
@@ -73,6 +74,8 @@
 
               success : function(received_json){
                 console.log(received_json);
+                showPlanPath(received_json['expected_route'])
+                acutual_routes = received_json['real_route'];
                 //dx = received_json['dx'];
                 //dy = received_json['dy'];
                 //console.log(dx);
