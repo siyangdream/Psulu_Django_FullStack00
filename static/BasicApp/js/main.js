@@ -39,7 +39,7 @@ var map2_obstacles_object = []; //store the objects that have transferred coordi
 
 
 //:Precision for detecting collision (cant be 0): 0.1 - slower but more precision, 1 - faster but less precision
-var precision = 10; // it can be 0.1, but !*** precision >= 0 ***!
+var precision = 1; // it can be 0.1, but !*** precision >= 0 ***!
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -68,7 +68,7 @@ var GameState = {
     //*Draw Submarine
     submarine = this.game.add.sprite(0 * scale + bias, 1 * scale + bias, 'submarine');
     submarine.anchor.setTo(0.5, 0.5);
-    submarine.scale.setTo(-0.06, 0.06);
+    submarine.scale.setTo(-0.03, 0.03);
     this.game.physics.arcade.enable(submarine);
 
     //*Draw Finish Line
