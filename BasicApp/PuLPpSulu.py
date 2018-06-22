@@ -1099,8 +1099,8 @@ def Siyang_Entry(curr_x, curr_y, risk_val, waypoints_val):
 
     inputVariables['start_location'][0] = curr_x
     inputVariables['start_location'][1] = curr_y
-    inputVariables['chance_constraint'] = risk_val
-    inputVariables['waypoints_val'] = waypoints_val
+    inputVariables['chance_constraint'] = float(risk_val)
+    inputVariables['waypoints'] = int(waypoints_val)
 
     targetFile = open('./config/param.yaml', 'w')
     Y.dump(inputVariables, targetFile)

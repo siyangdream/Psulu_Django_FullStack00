@@ -147,7 +147,7 @@ var won_flag;
 
 /*
  * @ param : none
- * when user determined to go and execute this function
+ * when user determined to go and this function executed
  */
 function decidedToGo() {
   if (acutual_routes.length != 0) {
