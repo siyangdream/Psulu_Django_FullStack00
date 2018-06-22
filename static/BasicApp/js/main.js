@@ -138,61 +138,56 @@ function clearPlanPath() {
 
 
 //Run the Submarine from several coordinates
-//(call function "submarine_move(x, y)" many times)
+//(call function "submarine_move(step)" in async method)
 //Different to expected_routes, here are the real_routes coorindates
+//* Key : There are async here, please read program carefully *//
 var acutual_routes = [];
+var crashed_flag;
+var won_flag;
+
+/*
+ * @ param : none
+ * when user determined to go and execute this function
+ */
 function decidedToGo() {
-    if (acutual_routes.length != 0) {
-      real_path.lineStyle(3, 0xffcd59);
-      real_path.moveTo(submarine.x,submarine.y);
-      for (var i = 1; i < acutual_routes.length; ++i) {
-        nextX = acutual_routes[i][0] * scale + bias;
-        nextY = (1.0 - acutual_routes[i][1]) * scale + bias;
-        submarine_move(nextX, nextY);
-        real_path.lineTo(nextX, nextY);
-        if (crashed_flag == true) {
-          break;
-        }
-      }
-      clearPlanPath();
-    } else {
-      alert("please do the plan first, always!");
-    }
-    acutual_routes = [];
+  if (acutual_routes.length != 0) {
+    crashed_flag = false;
+    won_flag = false;
+    clearPlanPath();
+    submarine_move(1);
+  } else {
+    alert("please do the plan first, always!");
+  }
 }
 
-
-//Submarine Movenment Control and Collision Detection
-//(only from one coordinate to another one coordinate)
-var origin_x;
-var origin_y;
-var crashed_flag;
 /*
- * @param : x - destination x, y - destination y
- * @return : None
- * This function responsible for tweening the submarine and detect whether the submarine
- * is crashed and restart the game
- * global variable : crashed_flag is used for conforming the submarine is crashed
+ * @ param : on which exactly way point
+ * Move the submarine and collision detection
  */
-function submarine_move(x, y) {
-    var dx = parseFloat(x);
-    var dy = parseFloat(y);
-
+function submarine_move(step) {
+  if (step < acutual_routes.length && step >= 1) {
+    var prevX = acutual_routes[step - 1][0] * scale + bias;
+    var prevY =(1.0 - acutual_routes[step - 1][1]) * scale + bias;
+    var nextX = acutual_routes[step][0] * scale + bias;
+    var nextY = (1.0 - acutual_routes[step][1]) * scale + bias;
+    //Draw the walked line
+    real_path.lineStyle(3, 0xffcd59);
+    real_path.moveTo(prevX,prevY);
+    real_path.lineTo(nextX, nextY);
+    //Fork a new thread to move the submarine
     var submarine_movement = game.add.tween(submarine);
-    //to(properties, duration, ease, autoStart, delay, repeat, yoyo)
-    submarine_movement.to({x: dx, y: dy}, 300);
-    //submarine_movement.to({x: dx, y: dy}, 1000, Phaser.Easing.Bounce.Out);
-
-    //*Callback Events!
+    submarine_movement.to({x: nextX, y: nextY}, 300);
+    //Asychronous
     submarine_movement.onComplete.add(function(){
+      var trackPoints = sample2DCoordinate(prevX, prevY, nextX, nextY, precision);
 
-      //* Crash into obstacles in the path and lost the game!
-      var trackPoints = sample2DCoordinate(origin_x, origin_y, submarine.x, submarine.y, precision);
-      crashed_flag = false;
+      //Collision Detection
       for (var idx = 0; idx < trackPoints.length; ++idx) {
+        //if crashed into one of the obstacles, no need to scan anymore
         if (crashed_flag) {
             break;
         }
+        //scan whether it is crashed into one of the obstacles
         for (var i = 0; i < map2_obstacles_object.length; ++i) {
           if (map2_obstacles_object[i].contains(trackPoints[idx][0], trackPoints[idx][1])) {
               alert("Crashed and Failed!!!");
@@ -203,19 +198,24 @@ function submarine_move(x, y) {
         }
       }
 
-      //*Reach the target and won the game!
+      //whether it reached the finsihed line
       if (crashed_flag == false && submarine.x >= 0.95 * scale + bias && submarine.x <= 1.05 * scale + bias && submarine.y >= -0.05 * scale + bias && submarine.y <= 0.05 * scale + bias) {
         alert("Won!!!");
         game.state.start('GameState');
+        won_flag = true;
+      }
+
+      //next waypoints
+      if(crashed_flag == false && won_flag == false) {
+        submarine_move(step + 1);
       }
 
     }, this);
-
-    origin_x = submarine.x;
-    origin_y = submarine.y;
     submarine_movement.start();
+  } else {
+    acutual_routes = [];
+  }
 }
-
 
 
 //////////////////////////////////////////////////////////////////////////////////////////
