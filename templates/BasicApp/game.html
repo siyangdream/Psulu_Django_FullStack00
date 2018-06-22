@@ -52,7 +52,7 @@
             <input type="text" class="form-control" name="waypoints" id="waypoints" placeholder="Float Accepted ">
             <small id="waypointsHelp" class="form-text text-muted">Not Sure : Range only valid from 1 ~ 12</small>
           </div>
-          <input type="submit" class="btn btn-primary btn-lg" value="Plan"></input>
+          <input type="submit" id = "submit" class="btn btn-primary btn-lg" value="Plan"></input>
           <button type="button" class="btn btn-danger btn-lg" onclick="decidedToGo()">Let's Go!</button>
         </form>
         <script>
@@ -80,8 +80,8 @@
                 //dy = received_json['dy'];
                 //console.log(dx);
                 //console.log(dy);
-                //submarine_move(dx, dy);
               }
+
             });
 
             // Progress Bar
@@ -95,7 +95,18 @@
     				//             clearInterval(counterBack);
   				  //       }
 			      // }, 100);
+
+            $("#submit").attr("disabled", true);
+            $("#submit").val("Dont Click for 5 secs...")
+            setTimeout(function() {
+              enableSubmitButton();
+            }, 5000);
            });
+
+           function enableSubmitButton() {
+             $("#submit").removeAttr("disabled");
+             $("#submit").val("Plan")
+           }
         </script>
       </div>
     </div>
