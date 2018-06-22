@@ -192,6 +192,7 @@ function submarine_move(step) {
           if (map2_obstacles_object[i].contains(trackPoints[idx][0], trackPoints[idx][1])) {
               alert("Crashed and Failed!!!");
               game.state.start('GameState');
+              acutual_routes = [];
               crashed_flag = true;
               break;
             }
@@ -202,6 +203,7 @@ function submarine_move(step) {
       if (crashed_flag == false && submarine.x >= 0.95 * scale + bias && submarine.x <= 1.05 * scale + bias && submarine.y >= -0.05 * scale + bias && submarine.y <= 0.05 * scale + bias) {
         alert("Won!!!");
         game.state.start('GameState');
+        acutual_routes = [];
         won_flag = true;
       }
 
