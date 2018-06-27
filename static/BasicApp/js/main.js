@@ -79,12 +79,13 @@ var GameState = {
 
 
     //*Draw Obstacle Objects
+    graphics = game.add.graphics(0, 0);
+
     for (var i = 0; i < m2pos.length; ++i) {
         var polyObject = new Phaser.Polygon([ new Phaser.Point(bias + m2pos[i][0][0] * scale, bias + (1 - m2pos[i][0][1]) * scale), new Phaser.Point(bias + m2pos[i][1][0] * scale, bias + (1 - m2pos[i][1][1]) * scale), new Phaser.Point(bias + m2pos[i][2][0] * scale, bias + (1 - m2pos[i][2][1]) * scale), new Phaser.Point(bias + m2pos[i][3][0] * scale, bias + (1 - m2pos[i][3][1]) * scale) ]);
         map2_obstacles_object.push(polyObject)
     }
 
-    graphics = game.add.graphics(0, 0);
     graphics.beginFill(0xD7FF33);
     for (var i = 0; i < map2_obstacles_object.length; ++i) {
         graphics.drawPolygon(map2_obstacles_object[i].points); //it is possible that in future phaser.poly.points will be deprecated according to official documenthttps://www.w3schools.com/jsref/jsref_length_array.asp
@@ -219,9 +220,98 @@ function submarine_move(step) {
   }
 }
 
+/*
+ * @param : num - numbers of obstacles
+ * restart the game and change the location of obstacles
+ */
+
+function changeMap(num) {
+  console.log(num);
+  m2pos = square_obstacles_generator(num);
+  map2_obstacles_object = [];
+  graphics.destroy();
+  game.state.restart('GameState');
+}
+
+
 
 //////////////////////////////////////////////////////////////////////////////////////////
 //MARK : Helpers Function
+
+//Below Functions are for randomly creating the map
+/*
+ * @param : numbers of obstacle wanted to be created
+ * @return : list of square obstacles
+ */
+function square_obstacles_generator(num) {
+
+  var squares_list = [];
+  var count = 0;
+
+  while (count < num) {
+    var newSquare = random_create_square();
+    var left_x = newSquare[3][0];
+    var top_y = newSquare[3][1];
+    var right_x = newSquare[1][0];
+    var bottom_y = newSquare[1][1];
+
+    if (left_x >= 0.05 && bottom_y >= 0.05 && top_y <= 0.95 && bottom_y <= 0.95 && !checkOverLap(squares_list, newSquare)) {
+      count++;
+      squares_list.push(newSquare);
+    }
+  }
+  return squares_list;
+}
+
+/*
+ * @ param : squares_list, newSquare
+ * @ return : true - if the new created square is overlap with one of the square in squares_list
+ *            false - no overlap
+ */
+function checkOverLap(squares_list, newSquare) {
+  if (squares_list.length == 0) {
+    return false;
+  }
+  for (var i = 0; i < squares_list.length; ++i) {
+      if (isOverlap(squares_list[i][3], squares_list[i][1], newSquare[3], newSquare[1])) {
+        return true;
+      }
+  }
+  return false;
+}
+
+/*
+ * @param : top left coordinate of square1 l1, to right coordinate of square1 r1
+ * @return : false - no overlap with these two square
+ *           true - these two squares are overlaped
+ */
+function isOverlap(l1, r1, l2, r2) {
+  if (l1[0] > r2[0] || l2[0] > r1[0]) {
+    return false;
+  }
+
+  if (l1[1] < r2[1] || l2[1] < r1[1]) {
+    return false;
+  }
+  return true;
+}
+
+/*
+ * @ param : none
+ * @ return : randomly create a square in coordinate map (0, 0) ~ (1,1)
+ * the length of the square could be a value from 0.1 ~ 0.01
+ */
+function random_create_square() {
+  var centerX = Math.random();
+  var centerY = Math.random();
+  var len = Math.random() * (0.1 - 0.01) + 0.01;
+  len /= 2;
+  var left_x = centerX - len;
+  var right_x = centerX + len;
+  var top_y = centerY + len;
+  var bottom_y = centerY - len;
+  return [[left_x, bottom_y], [right_x, bottom_y], [right_x, top_y], [left_x, top_y]];
+}
 
 //sample2DCoordinate created by Siyang Chen
 /*

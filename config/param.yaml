@@ -13,5 +13,5 @@ max_velocity: 0.06
 outFolder: '[./output/]'
 receding_horizon: true
 start_location: [0.0, 0.0, 0, 0]
-waypoints: 7
+waypoints: 4
 waypoints_val: 7.0

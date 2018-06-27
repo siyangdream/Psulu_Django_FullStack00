@@ -38,63 +38,82 @@
     </nav>
 
     <!--Introduction-->
-    <div class="jumbotron">
-      <div class="container">
-        <form id = "gameInput">
-          <div class="form-group"> {% csrf_token %}
-            <label>Risk Constraint:</label>
-            <input type="text" class="form-control" name="risk" id="risk" placeholder="Float Accepted ">
-            <small id="riskHelp" class="form-text text-muted">Range only valid from 0 ~ 0.5</small>
+    <div class = "jumbotron">
+      <div class = "container">
+        <div class = "row content">
+
+          <!--Map Generation-->
+          <div class = "col-sm-4">
+            <div class="form-group">
+              <label for="sel1">Select the obstacle number to randomly generate:</label>
+              <select class="form-control" id="obstalce_nums">
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>10</option>
+                <option>11</option>
+                <option>12</option>
+                <option>13</option>
+                <option>14</option>
+                <option>15</option>
+                <option>16</option>
+                <option>17</option>
+                <option>18</option>
+                <option>19</option>
+                <option>20</option>
+              </select>
+              <small id="obsGenHelp" class="form-text text-muted">Generation will make the game restart</small>
+              </div>
+              <button type="button" class="btn btn-warning btn-lg" onclick="changeMap(document.getElementById('obstalce_nums').value)">Warning</button>
+
           </div>
 
-          <div class="form-group">
-            <label>Way Points:</label>
-            <input type="text" class="form-control" name="waypoints" id="waypoints" placeholder="Float Accepted ">
-            <small id="waypointsHelp" class="form-text text-muted">Not Sure : Range only valid from 1 ~ 12</small>
-          </div>
-          <input type="submit" id = "submit" class="btn btn-primary btn-lg" value="Plan"></input>
-          <button type="button" class="btn btn-danger btn-lg" onclick="decidedToGo()">Let's Go!</button>
-        </form>
-        <script>
-          $(document).on('submit', '#gameInput', function(e){
-            e.preventDefault();
-            //console.log(submarine.x)
-            //console.log(submarine.y)
-            console.log("sending data to backend...");
-            $.ajax({
-              type : "POST",
-              url : "/game/",
-              data : {
-                risk : $('#risk').val(),
-                waypoints : $('#waypoints').val(),
-                curr_x : (submarine.x - bias) / scale,
-                curr_y : 1.0 - (submarine.y - bias) / scale,
-                csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val(),
-              },
+          <!--Playing Section-->
+          <div class = "col-sm-8">
+            <form id = "gameInput">
+              <div class = "form-group"> {% csrf_token %}
+                <label>Risk Constraint:</label>
+                <input type="text" class="form-control" name="risk" id="risk" placeholder="Float Accepted ">
+                <small id="riskHelp" class="form-text text-muted">Range only valid from 0 ~ 0.5</small>
+              </div>
 
-              success : function(received_json){
-                console.log(received_json);
-                showPlanPath(received_json['expected_route'])
-                acutual_routes = received_json['real_route'];
-                //dx = received_json['dx'];
-                //dy = received_json['dy'];
-                //console.log(dx);
-                //console.log(dy);
-              }
+              <div class="form-group">
+                <label>Way Points:</label>
+                <input type="text" class="form-control" name="waypoints" id="waypoints" placeholder="Float Accepted ">
+                <small id="waypointsHelp" class="form-text text-muted">Not Sure : Range only valid from 1 ~ 12</small>
+              </div>
+            <input type="submit" id = "submit" class="btn btn-primary btn-lg" value="Plan"></input>
+            <button type="button" class="btn btn-danger btn-lg" onclick="decidedToGo()">Let's Go!</button>
+          </form>
 
+            <script>
+              $(document).on('submit', '#gameInput', function(e){
+                e.preventDefault();
+                //console.log(submarine.x)
+                //console.log(submarine.y)
+                console.log("sending data to backend...");
+                $.ajax({
+                  type : "POST",
+                  url : "/game/",
+                  data : {
+                  risk : $('#risk').val(),
+                  waypoints : $('#waypoints').val(),
+                  curr_x : (submarine.x - bias) / scale,
+                  curr_y : 1.0 - (submarine.y - bias) / scale,
+                  csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val(),
+                },
+                success : function(received_json){
+                  console.log(received_json);
+                  showPlanPath(received_json['expected_route'])
+                  acutual_routes = received_json['real_route'];
+                  //dx = received_json['dx'];
+                  //dy = received_json['dy'];
+                  //console.log(dx);
+                  //console.log(dy);
+                }
             });
-
-            // Progress Bar
-            // var i = 0;
-            // $('progress-bar').css('width', 0 + '%');
-			      // var counterBack = setInterval(function () {
-  				  //       i++;
-  				  //       if (i <= 100) {
-    				//             $('.progress-bar').css('width', i + '%');
-  				  //       } else {
-    				//             clearInterval(counterBack);
-  				  //       }
-			      // }, 100);
 
             $("#submit").attr("disabled", true);
             $("#submit").val("Dont Click for 5 secs...")
@@ -107,7 +126,10 @@
              $("#submit").removeAttr("disabled");
              $("#submit").val("Plan")
            }
-        </script>
+           </script>
+
+          </div>
+        </div>
       </div>
     </div>
 
@@ -126,7 +148,7 @@
       }
     </style>
     <script>
-      var backgroundPic_url = "{% static "BasicApp/images/water_background.jpg" %}";
+      var backgroundPic_url = "{% static "BasicApp/images/colorwater.jpg" %}";
       var submarinePic_url = "{% static "BasicApp/images/submarine.png" %}";
       var finish_linePic_url = "{% static "BasicApp/images/finish_line.png" %}";
     </script>
