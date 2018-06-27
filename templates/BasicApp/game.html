@@ -94,6 +94,7 @@
                 //console.log(submarine.x)
                 //console.log(submarine.y)
                 console.log("sending data to backend...");
+                console.log(m2pos);
                 $.ajax({
                   type : "POST",
                   url : "/game/",
@@ -102,6 +103,7 @@
                   waypoints : $('#waypoints').val(),
                   curr_x : (submarine.x - bias) / scale,
                   curr_y : 1.0 - (submarine.y - bias) / scale,
+                  obstacle_coordinates : JSON.stringify(m2pos),
                   csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val(),
                 },
                 success : function(received_json){

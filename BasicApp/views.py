@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from . import forms
 import json
 
-from PuLPpSulu import Siyang_Entry
+from PuLPpSulu import Siyang_Entry, buildNewMapYamlFile
 import yaml as Y
 
 # Create your views here.
@@ -35,8 +35,12 @@ def game_view(request):
         received_x = float(request.POST.get('curr_x'))
         received_y = float(request.POST.get('curr_y'))
 
+        obs_coordinates = request.POST.get('obstacle_coordinates')
+        obs_coordinates = json.loads(obs_coordinates)
+
 
         #Psulu Algorithm responsible for doing calculation is here
+        buildNewMapYamlFile(obs_coordinates)
         result_pSulu = Siyang_Entry(received_x, received_y, received_risk, received_waypoints)
         #Siyang_Entry(curr_x, curr_y, risk_val, waypoints_val, map_local_path):
         #e.g. Siyang_Entry(0.6, 0.7, 0.2, 12, "./config/map.yaml")

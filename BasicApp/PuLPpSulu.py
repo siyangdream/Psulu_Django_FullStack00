@@ -19,6 +19,7 @@ import tempfile
 import math, os
 import mpmath as mp
 import numpy as np
+import random
 
 # Gurobi related environment variable paths
 os.environ["PATH"] += ':/usr/local/bin/'
@@ -1122,6 +1123,32 @@ def Siyang_Entry(curr_x, curr_y, risk_val, waypoints_val):
 
     return [output_expected, output_real]
 
+
+def buildNewMapYamlFile(squares_coordinate):
+
+    newmap = {};
+    newmap['environment'] = {};
+    newmap['environment']['obstacles'] = {};
+
+    label_set = set()
+
+    for square in squares_coordinate:
+        label = random.randint(1,1000)
+        while label in label_set:
+            label = random.randint(1,1000)
+        label_set.add(label)
+        newmap['environment']['obstacles']['obs_%s'%label] = {}
+        newmap['environment']['obstacles']['obs_%s'%label]['corners'] = []
+        newmap['environment']['obstacles']['obs_%s'%label]['shape'] = 'polygon'
+        newmap['environment']['obstacles']['obs_%s'%label]['corners'].append(square[0])
+        newmap['environment']['obstacles']['obs_%s'%label]['corners'].append(square[1])
+        newmap['environment']['obstacles']['obs_%s'%label]['corners'].append(square[2])
+        newmap['environment']['obstacles']['obs_%s'%label]['corners'].append(square[3])
+
+    targetFile = open('./config/map.yaml', 'w')
+    Y.dump(newmap, targetFile)
+    targetFile.close()
+    return;
 
 
 #Siyang_Entry(0.6, 0.7, 0.2, 12, "./config/map.yaml")
