@@ -39,11 +39,25 @@
 
     <!--Introduction-->
     <div class = "jumbotron">
+
       <div class = "container">
         <div class = "row content">
-
           <!--Map Generation-->
           <div class = "col-sm-4">
+
+
+            <div class="btn-group" data-toggle="buttons">
+              <label class="btn btn-primary btn-lg">
+              <input type="radio" name="options" data-id="default_mode"> Experiment
+              </label>
+
+              <label class="btn btn-primary btn-lg">
+              <input type="radio" name="options" data-id="play_mode"> Freedom Play
+              </label>
+            </div>
+            <br></br>
+
+            <div id = "play_mode">
             <div class="form-group">
               <label for="sel1">Select the obstacle number to randomly generate:</label>
               <select class="form-control" id="obstalce_nums">
@@ -64,11 +78,45 @@
                 <option>19</option>
                 <option>20</option>
               </select>
-              <small id="obsGenHelp" class="form-text text-muted">Generation will make the game restart</small>
-              </div>
-              <button type="button" class="btn btn-warning btn-lg" onclick="changeMap(document.getElementById('obstalce_nums').value)">Warning</button>
+              <small class="form-text text-muted">Generation will restart game</small>
+              <br>
+              <button type="button" class="btn btn-info btn-lg" onclick="changeMap(document.getElementById('obstalce_nums').value)">Generate</button>
+              <button type="button" class="btn btn-danger btn-lg">Demo Save</button>
+            </div>
+            </div>
+
+            <div id = "default_mode">
+            <div class="form-group">
+              <label for="sel1">Default Experiment Mode:</label>
+              <select class="form-control" id="default_maps">
+                <option>Easy_Exp_Map00</option>
+                <option>Easy_Test_Map00</option>
+                <option>Mid_Exp_Map00</option>
+                <option>Mid_Exp_Map01</option>
+                <option>Hard_Test_Map00</option>
+                <option>Hard_Test_Map01</option>
+              </select>
+              <small class="form-text text-muted">Select a map for experiment</small>
+              <br>
+              <button type="button" class="btn btn-info btn-lg" onclick = "applyExpMap(document.getElementById('default_maps').value)">Apply</button>
+            </div>
+            </div>
 
           </div>
+          <script>
+          $('#default_mode').hide();
+          $('#play_mode').hide();
+          $(':radio').change(function (event) {
+            var id = $(this).data('id');
+            if (id == 'default_mode') {
+              $('#default_mode').show();
+              $('#play_mode').hide();
+            } else if (id == 'play_mode') {
+              $('#default_mode').hide();
+              $('#play_mode').show();
+            }
+          });
+          </script>
 
           <!--Playing Section-->
           <div class = "col-sm-8">
@@ -76,7 +124,7 @@
               <div class = "form-group"> {% csrf_token %}
                 <label>Risk Constraint:</label>
                 <input type="text" class="form-control" name="risk" id="risk" placeholder="Float Accepted ">
-                <small id="riskHelp" class="form-text text-muted">Range only valid from 0 ~ 0.5</small>
+                <small id="riskHelp" class="form-text text-muted">Range only valid from 0 ~ 0.5 (BUT REMEMBER : risk budget is 0.02)</small>
               </div>
 
               <div class="form-group">
@@ -84,17 +132,16 @@
                 <input type="text" class="form-control" name="waypoints" id="waypoints" placeholder="Float Accepted ">
                 <small id="waypointsHelp" class="form-text text-muted">Not Sure : Range only valid from 1 ~ 12</small>
               </div>
+            <button type="button" id = "startButton" class="btn btn-warning btn-lg" onclick="startButtonClicked()">Start</button>
             <input type="submit" id = "submit" class="btn btn-primary btn-lg" value="Plan"></input>
-            <button type="button" class="btn btn-danger btn-lg" onclick="decidedToGo()">Let's Go!</button>
+            <button type="button" id = "decidedToGo" class="btn btn-danger btn-lg" onclick="decidedToGoClicked()">Let's Go!</button>
           </form>
 
             <script>
               $(document).on('submit', '#gameInput', function(e){
                 e.preventDefault();
-                //console.log(submarine.x)
-                //console.log(submarine.y)
-                console.log("sending data to backend...");
-                console.log(m2pos);
+                //console.log("sending data to backend...");
+                //console.log(m2pos);
                 $.ajax({
                   type : "POST",
                   url : "/game/",
@@ -107,8 +154,9 @@
                   csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val(),
                 },
                 success : function(received_json){
-                  console.log(received_json);
+                  //console.log(received_json);
                   showPlanPath(received_json['expected_route'])
+                  expected_routes = received_json['expected_route'];
                   acutual_routes = received_json['real_route'];
                   //dx = received_json['dx'];
                   //dy = received_json['dy'];
@@ -124,9 +172,48 @@
             }, 5000);
            });
 
+
            function enableSubmitButton() {
              $("#submit").removeAttr("disabled");
-             $("#submit").val("Plan")
+             $("#submit").val("Plan");
+           }
+
+
+           //Button Control Attribute
+           initButtonState();
+           function initButtonState() {
+             $("#risk").attr("disabled", true);
+             $("#waypoints").attr("disabled", true);
+             $("#startButton").attr("disabled", false);
+             $("#submit").attr("disabled", true);
+             $("#submit").val("Click Start Button to Start Game...");
+             $("#decidedToGo").attr("disabled", true);
+             wantDataFlag = false;
+           }
+
+
+           function startButtonClicked() {
+             //prompt for knowing it is the experiment mode or for fun mode
+             var participantID = prompt("Please Enter you Participant ID\nFor Expierment: please enter a valid ID(no validation now)\nFor Fun: please enter -1");
+             if (participantID == null || participantID == "") {
+               return;
+             }
+
+             //game stage on
+             $("#risk").removeAttr("disabled");
+             $("#waypoints").removeAttr("disabled");
+             $("#submit").removeAttr("disabled");
+             $("#startButton").attr("disabled", true);
+             $("#submit").val("Plan");
+             $("#decidedToGo").removeAttr("disabled");
+
+             //prompt for knowing do the user want the data?
+             // var emailAddress = prompt("Please Enter your Email Address if you want to have your data and click submit(no validation now)\nor Click 'Cancel' button", "XXX@XXX.XXX");
+             // if (emailAddress != null) {
+             //   wantDataFlag = true;
+             // }
+
+             userLogDict = initUserLogDict();
            }
            </script>
 
@@ -138,10 +225,8 @@
 
 
     <!-- Game Canvas Place -->
-    <div>
-    <h1>This is a game place</h2>
+    <div class = "container">
     <script type="text/javascript" src="{% static "BasicApp/js/phaser.js" %}"></script>
-
     <style>
       body {
         padding: 0px;
