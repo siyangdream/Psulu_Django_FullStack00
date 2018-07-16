@@ -114,16 +114,19 @@ var GameState = {
 
     //#Game Stat
     var style = {font: '30px Arial', fill: '#fff'};
-    this.game.add.text(10, 20, 'Step:', style);
-    this.game.add.text(150, 20, 'Risk Budget:', style);
+    this.game.add.text(10, 20, 'Surfacing Budget:', style);
+    this.game.add.text(400, 20, 'Risk Budget:', style);
 
-    bigStepText = this.game.add.text(100, 20, '', style);
-    RiskText = this.game.add.text(340, 20, '', style);
+    bigStepText = this.game.add.text(260, 20, '', style);
+    RiskText = this.game.add.text(580, 20, '', style);
 
-    //#Initial Stat for "step" and "riskBudget"
-    bigStepCount = 0;
+    //#Initialize Stat for "step" and "riskBudget"
+    bigStepCount = 6;
     riskBudget = 0.02;
     refreshStats();
+
+    //#Initialize userLogDict
+    userLogDict = initUserLogDict();
   },
 
   //this is executed multiple times per second
@@ -193,7 +196,7 @@ function decidedToGoClicked() {
     clearPlanPath();
     submarine_move(1);
     //update the visual stats
-    bigStepCount++;
+    bigStepCount--;
     riskBudget -= $('#risk').val();
     refreshStats();
     //log the data to userLogDict
@@ -203,7 +206,6 @@ function decidedToGoClicked() {
     userLogDict['details'][bigStepCount]['wayPointsChosen'] = $('#waypoints').val();
     userLogDict['details'][bigStepCount]['real_route'] = acutual_routes;
     userLogDict['details'][bigStepCount]['expected_route'] = expected_routes;
-    console.log(userLogDict);
   } else {
     alert("please do the plan first, always!");
   }
@@ -240,9 +242,11 @@ function submarine_move(step) {
         //scan whether it is crashed into one of the obstacles
         for (var i = 0; i < map2_obstacles_object.length; ++i) {
           if (map2_obstacles_object[i].contains(trackPoints[idx][0], trackPoints[idx][1])) {
-              myDict['result'] = 'lost';
+              userLogDict['result'] = 'lost';
+              console.log(userLogDict);
               alert("Crashed and Failed!!!");
               initButtonState();
+              sendEmail();
               game.state.start('GameState');
               acutual_routes = [];
               crashed_flag = true;
@@ -253,9 +257,11 @@ function submarine_move(step) {
 
       //whether it reached the finsihed line
       if (crashed_flag == false && submarine.x >= 0.95 * scale + bias && submarine.x <= 1.05 * scale + bias && submarine.y >= -0.05 * scale + bias && submarine.y <= 0.05 * scale + bias) {
-        myDict['result'] = 'won';
+        userLogDict['result'] = 'won';
+        console.log(userLogDict);
         alert("Won!!!");
         initButtonState();
+        sendEmail();
         game.state.start('GameState');
         acutual_routes = [];
         won_flag = true;
@@ -281,6 +287,7 @@ function changeMap(num) {
   m2pos = square_obstacles_generator(num);
   map2_obstacles_object = [];
   graphics.destroy();
+  activatePlanInputControle();
   game.state.restart('GameState');
 }
 
@@ -312,6 +319,7 @@ function applyExpMap(selected_map_name) {
   }
   map2_obstacles_object = [];
   graphics.destroy();
+  activatePlanInputControle();
   game.state.restart('GameState');
 }
 
@@ -329,6 +337,47 @@ function initUserLogDict() {
   myDict['details'] = {};
 
   return myDict;
+}
+
+
+//Helper Function for sending the email
+function sendEmail() {
+  var emailAddress = prompt("If you want to have your data, please enter your emailAddress:");
+  if (emailAddress == null) {
+    return;
+  }
+
+  while (!validateEmail(emailAddress)) {
+    alert("please enter a valid email address.");
+    emailAddress = prompt("If you want to have your data, please enter your emailAddress:");
+    if (emailAddress == null) {
+      return;
+    }
+  }
+
+  var service_id = "default_service";
+  var template_id = "psulu_hal_2018_result";
+  var template_params = {
+    email_to: emailAddress,
+    project_team_name: 'Psulu_HAL_TEAM',
+    date_now: userLogDict['Time'],
+    experiment_data: JSON.stringify(userLogDict),
+  };
+
+  emailjs.send(service_id,template_id,template_params).then(function(){
+       alert("Sent!");
+    }, function(err) {
+       alert("Send email failed!\r\n Response:\n " + JSON.stringify(err));
+    });
+
+
+}
+
+
+//Validate whether the string is an valid email address
+function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
 }
 
 

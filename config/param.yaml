@@ -1,4 +1,4 @@
-chance_constraint: 0.5
+chance_constraint: 0.2
 cleanDist: 0.1
 cleanMap: false
 coVarX: 0.0001
@@ -12,6 +12,6 @@ max_control: 0.98
 max_velocity: 0.06
 outFolder: '[./output/]'
 receding_horizon: true
-start_location: [0.13531021968556856, 0.1401263048615322, 0, 0]
-waypoints: 3
+start_location: [0.8468262600908972, 0.903959509539201, 0, 0]
+waypoints: 7
 waypoints_val: 7.0
