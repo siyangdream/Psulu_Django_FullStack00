@@ -96,22 +96,39 @@
             <div id = "default_mode">
             <div class="form-group">
               <label for="sel1">Default Experiment Mode:</label>
-              <select class="form-control" id="default_maps">
-                <option>Easy_Exp_Map00</option>
-                <option>Easy_Test_Map00</option>
-                <option>Mid_Exp_Map00</option>
-                <option>Mid_Exp_Map01</option>
-                <option>Hard_Test_Map00</option>
-                <option>Hard_Test_Map01</option>
+              <select class="form-control" id="default_maps_level1">
+                <option value = "5">5 Obstacles</option>
+                <option value = "6">6 Obstacles</option>
+                <option value = "7">7 Obstacles</option>
+                <option value = "8">8 Obstacles</option>
+                <option value = "9">9 Obstacles</option>
+                <option value = "10">10 Obstacles</option>
+              </select>
+
+              <select multiple class="form-control" id="default_maps_level2">
+                <option value = "5">Easy_Exp_Map00</option>
+                <option value = "5">Easy_Test_Map00</option>
+                <option value = "6">Mid_Exp_Map00</option>
+                <option value = "6">Mid_Exp_Map01</option>
+                <option value = "7">Hard_Test_Map00</option>
+                <option value = "7">Hard_Test_Map01</option>
               </select>
               <small class="form-text text-muted">Select a map for experiment</small>
               <br>
-              <button type="button" id="changeMapinExpMode" class="btn btn-info btn-lg" onclick = "applyExpMap(document.getElementById('default_maps').value)">Apply</button>
+              <button type="button" id="changeMapinExpMode" class="btn btn-info btn-lg" onclick = "applyExpMap()">Apply</button>
             </div>
             </div>
 
           </div>
           <script>
+          $('#default_maps_level1').change(function() {
+            if ($(this).data('options') === undefined) {
+              $(this).data('options', $('#default_maps_level2 option').clone());
+            }
+            var id = $(this).val();
+            var options = $(this).data('options').filter('[value=' + id + ']');
+            $('#default_maps_level2').html(options);
+          });
 
 
           $('#default_mode').hide();
@@ -205,7 +222,8 @@
 
              //step2 button:
              $("#changeMapinExpMode").attr("disabled", true);
-             $("#default_maps").attr("disabled", true);
+             $("#default_maps_level1").attr("disabled", true);
+             $("#default_maps_level2").attr("disabled", true);
              $("#changeMapinRandomMode").attr("disabled", true);
              $("#obstalce_nums").attr("disabled", true);
 
@@ -232,7 +250,8 @@
 
              //step 2 buttons activated
              $("#changeMapinExpMode").attr("disabled", false);
-             $("#default_maps").attr("disabled", false);
+             $("#default_maps_level1").attr("disabled", false);
+             $("#default_maps_level2").attr("disabled", false);
              $("#changeMapinRandomMode").attr("disabled", false);
              $("#obstalce_nums").attr("disabled", false);
 
@@ -273,6 +292,7 @@
       var finish_linePic_url = "{% static "BasicApp/images/finish_line.png" %}";
     </script>
     <script src="{% static "BasicApp/js/main.js" %}"> </script>
+    <script src="{% static "BasicApp/js/map_library.js" %}"> </script>
     </div>
 
   </body>
