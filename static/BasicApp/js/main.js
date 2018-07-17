@@ -15,7 +15,7 @@ var finish_linePic_source = finish_linePic_url;
 
 var bigStepText; //visual stats - step
 var riskText; //visual stats - risk
-var bigStepCount; //Init in Game Create function, please set value there
+var bigStepDownCount; //Init in Game Create function, please set value there
 var riskBudget; //Init in Game Create function, please set value there
 
 var wantDataFlag = false;
@@ -51,7 +51,12 @@ var precision = 1; // it can be 0.1, but !*** precision >= 0 ***!
 
 ////Data Structure for recording User Activity
 var userLogDict;
-
+var bigStepCount;
+var real_path_total_sum;
+var expected_path_total_sum;
+var bigStepTotalCost;
+var riskTotalCost;
+var wayPointTotalCost;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -121,11 +126,18 @@ var GameState = {
     RiskText = this.game.add.text(580, 20, '', style);
 
     //#Initialize Stat for "step" and "riskBudget"
-    bigStepCount = 6;
+    bigStepDownCount = 6;
     riskBudget = 0.02;
     refreshStats();
 
     //#Initialize userLogDict
+    bigStepCount = 0;
+    real_path_total_sum = 0;
+    expected_path_total_sum = 0;
+    bigStepTotalCost = 0;
+    riskTotalCost = 0;
+    wayPointTotalCost = 0;
+
     userLogDict = initUserLogDict();
   },
 
@@ -148,7 +160,7 @@ var GameState = {
  * Refresh visual stats for "step" and "risk budget"
  */
 function refreshStats() {
-  bigStepText.text = bigStepCount;
+  bigStepText.text = bigStepDownCount;
   RiskText.text = riskBudget;
 }
 
@@ -196,16 +208,20 @@ function decidedToGoClicked() {
     clearPlanPath();
     submarine_move(1);
     //update the visual stats
-    bigStepCount--;
-    riskBudget -= $('#risk').val();
+    bigStepTotalCost++;
+    bigStepCount++;
+    bigStepDownCount--;
+    riskTotalCost += parseFloat($('#risk').val());
+    riskBudget -= parseFloat($('#risk').val());
     refreshStats();
     //log the data to userLogDict
     userLogDict['details'][bigStepCount] = {};
     userLogDict['details'][bigStepCount]['RiskBudgetLeft'] = riskBudget
-    userLogDict['details'][bigStepCount]['riskChosen'] = $('#risk').val();
-    userLogDict['details'][bigStepCount]['wayPointsChosen'] = $('#waypoints').val();
+    userLogDict['details'][bigStepCount]['riskChosen'] = parseFloat($('#risk').val());
+    userLogDict['details'][bigStepCount]['wayPointsChosen'] = parseFloat($('#waypoints').val());
     userLogDict['details'][bigStepCount]['real_route'] = acutual_routes;
     userLogDict['details'][bigStepCount]['expected_route'] = expected_routes;
+
   } else {
     alert("please do the plan first, always!");
   }
@@ -242,8 +258,19 @@ function submarine_move(step) {
         //scan whether it is crashed into one of the obstacles
         for (var i = 0; i < map2_obstacles_object.length; ++i) {
           if (map2_obstacles_object[i].contains(trackPoints[idx][0], trackPoints[idx][1])) {
+
+              //calculate and log the data
+              calulatePathLen(step);
+              wayPointTotalCost += step;
+              userLogDict['surfacingStepTotalCost'] = bigStepTotalCost;
+              userLogDict['riskTotalCost'] = riskTotalCost;
+              userLogDict['wayPointTotalCost'] = wayPointTotalCost;
+              userLogDict['real_path_total_sum'] = real_path_total_sum;
+              userLogDict['expected_path_total_sum'] = expected_path_total_sum;
               userLogDict['result'] = 'lost';
               console.log(userLogDict);
+
+              //game failed and deal with the following procedure
               alert("Crashed and Failed!!!");
               initButtonState();
               sendEmail();
@@ -257,14 +284,31 @@ function submarine_move(step) {
 
       //whether it reached the finsihed line
       if (crashed_flag == false && submarine.x >= 0.95 * scale + bias && submarine.x <= 1.05 * scale + bias && submarine.y >= -0.05 * scale + bias && submarine.y <= 0.05 * scale + bias) {
+
+        //calculate and log the data
+        calulatePathLen(step);
+        wayPointTotalCost += step;
+        userLogDict['surfacingStepTotalCost'] = bigStepTotalCost;
+        userLogDict['riskTotalCost'] = riskTotalCost;
+        userLogDict['wayPointTotalCost'] = wayPointTotalCost;
+        userLogDict['real_path_total_sum'] = real_path_total_sum;
+        userLogDict['expected_path_total_sum'] = expected_path_total_sum;
         userLogDict['result'] = 'won';
         console.log(userLogDict);
+
+        //game won and deal with the following procedure
         alert("Won!!!");
         initButtonState();
         sendEmail();
         game.state.start('GameState');
         acutual_routes = [];
         won_flag = true;
+      }
+
+      //last step
+      if (step == acutual_routes.length - 1) {
+        calulatePathLen(step);
+        wayPointTotalCost += step;
       }
 
       //next waypoints
@@ -328,13 +372,65 @@ function applyExpMap() {
 //////////////////////////////////////////////////////////////////////////////////////////
 //MARK : Helpers Function
 
+//Helper Function for calculating the path length
+/*
+ * @param : idx - until which step
+ * save path length for each surfacing big step
+ */
+function calulatePathLen(idx) {
+  var real_path_route_sum = 0;
+  var expected_path_route_sum = 0;
+  for (var i = 1; i <= idx; ++i) {
+    var r_x1 = acutual_routes[i - 1][0];
+    var r_y1 = acutual_routes[i - 1][1];
+    var r_x2 = acutual_routes[i][0];
+    var r_y2 = acutual_routes[i][0];
+
+    var e_x1 = expected_routes[i - 1][0];
+    var e_y1 = expected_routes[i - 1][1];
+    var e_x2 = expected_routes[i][0];
+    var e_y2 = expected_routes[i][0];
+
+    real_path_route_sum = real_path_route_sum + Math.sqrt((r_x1 - r_x2) * (r_x1 - r_x2) + (r_y1 - r_y2) * (r_y1 - r_y2));
+    expected_path_route_sum = expected_path_route_sum + Math.sqrt((e_x1 - e_x2) * (e_x1 - e_x1) + (e_y1 - e_y2) * (e_y1 - e_y2));
+  }
+
+  userLogDict['details'][bigStepCount]['real_path_route_sum'] = real_path_route_sum;
+  userLogDict['details'][bigStepCount]['expected_path_route_sum'] = expected_path_route_sum;
+  real_path_total_sum += real_path_route_sum;
+  expected_path_total_sum += expected_path_route_sum;
+}
+
 //Helper Function for init the userLogDict
 function initUserLogDict() {
   var myDict = {};
-  myDict['result'] = 'unknown';
+  //Basic Info
+  myDict['participantID'] = $("#startButton").html()
   myDict['Time'] = Date();
-  myDict['obstacles'] = m2pos;
+
+  //Result
+  myDict['result'] = 'unknown';
+
+  //MapBasic
+  myDict['canvas_scale'] = scale;
+  myDict['canvas_bias'] = bias;
+  myDict['collision_detection_precision'] = precision;
+  myDict['obstacles_map_name'] = $('#default_maps_level2 option:selected').text();
+  myDict['obstacles_coodinates'] = m2pos;
+
+  //Game Settings
   myDict['RiskBudgetTotal'] = riskBudget;
+  myDict['SurfacingStepBudgetTotal'] = bigStepDownCount;
+
+  //UserStatsLog
+  myDict['real_path_total_sum'] = 0;
+  myDict['expected_path_total_sum'] = 0;
+
+  myDict['surfacingStepTotalCost'] = 0;
+  myDict['riskTotalCost'] = 0;
+  myDict['wayPointTotalCost'] = 0;
+
+
   myDict['details'] = {};
 
   return myDict;

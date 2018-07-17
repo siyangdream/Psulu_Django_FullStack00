@@ -15,19 +15,6 @@ def index(request):
 
 def game_view(request):
 
-    """
-    form = forms.FormName()
-    if request.method == 'POST':
-        print(form)
-        form = forms.FormName(request.POST)
-        if form.is_valid():
-            print("VALIDATION SUCCESS!")
-            #If coordinateX is a float, then form.cleaned_data['coordinateX'] will be a float either
-            print("X Coordinate: %s" %form.cleaned_data['coordinate_X'])
-            print("Y Coordinate: %s" %form.cleaned_data['coordinate_Y'])
-    return render(request, 'BasicApp/game.html', {'form':form})
-    """
-
     if request.method == 'POST':
         #Recive the variables from front-end
         received_risk = float(request.POST.get('risk'))
