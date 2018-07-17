@@ -3,15 +3,64 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 from django.http import HttpResponse
-from . import forms
 import json
+import datetime
 
 from PuLPpSulu import Siyang_Entry, buildNewMapYamlFile
+from BasicApp.models import GameLog
 import yaml as Y
 
 # Create your views here.
 def index(request):
     return render(request, 'BasicApp/index.html')
+
+def db_communicate(request):
+
+    if request.method == 'POST':
+        #receive the data
+        participantID_received = request.POST.get('participantID_sent')
+        date_received = request.POST.get('date_sent')
+        result_received = request.POST.get('result_sent')
+        realPathTotalSum_received = float(request.POST.get('realPathTotalSum_sent'))
+        expectedPathTotalSum_received = float(request.POST.get('expectedPathTotalSum_sent'))
+        surFacingStepTotalCost_received = float(request.POST.get('surFacingStepTotalCost_sent'))
+        riskTotalCost_received = float(request.POST.get('riskTotalCost_sent'))
+        wayPointTotalCost_received = float(request.POST.get('wayPointTotalCost_sent'))
+        riskBudget_received = float(request.POST.get('riskBudget_sent'))
+        surfacingStepBudget_received = float(request.POST.get('surfacingStepBudget_sent'))
+        canvasScale_received = float(request.POST.get('canvasScale_sent'))
+        canvasBias_received = float(request.POST.get('canvasBias_sent'))
+        collisionDetectionPrecision_received = float(request.POST.get('collisionDetectionPrecision_sent'))
+        chosenMapName_received = request.POST.get('chosenMapName_sent')
+        chonsenMapCoordinates_received = request.POST.get('chonsenMapCoordinates_sent')
+        details_received = request.POST.get('details_sent')
+
+        #save to database
+        newLogRecord = GameLog.objects.create(participantID=participantID_received,
+                                                     date_show=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                                                     result=result_received,
+                                                     realPathTotalSum=realPathTotalSum_received,
+                                                     expectedPathTotalSum=expectedPathTotalSum_received,
+                                                     surFacingStepTotalCost=surFacingStepTotalCost_received,
+                                                     riskTotalCost=riskTotalCost_received,
+                                                     wayPointTotalCost=wayPointTotalCost_received,
+                                                     riskBudget=riskBudget_received,
+                                                     surfacingStepBudget=surfacingStepBudget_received,
+                                                     canvasScale=canvasScale_received,
+                                                     canvasBias=canvasBias_received,
+                                                     collisionDetectionPrecision=collisionDetectionPrecision_received,
+                                                     chosenMapName=chosenMapName_received,
+                                                     chonsenMapCoordinates=chonsenMapCoordinates_received,
+                                                     details=details_received)
+
+        #response to server
+        response_data = {}
+        response_data['message'] = 'Save to db finsihed!: )'
+        return HttpResponse(json.dumps(response_data), content_type = "application/json")
+
+    return render(request, 'BasicApp/index.html')
+
+
 
 def game_view(request):
 

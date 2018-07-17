@@ -270,6 +270,9 @@ function submarine_move(step) {
               userLogDict['result'] = 'lost';
               console.log(userLogDict);
 
+              //send post request to database
+              saveLogDataToDB();
+
               //game failed and deal with the following procedure
               alert("Crashed and Failed!!!");
               initButtonState();
@@ -295,6 +298,9 @@ function submarine_move(step) {
         userLogDict['expected_path_total_sum'] = expected_path_total_sum;
         userLogDict['result'] = 'won';
         console.log(userLogDict);
+
+        //send post request to database
+        saveLogDataToDB();
 
         //game won and deal with the following procedure
         alert("Won!!!");
@@ -406,7 +412,7 @@ function initUserLogDict() {
   var myDict = {};
   //Basic Info
   myDict['participantID'] = $("#startButton").html()
-  myDict['Time'] = Date();
+  myDict['time'] = Date();
 
   //Result
   myDict['result'] = 'unknown';
@@ -434,6 +440,37 @@ function initUserLogDict() {
   myDict['details'] = {};
 
   return myDict;
+}
+
+
+function saveLogDataToDB() {
+  var csrftoken = getCookie('csrftoken');
+  $.ajax({
+    type : "POST",
+    url : "/dbCommunication/",
+    data : {
+    participantID_sent : userLogDict['participantID'],
+    date_sent : userLogDict['time'],
+    result_sent : userLogDict['result'],
+    realPathTotalSum_sent : userLogDict['real_path_total_sum'],
+    expectedPathTotalSum_sent : userLogDict['expected_path_total_sum'],
+    surFacingStepTotalCost_sent : userLogDict['surfacingStepTotalCost'],
+    riskTotalCost_sent : userLogDict['riskTotalCost'],
+    wayPointTotalCost_sent : userLogDict['wayPointTotalCost'],
+    riskBudget_sent : userLogDict['RiskBudgetTotal'],
+    surfacingStepBudget_sent : userLogDict['SurfacingStepBudgetTotal'],
+    canvasScale_sent : userLogDict['canvas_scale'],
+    canvasBias_sent : userLogDict['canvas_bias'],
+    collisionDetectionPrecision_sent : userLogDict['collision_detection_precision'],
+    chosenMapName_sent : userLogDict['obstacles_map_name'],
+    chonsenMapCoordinates_sent : JSON.stringify(userLogDict['obstacles_coodinates']),
+    details_sent : JSON.stringify(userLogDict['details']),
+    csrfmiddlewaretoken : csrftoken,
+    },
+    success : function(received_json) {
+      //console.log(received_json);
+    }
+  });
 }
 
 
@@ -578,6 +615,25 @@ function sample2DCoordinate(source_x, source_y, target_x, target_y, precision) {
   return res;
 }
 
+/*
+ *@param: get cookie name
+ *this function is for getting the rsftoken
+ */
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////
 //MARK: Entry Point of the Program

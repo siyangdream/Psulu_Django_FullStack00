@@ -20,5 +20,6 @@ from BasicApp import views
 urlpatterns = [
     url(r'^$', views.index, name = 'index'),
     url(r'^game/', views.game_view, name = 'game'),
-    url(r'^admin/', admin.site.urls),
+    url(r'^dbCommunication/', views.db_communicate, name = 'db_communicate'),
+    url(r'^admin/', admin.site.urls, name = 'admin'),
 ]

@@ -7,7 +7,8 @@ from django.db import models
 class GameLog(models.Model):
     #Basic user info
     participantID = models.CharField(max_length=256)
-    date = models.DateTimeField(auto_now_add=True, blank=True)
+    date_show = models.CharField(max_length=256)
+    date = models.DateTimeField(auto_now_add=True, blank=False)
 
     #Game result and stat user data
     result = models.CharField(max_length=256)
