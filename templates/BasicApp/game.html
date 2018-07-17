@@ -3,7 +3,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Gamepage</title>
+    <title>GamePage</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static "BasicApp/css/indexPage.css" %}"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -32,9 +32,10 @@
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav">
             <li><a href="{% url 'index'%}">Home</a></li>
-            <li class="active"><a href="{% url 'game'%}">Game</a></li>
-            <li><a href="#">Background</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="#">About</a></li>
+            <li class = "active"><a href="{% url 'game'%}">Software</a></li>
+            <li><a href="#">Map Library</a></li>
+            <li><a href="{% url 'contact'%}">Contact</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li><a href="{% url 'admin:index'%}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>

@@ -339,6 +339,7 @@ function changeMap(num) {
   graphics.destroy();
   activatePlanInputControle();
   game.state.restart('GameState');
+  userLogDict['obstacles_map_name'] = "freePlayModeMap";
 }
 
 

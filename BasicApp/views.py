@@ -14,6 +14,9 @@ import yaml as Y
 def index(request):
     return render(request, 'BasicApp/index.html')
 
+def contact_view(request):
+    return render(request, 'BasicApp/contact.html')
+
 def db_communicate(request):
 
     if request.method == 'POST':
