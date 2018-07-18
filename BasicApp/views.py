@@ -17,6 +17,12 @@ def index(request):
 def contact_view(request):
     return render(request, 'BasicApp/contact.html')
 
+def about_view(request):
+    return render(request, 'BasicApp/about.html')
+
+def mapLibrary_view(request):
+    return render(request, 'BasicApp/mapLibrary.html')
+
 def db_communicate(request):
 
     if request.method == 'POST':

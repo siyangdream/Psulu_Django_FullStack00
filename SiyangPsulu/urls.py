@@ -19,8 +19,10 @@ from BasicApp import views
 
 urlpatterns = [
     url(r'^$', views.index, name = 'index'),
-    url(r'^contact/', views.contact_view, name = 'contact'),
+    url(r'^about/', views.about_view, name = 'about'),
     url(r'^game/', views.game_view, name = 'game'),
+    url(r'^mapLibrary/', views.mapLibrary_view, name = 'mapLibrary'),
+    url(r'^contact/', views.contact_view, name = 'contact'),
     url(r'^dbCommunication/', views.db_communicate, name = 'db_communicate'),
     url(r'^admin/', admin.site.urls, name = 'admin'),
 ]

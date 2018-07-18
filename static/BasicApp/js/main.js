@@ -349,25 +349,9 @@ function changeMap(num) {
  */
 function applyExpMap() {
   var selected_map_name = $('#default_maps_level2 option:selected').text();
-  switch (selected_map_name) {
-    case 'Easy_Exp_Map00':
-      m2pos = Easy_Exp_Map00;
-      break;
-    case 'Easy_Test_Map00':
-      m2pos = Easy_Test_Map00;
-      break;
-    case 'Mid_Exp_Map00':
-      m2pos = Mid_Exp_Map00;
-      break;
-    case 'Mid_Exp_Map01':
-      m2pos = Mid_Exp_Map01;
-      break;
-    case 'Hard_Test_Map00':
-      m2pos = Hard_Test_Map00;
-      break;
-    case 'Hard_Test_Map01':
-      m2pos = Hard_Test_Map01;
-      break;
+  //be careful the use of eval()
+  if (selected_map_name != '') {
+    m2pos = eval(selected_map_name);
   }
   map2_obstacles_object = [];
   graphics.destroy();
