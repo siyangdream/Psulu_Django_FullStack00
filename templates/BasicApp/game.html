@@ -3,6 +3,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.5">
     <title>GamePage</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static "BasicApp/css/indexPage.css" %}"/>
@@ -360,12 +361,12 @@
             });
 
             $("#submit").attr("disabled", true);
-            $("#submit").val("Dont Click for 5 secs...");
+            $("#submit").val("Dont Click for 7 secs...");
             $("#changeMapinRandomMode").attr("disabled", true);
             $("#changeMapinExpMode").attr("disabled", true);
             setTimeout(function() {
               enableSubmitButton();
-            }, 5000);
+            }, 7000);
            });
 
 
