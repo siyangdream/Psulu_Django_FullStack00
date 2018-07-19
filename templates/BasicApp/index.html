@@ -14,31 +14,58 @@
         margin-bottom: 0;
         border-radius: 0;
       }
-
       /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-      .row.content {height: 450px}
+      .row.content {height: 350px}
 
       /* Set gray background color and 100% height */
       .sidenav {
-        padding-top: 40px;
-        background-color: #f1f1f1;
-        height: 380%;
+        padding-top: 0px;
+        background-color: #34495e;
+        height: 720%;
       }
 
-      /* Set black background color, white text and some padding */
       footer {
         background-color: #555;
         color: white;
         padding: 15px;
       }
+      /* Titles */
+      h1, h2, h3, h4, h5, h6 {
+          font-family: "Raleway";
+          font-weight: 200;
+          color: #333;
+      }
 
-      /* On small screens, set height to 'auto' for sidenav and grid */
-      @media screen and (max-width: 767px) {
-        .sidenav {
-          height: auto;
-          padding: 15px;
-        }
-        .row.content {height:auto;}
+      /* Paragraph & Typographic */
+      p {
+        line-height: 28px;
+        margin-bottom: 25px;
+      }
+
+      #headerwrap {
+	       background-color: #34495e;
+      }
+
+      #headerwrap h1 {
+         margin-top: 40px;
+	       color: white;
+	       font-size: 70px;
+       }
+
+      #headerwrap h3 {
+	       color: white;
+	       font-size: 30px;
+      }
+
+      #headerwrap h5 {
+	       color: white;
+	       font-weight: 500;
+	       text-align: left;
+      }
+
+      #headerwrap p {
+	      text-align: left;
+	      color: white
       }
     </style>
   </head>
@@ -73,30 +100,31 @@
     </nav>
 
     <!--Introduction Section-->
+    <div id="headerwrap">
     <div class="container-fluid text-center">
       <div class="row content">
-        <div class="col-sm-2 sidenav">
+
+        <div class="col-sm-1 sidenav">
         </div>
 
-
-        <div class="col-sm-8 text-left">
-          <center><h1>Welcome to the HAIER!</h1></center>
+        <div class="col-sm-10 text-center">
+          <center><h1>Welcome to the <b>HAIER</b></h1></center>
           <h3>Introduction</h3>
           <p>This software platform Human–Autonomy Interface for Exploration of Risks (HAIER) is to examine human interactions with a risk-aware, human-cooperative autonomous path planner (Figure 1). In HAIER, participants guide a single unmanned vehicle from start to finish across a field of obstacles. HAIER allows human supervisors to view autonomy-generated potential paths and adjust them according to their level of perceived risk. While HAIER can be used to represent any generic unmanned vehicle, in this version, the unmanned vehicle was considered to be an unmanned underwater vehicle (UUV) that can surface occasionally to communicate with a hypothetical satellite to update its position. The autonomous planner is considered “risk-aware” since it can propose the shortest path between its current position and the goal position while accounting for a user-specified corresponding risk level precisely. High-risk paths result in paths that are the shortest but come closest to obstacles.
-          <img src="Interface.png" class="img-responsive" style="width:100%" alt="Image">
+          <img src="{% static "BasicApp/images/Index_demo_experimentPlatform.png" %}" class="img-responsive" style="width:100%" alt="Image">
           <p>Figure 1. HAIER Interface </p>
 
           <p> In HAIER, it is assumed that when a vehicle “surfaces”, it resolves all ambiguity about its position. However, the longer a vehicle remains underwater, the more uncertainty grows in where the vehicle will surface (which is also true in the real world). Thus, while it is possible to go from the start to goal in a single leg, the uncertainty would be extremely high, and thus the vehicle needs to surface periodically to resolve the uncertainty in its position. However, given that surfacing requires extra fuel and exposes UUVs to danger, the number of surfacings should be minimized. Thus, participants have to balance the risk of hitting an obstacle against the risk of not completing a mission by surfacing too frequently. In HAIER, operators are given a “surfacing budget” so they know how often they can surface for a specific mission. Each path between surfacing events is referred to as a leg. This number can be seen in the upper middle portion of Figure 1, and in this case, the operator should not surface more than 6 times. This constraint is soft in that operators can surface more if needed, but they put the vehicle at much greater risk if they do so. </p>
 
           <h3>Anecdote of the name HAIER</h3>
-          HAIER stands for Humans and Autonomy Interface for Exploring Risks. This name has its relatedness in the Chinese culture and story. HAIER is a famous appliance brand in China. In 2001, the company finished the longest cartoon in China, called Haier Brother, with 200+ episodes. This cartoon is shown around the world. Haier brothers are two artificial intelligence embedded humanoid robots who travelled five continents and four oceans and explored 238 difficult and dangerous journeys in 56 countries. HAIER represents the Chinese spirit of courage, the role of artificial intelligence in autonomy and its interaction with humans, and the process of exploring risks and uncertainty in various challenging environments.
+          <p>HAIER stands for Humans and Autonomy Interface for Exploring Risks. This name has its relatedness in the Chinese culture and story. HAIER is a famous appliance brand in China. In 2001, the company finished the longest cartoon in China, called Haier Brother, with 200+ episodes. This cartoon is shown around the world. Haier brothers are two artificial intelligence embedded humanoid robots who travelled five continents and four oceans and explored 238 difficult and dangerous journeys in 56 countries. HAIER represents the Chinese spirit of courage, the role of artificial intelligence in autonomy and its interaction with humans, and the process of exploring risks and uncertainty in various challenging environments.</p>
 
           <h3> Possible research topics for the HAIER platform </h3>
           <p>The HAIER platform can be used to study the following topics:</p>
 
-          <p><li>trust in autonomy</li></p>
-          <p><li>risk perception and representation</li></p>
-          <p><li>path planning algorithms</li></p>
+          <p>***trust in autonomy</p>
+          <p>***risk perception and representation</li></p>
+          <p>***path planning algorithms</li></p>
 
 
           <hr>
@@ -106,13 +134,14 @@
 	        <p> Ono, M., Williams, B. C., & Blackmore, L. (2013). Probabilistic planning for continuous dynamic systems under bounded risk. Journal of Artificial Intelligence Research, 46, 511–577.</p>
         </div>
 
-        <div class="col-sm-2 sidenav">
+        <div class="col-sm-1 sidenav">
         </div>
-
 
       </div>
     </div>
   </div>
+</div>
+
 
     <footer class="container-fluid text-center">
       <p> © 2018 Duke University Humans and Autonomy Laboratory</p>

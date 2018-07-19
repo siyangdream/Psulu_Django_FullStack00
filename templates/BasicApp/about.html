@@ -22,7 +22,7 @@
       .sidenav {
         padding-top: 20px;
         background-color: #f1f1f1;
-        height: 180%;
+        height: 1310%;
       }
 
       /* Set black background color, white text and some padding */
@@ -31,14 +31,43 @@
         color: white;
         padding: 15px;
       }
+      /* Titles */
+      h1, h2, h3, h4, h5, h6 {
+          font-family: "Raleway";
+          font-weight: 200;
+          color: #333;
+      }
 
-      /* On small screens, set height to 'auto' for sidenav and grid */
-      @media screen and (max-width: 767px) {
-        .sidenav {
-          height: auto;
-          padding: 15px;
-        }
-        .row.content {height:auto;}
+      /* Paragraph & Typographic */
+      p {
+        line-height: 28px;
+        margin-bottom: 25px;
+      }
+
+      #headerwrap {
+	       background-color: #34495e;
+      }
+
+      #headerwrap h1 {
+         margin-top: 40px;
+	       color: white;
+	       font-size: 70px;
+       }
+
+      #headerwrap h3 {
+	       color: white;
+	       font-size: 30px;
+      }
+
+      #headerwrap h5 {
+	       color: white;
+	       font-weight: 500;
+	       text-align: left;
+      }
+
+      #headerwrap p {
+	      text-align: left;
+	      color: white
       }
     </style>
 
@@ -74,28 +103,107 @@
     </nav>
 
     <!--Introduction Section-->
+    <div id="headerwrap">
     <div class="container-fluid text-center">
         <div class="row content">
         <div class="col-sm-2 sidenav">
-
         </div>
+
         <div class="col-sm-8 text-left">
           <h1>Instruction of the task</h1>
 
-          <p> Insert ppt image 1 </p>
-          <p> Insert ppt image 2 </p>
-          <p> Insert ppt image 3 </p>
-          <p> Insert ppt image 4 </p>
-          <p> Insert ppt image 5 </p>
-          <p> Insert ppt image 6 </p>
-          <p> Insert ppt image 7 </p>
-          <p> Insert ppt image 8 </p>
-          <p> Insert ppt image 9 </p>
-          <p> Insert ppt image 10 </p>
+          <div class="container-fluid bg-3 text-center">
+            <div class="row">
+              <div class="col-sm-8">
+                <img src="{% static "BasicApp/images/Slide1.png" %}" class="img-responsive" style="width:100%" alt="Image">
+              </div>
+            </div>
+          </div>
+          <br>
+
+          <div class="container-fluid bg-3 text-center">
+            <div class="row">
+              <div class="col-sm-8">
+                <img src="{% static "BasicApp/images/Slide2.png" %}" class="img-responsive" style="width:100%" alt="Image">
+              </div>
+            </div>
+          </div>
+          <br>
+
+          <div class="container-fluid bg-3 text-center">
+            <div class="row">
+              <div class="col-sm-8">
+                <img src="{% static "BasicApp/images/Slide3.png" %}" class="img-responsive" style="width:100%" alt="Image">
+              </div>
+            </div>
+          </div>
+          <br>
+
+          <div class="container-fluid bg-3 text-center">
+            <div class="row">
+              <div class="col-sm-8">
+                <img src="{% static "BasicApp/images/Slide4.png" %}" class="img-responsive" style="width:100%" alt="Image">
+              </div>
+            </div>
+          </div>
+          <br>
+
+          <div class="container-fluid bg-3 text-center">
+            <div class="row">
+              <div class="col-sm-8">
+                <img src="{% static "BasicApp/images/Slide5.png" %}" class="img-responsive" style="width:100%" alt="Image">
+              </div>
+            </div>
+          </div>
+          <br>
+
+          <div class="container-fluid bg-3 text-center">
+            <div class="row">
+              <div class="col-sm-8">
+                <img src="{% static "BasicApp/images/Slide6.png" %}" class="img-responsive" style="width:100%" alt="Image">
+              </div>
+            </div>
+          </div>
+          <br>
+
+          <div class="container-fluid bg-3 text-center">
+            <div class="row">
+              <div class="col-sm-8">
+                <img src="{% static "BasicApp/images/Slide7.png" %}" class="img-responsive" style="width:100%" alt="Image">
+              </div>
+            </div>
+          </div>
+          <br>
+
+          <div class="container-fluid bg-3 text-center">
+            <div class="row">
+              <div class="col-sm-8">
+                <img src="{% static "BasicApp/images/Slide8.png" %}" class="img-responsive" style="width:100%" alt="Image">
+              </div>
+            </div>
+          </div>
+          <br>
+
+          <div class="container-fluid bg-3 text-center">
+            <div class="row">
+              <div class="col-sm-8">
+                <img src="{% static "BasicApp/images/Slide9.png" %}" class="img-responsive" style="width:100%" alt="Image">
+              </div>
+            </div>
+          </div>
+          <br>
+
+          <div class="container-fluid bg-3 text-center">
+            <div class="row">
+              <div class="col-sm-8">
+                <img src="{% static "BasicApp/images/Slide10.png" %}" class="img-responsive" style="width:100%" alt="Image">
+              </div>
+            </div>
+          </div>
           <br>
 
           <h3>Getting Started</h3>
-          Try out the software yourself by <a href="xxx">clicking here </a>, or go to the "Software" tab.
+          <p>Try out the software yourself by <a href="{% url 'game'%}">clicking here </a>, or go to the "Software" tab.</p>
 
           <hr>
 
@@ -105,6 +213,7 @@
         </div>
 
       </div>
+    </div>
     </div>
 
     <footer class="container-fluid text-center">
