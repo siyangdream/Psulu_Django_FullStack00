@@ -53,15 +53,15 @@
           <!--Map Generation-->
           <div class = "col-sm-4">
             <label for="startButton">Step 1: Enter Participant ID</label>
-            <button type="button" id = "startButton" class="btn btn-warning btn-lg" onclick="startButtonClicked()">Enter Participant ID</button>
+            <button type="button" id = "startButton" class="btn btn-warning" onclick="startButtonClicked()">Enter Participant ID</button>
             <br></br>
             <label>Step 2: Choose mode and a map</label>
             <div class="btn-group" data-toggle="buttons">
-              <label class="btn btn-primary btn-lg">
+              <label class="btn btn-primary">
               <input type="radio" name="options" data-id="default_mode" id="default_mode_radio_button"> Map Library
               </label>
 
-              <label class="btn btn-primary btn-lg">
+              <label class="btn btn-primary">
               <input type="radio" name="options" data-id="play_mode" id="play_mode_radio_button"> Random Map
               </label>
             </div>
@@ -93,7 +93,7 @@
               </select>
               <small class="form-text text-muted">Generation will restart game</small>
               <br>
-              <button type="button" id="changeMapinRandomMode" class="btn btn-info btn-lg" onclick="changeMap(document.getElementById('obstalce_nums').value)">Generate</button>
+              <button type="button" id="changeMapinRandomMode" class="btn btn-info" onclick="changeMap(document.getElementById('obstalce_nums').value)">Generate</button>
             </div>
             </div>
 
@@ -283,7 +283,7 @@
               </select>
               <small class="form-text text-muted">Select a map for experiment</small>
               <br>
-              <button type="button" id="changeMapinExpMode" class="btn btn-info btn-lg" onclick = "applyExpMap()">Apply</button>
+              <button type="button" id="changeMapinExpMode" class="btn btn-info" onclick = "applyExpMap()">Apply</button>
             </div>
             </div>
 
@@ -330,8 +330,8 @@
                 <input type="text" class="form-control" name="waypoints" id="waypoints" placeholder="Float Accepted ">
                 <small id="waypointsHelp" class="form-text text-muted">Not Sure : Range only valid from 1 ~ 12</small>
               </div>
-            <input type="submit" id = "submit" class="btn btn-primary btn-lg" value="Visualize the Path"></input>
-            <button type="button" id = "decidedToGo" class="btn btn-danger btn-lg" onclick="decidedToGoClicked()">Execute</button>
+            <input type="submit" id = "submit" class="btn btn-primary" value="Visualize the Path"></input>
+            <button type="button" id = "decidedToGo" class="btn btn-danger" onclick="decidedToGoClicked()">Execute</button>
           </form>
 
             <script>
