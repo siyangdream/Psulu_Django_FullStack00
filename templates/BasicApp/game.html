@@ -46,13 +46,13 @@
     </nav>
 
     <!--Introduction-->
-    <div class = "jumbotron">
-
+    <div class = "jumbotron bg-dark text-white">
       <div class = "container">
         <div class = "row content">
           <!--Map Generation-->
           <div class = "col-sm-4">
             <label for="startButton">Step 1: Enter Participant ID</label>
+            <br>
             <button type="button" id = "startButton" class="btn btn-warning" onclick="startButtonClicked()">Enter Participant ID</button>
             <br></br>
             <label>Step 2: Choose mode and a map</label>
@@ -93,7 +93,7 @@
               </select>
               <small class="form-text text-muted">Generation will restart game</small>
               <br>
-              <button type="button" id="changeMapinRandomMode" class="btn btn-info" onclick="changeMap(document.getElementById('obstalce_nums').value)">Generate</button>
+              <button type="button" id="changeMapinRandomMode" class="btn btn-success" onclick="changeMap(document.getElementById('obstalce_nums').value)">Generate</button>
             </div>
             </div>
 
@@ -119,7 +119,7 @@
                 <option value = "20">20 Obstacles</option>
               </select>
 
-              <select multiple class="form-control" id="default_maps_level2">
+              <select class="form-control" id="default_maps_level2">
                 <option value = "5">obs5_01</option>
                 <option value = "5">obs5_02</option>
                 <option value = "5">obs5_03</option>
@@ -283,58 +283,63 @@
               </select>
               <small class="form-text text-muted">Select a map for experiment</small>
               <br>
-              <button type="button" id="changeMapinExpMode" class="btn btn-info" onclick = "applyExpMap()">Apply</button>
+              <button type="button" id="changeMapinExpMode" class="btn btn-success" onclick = "applyExpMap()">Apply</button>
+              <br></br>
             </div>
             </div>
 
-          </div>
-          <script>
-          $('#default_maps_level1').change(function() {
-            if ($(this).data('options') === undefined) {
-              $(this).data('options', $('#default_maps_level2 option').clone());
-            }
-            var id = $(this).val();
-            var options = $(this).data('options').filter('[value=' + id + ']');
-            $('#default_maps_level2').html(options);
-          });
-
-
-          $('#default_mode').hide();
-          $('#play_mode').hide();
-          $(':radio').change(function (event) {
-            var id = $(this).data('id');
-            if (id == 'default_mode') {
-              $('#default_mode').show();
-              $('#play_mode').hide();
-            } else if (id == 'play_mode') {
-              $('#default_mode').hide();
-              $('#play_mode').show();
-            }
-          });
-
-          </script>
-
-          <!--Playing Section-->
-          <div class = "col-sm-8">
-            <label>Step 3: Start planning</label>
-            <br></br>
             <form id = "gameInput">
-              <div class = "form-group"> {% csrf_token %}
-                <label>Risk tolerance per leg:</label>
-                <input type="text" class="form-control" name="risk" id="risk" placeholder="Float Accepted ">
-                <small id="riskHelp" class="form-text text-muted">Range only valid from 0 ~ 0.5 (BUT REMEMBER : risk budget is 0.02)</small>
-              </div>
+              <label>Step 3: Start planning</label>
+                <div class="range-slider"> {% csrf_token %}
+                  <label>Risk tolerance per leg:</label>
+                  <input class="range-slider__range" type="range" name="risk" id="risk" value="0.0001" min="0.0001" max="0.0200" step="0.0001">
+                  <span class="range-slider__value">0</span>
+                </div>
 
-              <div class="form-group">
-                <label>Number of steps per leg:</label>
-                <input type="text" class="form-control" name="waypoints" id="waypoints" placeholder="Float Accepted ">
-                <small id="waypointsHelp" class="form-text text-muted">Not Sure : Range only valid from 1 ~ 12</small>
-              </div>
-            <input type="submit" id = "submit" class="btn btn-primary" value="Visualize the Path"></input>
-            <button type="button" id = "decidedToGo" class="btn btn-danger" onclick="decidedToGoClicked()">Execute</button>
+                <div class="range-slider"> {% csrf_token %}
+                  <label>Number of steps per leg:</label>
+                  <input class="range-slider__range" type="range" name="waypoints" id="waypoints" value="1" min="1" max="12" step="1">
+                  <span class="range-slider__value">0</span>
+                </div>
+
+                <input type="submit" id = "submit" class="btn btn-primary" value="Visualize the Path"></input>
+                <button type="button" id = "decidedToGo" class="btn btn-danger" onclick="decidedToGoClicked()">Execute</button>
           </form>
 
+
             <script>
+              //Step2 Console Hide and Display
+              $('#default_mode').hide();
+              $('#play_mode').hide();
+              $(':radio').change(function (event) {
+                var id = $(this).data('id');
+                if (id == 'default_mode') {
+                  $('#default_mode').show();
+                  $('#play_mode').hide();
+                } else if (id == 'play_mode') {
+                  $('#default_mode').hide();
+                  $('#play_mode').show();
+                }
+              });
+
+              //Range Slider
+              var rangeSlider = function(){
+                var slider = $('.range-slider'),
+                range = $('.range-slider__range'),
+                value = $('.range-slider__value');
+                slider.each(function(){
+                  value.each(function(){
+                    var value = $(this).prev().attr('value');
+                    $(this).html(value);
+                  });
+                  range.on('input', function(){
+                    $(this).next(value).html(this.value);
+                  });
+                });
+              };
+              rangeSlider();
+
+              //RESTful API POST
               $(document).on('submit', '#gameInput', function(e){
                 e.preventDefault();
                 //console.log("sending data to backend...");
@@ -389,6 +394,11 @@
              $("#startButton").html("Enter Participant ID");
 
              //step2 button:
+             // $('#default_mode').hide();
+             // $('#play_mode').hide();
+             // $('default_mode_radio_button').prop('checked', false);
+             // $('play_mode_radio_button').prop('checked', false);
+
              $("#changeMapinExpMode").attr("disabled", true);
              $("#default_maps_level1").attr("disabled", true);
              $("#default_maps_level2").attr("disabled", true);
@@ -434,8 +444,29 @@
              $("#decidedToGo").removeAttr("disabled");
 
            }
-           </script>
 
+           $('#default_maps_level1').change(function() {
+             if ($(this).data('options') === undefined) {
+               $(this).data('options', $('#default_maps_level2 option').clone());
+             }
+             var id = $(this).val();
+             var options = $(this).data('options').filter('[value=' + id + ']');
+             $('#default_maps_level2').html(options);
+           });
+
+
+           </script>
+          </div>
+
+          <!--Playing Section-->
+          <div class = "col-sm-8" id = "gamePlace">
+            <style>
+              body {
+                padding: 0px;
+                margin: 2px;
+                background: #001f3f;
+              }
+            </style>
           </div>
         </div>
       </div>
@@ -444,24 +475,19 @@
 
 
     <!-- Game Canvas Place -->
-    <div class = "container-fluid">
     <script type="text/javascript" src="{% static "BasicApp/js/phaser.js" %}"></script>
-    <style>
-      body {
-        padding: 0px;
-        margin: 2px;
-        background: #001f3f;
-      }
-    </style>
     <script>
       var backgroundPic_url = "{% static "BasicApp/images/colorwater.jpg" %}";
       var submarinePic_url = "{% static "BasicApp/images/submarine.png" %}";
       var finish_linePic_url = "{% static "BasicApp/images/finish_line.png" %}";
-      url = "lixiao.png"
     </script>
     <script src="{% static "BasicApp/js/main.js" %}"> </script>
     <script src="{% static "BasicApp/js/map_library.js" %}"> </script>
-    </div>
+
+    <!-- Footer -->
+    <footer class="container-fluid text-center">
+      <p> © 2018 Duke University Humans and Autonomy Laboratory</p>
+    </footer>
 
   </body>
 </html>

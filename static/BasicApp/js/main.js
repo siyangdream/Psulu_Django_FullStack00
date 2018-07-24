@@ -644,7 +644,7 @@ function getCookie(name) {
 //MARK: Entry Point of the Program
 
 //initiate the Phaser framework
-var game = new Phaser.Game(scale + 2 * bias, scale + 2 * bias, Phaser.AUTO);
+var game = new Phaser.Game(scale + 2 * bias, scale + 2 * bias, Phaser.AUTO, 'gamePlace');
 
 game.state.add('GameState', GameState);
 game.state.start('GameState');
