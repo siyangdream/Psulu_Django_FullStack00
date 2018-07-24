@@ -8,6 +8,7 @@ var finish_line;
 var graphics;
 var plan_path; // show the plan_path
 var real_path; // record the walked path
+var breakPoints; // Draw the breakPoints
 
 var backgroundPic_source = backgroundPic_url;
 var submarinePic_source = submarinePic_url;
@@ -47,6 +48,12 @@ var map2_obstacles_object = []; //store the objects that have transferred coordi
 
 //:Precision for detecting collision (cant be 0): 0.1 - slower but more precision, 1 - faster but less precision
 var precision = 1; // it can be 0.1, but !*** precision >= 0 ***!
+
+//:Marker Size Setting
+var diameter_circle_marker = 15;
+
+//:Risk Float Fixed to Setting
+var to_val_decimal_places = 4;
 
 
 ////Data Structure for recording User Activity
@@ -117,6 +124,10 @@ var GameState = {
     //#Draw the recorded path object
     real_path = game.add.graphics(0, 0);
 
+    //#Draw BreakPoints
+    breakPoints = game.add.graphics(0, 0);
+    breakPoints.beginFill(0x2b2591);
+
     //#Game Stat
     var style = {font: '30px Arial', fill: '#fff'};
     this.game.add.text(10, 20, 'Surfacing Budget:', style);
@@ -139,6 +150,7 @@ var GameState = {
     wayPointTotalCost = 0;
 
     userLogDict = initUserLogDict();
+
   },
 
   //this is executed multiple times per second
@@ -161,7 +173,7 @@ var GameState = {
  */
 function refreshStats() {
   bigStepText.text = bigStepDownCount;
-  RiskText.text = riskBudget;
+  RiskText.text = riskBudget.toFixed(to_val_decimal_places);
 }
 
 
@@ -237,6 +249,10 @@ function submarine_move(step) {
     var prevY =(1.0 - acutual_routes[step - 1][1]) * scale + bias;
     var nextX = acutual_routes[step][0] * scale + bias;
     var nextY = (1.0 - acutual_routes[step][1]) * scale + bias;
+    //Draw the break points
+    if (step == 1) {
+      breakPoints.drawCircle(prevX, prevY, diameter_circle_marker);
+    }
     //Draw the walked line
     real_path.lineStyle(3, 0xffcd59);
     real_path.moveTo(prevX,prevY);
@@ -296,14 +312,14 @@ function submarine_move(step) {
         userLogDict['wayPointTotalCost'] = wayPointTotalCost;
         userLogDict['real_path_total_sum'] = real_path_total_sum;
         userLogDict['expected_path_total_sum'] = expected_path_total_sum;
-        userLogDict['result'] = 'won';
+        userLogDict['result'] = 'Success';
         console.log(userLogDict);
 
         //send post request to database
         saveLogDataToDB();
 
         //game won and deal with the following procedure
-        alert("Won!!!");
+        alert("Success!!!");
         initButtonState();
         sendEmail();
         game.state.start('GameState');

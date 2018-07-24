@@ -34,8 +34,8 @@
           <ul class="nav navbar-nav">
             <li><a href="{% url 'index'%}">Home</a></li>
             <li><a href="{% url 'about'%}">About</a></li>
-            <li class = "active"><a href="{% url 'game'%}">Software</a></li>
             <li><a href="{% url 'mapLibrary'%}">Map Library</a></li>
+            <li class = "active"><a href="{% url 'game'%}">Software</a></li>
             <li><a href="{% url 'contact'%}">Contact</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
@@ -58,13 +58,15 @@
             <label>Step 2: Choose mode and a map</label>
             <div class="btn-group" data-toggle="buttons">
               <label class="btn btn-primary btn-lg">
-              <input type="radio" name="options" data-id="default_mode" id="default_mode_radio_button"> Experiment
+              <input type="radio" name="options" data-id="default_mode" id="default_mode_radio_button"> Map Library
               </label>
 
               <label class="btn btn-primary btn-lg">
-              <input type="radio" name="options" data-id="play_mode" id="play_mode_radio_button"> Freedom Play
+              <input type="radio" name="options" data-id="play_mode" id="play_mode_radio_button"> Random Map
               </label>
             </div>
+            <br>
+            <small class="form-text text-muted">For more info about maps, please refer the "Map Library" Webpage</small>
             <br></br>
 
 
@@ -318,13 +320,13 @@
             <br></br>
             <form id = "gameInput">
               <div class = "form-group"> {% csrf_token %}
-                <label>Risk Constraint:</label>
+                <label>Risk tolerance per leg:</label>
                 <input type="text" class="form-control" name="risk" id="risk" placeholder="Float Accepted ">
                 <small id="riskHelp" class="form-text text-muted">Range only valid from 0 ~ 0.5 (BUT REMEMBER : risk budget is 0.02)</small>
               </div>
 
               <div class="form-group">
-                <label>Way Points:</label>
+                <label>Number of steps per leg:</label>
                 <input type="text" class="form-control" name="waypoints" id="waypoints" placeholder="Float Accepted ">
                 <small id="waypointsHelp" class="form-text text-muted">Not Sure : Range only valid from 1 ~ 12</small>
               </div>
@@ -431,7 +433,6 @@
              $("#submit").removeAttr("disabled");
              $("#decidedToGo").removeAttr("disabled");
 
-
            }
            </script>
 
@@ -443,7 +444,7 @@
 
 
     <!-- Game Canvas Place -->
-    <div class = "container">
+    <div class = "container-fluid">
     <script type="text/javascript" src="{% static "BasicApp/js/phaser.js" %}"></script>
     <style>
       body {
