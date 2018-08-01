@@ -142,7 +142,7 @@ var GameState = {
 
     //#Initialize Stat for "step" and "riskBudget"
     bigStepDownCount = 6;
-    riskBudget = 0.02;
+    riskBudget = 0.055;
     refreshStats();
 
     //#Initialize userLogDict
@@ -481,14 +481,14 @@ function saveLogDataToDB() {
 
 //Helper Function for sending the email
 function sendEmail() {
-  var emailAddress = prompt("If you want to have your data, please enter your emailAddress:");
+  var emailAddress = prompt("If you would like to receive a copy of your data, please enter your email address:");
   if (emailAddress == null) {
     return;
   }
 
   while (!validateEmail(emailAddress)) {
     alert("please enter a valid email address.");
-    emailAddress = prompt("If you want to have your data, please enter your emailAddress:");
+    emailAddress = prompt("If you would like to receive a copy of your data, please enter your email address:");
     if (emailAddress == null) {
       return;
     }

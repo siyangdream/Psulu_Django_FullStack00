@@ -7,6 +7,7 @@
     <title>GamePage</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static "BasicApp/css/indexPage.css" %}"/>
+    <link rel="stylesheet" href="{% static "BasicApp/css/helpImageTooltip.css" %}"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
@@ -28,7 +29,6 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Psulu-HAL</a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav">
@@ -51,260 +51,293 @@
         <div class = "row content">
           <!--Map Generation-->
           <div class = "col-sm-4">
+            <label>Notes: Following all three steps is required to play the game.</label>
+            <hr>
             <label for="startButton">Step 1: Enter Participant ID</label>
             <br>
             <button type="button" id = "startButton" class="btn btn-warning" onclick="startButtonClicked()">Enter Participant ID</button>
-            <br></br>
-            <label>Step 2: Choose mode and a map</label>
+            <br><br></br>
+
+            <label>Step 2: Choose a map</label>
             <div class="btn-group" data-toggle="buttons">
               <label class="btn btn-primary">
-              <input type="radio" name="options" data-id="default_mode" id="default_mode_radio_button"> Map Library
+              <input type="radio" name="options" data-id="default_mode" id="default_mode_radio_button"> Choose from the map library
               </label>
-
-              <label class="btn btn-primary">
-              <input type="radio" name="options" data-id="play_mode" id="play_mode_radio_button"> Random Map
-              </label>
-            </div>
-            <br>
-            <small class="form-text text-muted">For more info about maps, please refer the "Map Library" Webpage</small>
-            <br></br>
-
-
-            <div id = "play_mode">
-            <div class="form-group">
-              <label for="sel1">Select the obstacle number to randomly generate:</label>
-              <select class="form-control" id="obstalce_nums">
-                <option>5</option>
-                <option>6</option>
-                <option>7</option>
-                <option>8</option>
-                <option>9</option>
-                <option>10</option>
-                <option>11</option>
-                <option>12</option>
-                <option>13</option>
-                <option>14</option>
-                <option>15</option>
-                <option>16</option>
-                <option>17</option>
-                <option>18</option>
-                <option>19</option>
-                <option>20</option>
-              </select>
-              <small class="form-text text-muted">Generation will restart game</small>
-              <br>
-              <button type="button" id="changeMapinRandomMode" class="btn btn-success" onclick="changeMap(document.getElementById('obstalce_nums').value)">Generate</button>
-            </div>
-            </div>
-
-            <div id = "default_mode">
-            <div class="form-group">
-              <label for="sel1">Default Experiment Mode:</label>
-              <select class="form-control" id="default_maps_level1">
-                <option value = "5">5 Obstacles</option>
-                <option value = "6">6 Obstacles</option>
-                <option value = "7">7 Obstacles</option>
-                <option value = "8">8 Obstacles</option>
-                <option value = "9">9 Obstacles</option>
-                <option value = "10">10 Obstacles</option>
-                <option value = "11">11 Obstacles</option>
-                <option value = "12">12 Obstacles</option>
-                <option value = "13">13 Obstacles</option>
-                <option value = "14">14 Obstacles</option>
-                <option value = "15">15 Obstacles</option>
-                <option value = "16">16 Obstacles</option>
-                <option value = "17">17 Obstacles</option>
-                <option value = "18">18 Obstacles</option>
-                <option value = "19">19 Obstacles</option>
-                <option value = "20">20 Obstacles</option>
-              </select>
-
-              <select class="form-control" id="default_maps_level2">
-                <option value = "5">obs5_01</option>
-                <option value = "5">obs5_02</option>
-                <option value = "5">obs5_03</option>
-                <option value = "5">obs5_04</option>
-                <option value = "5">obs5_05</option>
-                <option value = "5">obs5_06</option>
-                <option value = "5">obs5_07</option>
-                <option value = "5">obs5_08</option>
-                <option value = "5">obs5_09</option>
-                <option value = "5">obs5_10</option>
-                <option value = "6">obs6_01</option>
-                <option value = "6">obs6_02</option>
-                <option value = "6">obs6_03</option>
-                <option value = "6">obs6_04</option>
-                <option value = "6">obs6_05</option>
-                <option value = "6">obs6_06</option>
-                <option value = "6">obs6_07</option>
-                <option value = "6">obs6_08</option>
-                <option value = "6">obs6_09</option>
-                <option value = "6">obs6_10</option>
-                <option value = "7">obs7_01</option>
-                <option value = "7">obs7_02</option>
-                <option value = "7">obs7_03</option>
-                <option value = "7">obs7_04</option>
-                <option value = "7">obs7_05</option>
-                <option value = "7">obs7_06</option>
-                <option value = "7">obs7_07</option>
-                <option value = "7">obs7_08</option>
-                <option value = "7">obs7_09</option>
-                <option value = "7">obs7_10</option>
-                <option value = "8">obs8_01</option>
-                <option value = "8">obs8_02</option>
-                <option value = "8">obs8_03</option>
-                <option value = "8">obs8_04</option>
-                <option value = "8">obs8_05</option>
-                <option value = "8">obs8_06</option>
-                <option value = "8">obs8_07</option>
-                <option value = "8">obs8_08</option>
-                <option value = "8">obs8_09</option>
-                <option value = "8">obs8_10</option>
-                <option value = "9">obs9_01</option>
-                <option value = "9">obs9_02</option>
-                <option value = "9">obs9_03</option>
-                <option value = "9">obs9_04</option>
-                <option value = "9">obs9_05</option>
-                <option value = "9">obs9_06</option>
-                <option value = "9">obs9_07</option>
-                <option value = "9">obs9_08</option>
-                <option value = "9">obs9_09</option>
-                <option value = "9">obs9_10</option>
-                <option value = "10">obs10_01</option>
-                <option value = "10">obs10_02</option>
-                <option value = "10">obs10_03</option>
-                <option value = "10">obs10_04</option>
-                <option value = "10">obs10_05</option>
-                <option value = "10">obs10_06</option>
-                <option value = "10">obs10_07</option>
-                <option value = "10">obs10_08</option>
-                <option value = "10">obs10_09</option>
-                <option value = "10">obs10_10</option>
-                <option value = "11">obs11_01</option>
-                <option value = "11">obs11_02</option>
-                <option value = "11">obs11_03</option>
-                <option value = "11">obs11_04</option>
-                <option value = "11">obs11_05</option>
-                <option value = "11">obs11_06</option>
-                <option value = "11">obs11_07</option>
-                <option value = "11">obs11_08</option>
-                <option value = "11">obs11_09</option>
-                <option value = "11">obs11_10</option>
-                <option value = "12">obs12_01</option>
-                <option value = "12">obs12_02</option>
-                <option value = "12">obs12_03</option>
-                <option value = "12">obs12_04</option>
-                <option value = "12">obs12_05</option>
-                <option value = "12">obs12_06</option>
-                <option value = "12">obs12_07</option>
-                <option value = "12">obs12_08</option>
-                <option value = "12">obs12_09</option>
-                <option value = "12">obs12_10</option>
-                <option value = "13">obs13_01</option>
-                <option value = "13">obs13_02</option>
-                <option value = "13">obs13_03</option>
-                <option value = "13">obs13_04</option>
-                <option value = "13">obs13_05</option>
-                <option value = "13">obs13_06</option>
-                <option value = "13">obs13_07</option>
-                <option value = "13">obs13_08</option>
-                <option value = "13">obs13_09</option>
-                <option value = "13">obs13_10</option>
-                <option value = "14">obs14_01</option>
-                <option value = "14">obs14_02</option>
-                <option value = "14">obs14_03</option>
-                <option value = "14">obs14_04</option>
-                <option value = "14">obs14_05</option>
-                <option value = "14">obs14_06</option>
-                <option value = "14">obs14_07</option>
-                <option value = "14">obs14_08</option>
-                <option value = "14">obs14_09</option>
-                <option value = "14">obs14_10</option>
-                <option value = "15">obs15_01</option>
-                <option value = "15">obs15_02</option>
-                <option value = "15">obs15_03</option>
-                <option value = "15">obs15_04</option>
-                <option value = "15">obs15_05</option>
-                <option value = "15">obs15_06</option>
-                <option value = "15">obs15_07</option>
-                <option value = "15">obs15_08</option>
-                <option value = "15">obs15_09</option>
-                <option value = "15">obs15_10</option>
-                <option value = "16">obs16_01</option>
-                <option value = "16">obs16_02</option>
-                <option value = "16">obs16_03</option>
-                <option value = "16">obs16_04</option>
-                <option value = "16">obs16_05</option>
-                <option value = "16">obs16_06</option>
-                <option value = "16">obs16_07</option>
-                <option value = "16">obs16_08</option>
-                <option value = "16">obs16_09</option>
-                <option value = "16">obs16_10</option>
-                <option value = "17">obs17_01</option>
-                <option value = "17">obs17_02</option>
-                <option value = "17">obs17_03</option>
-                <option value = "17">obs17_04</option>
-                <option value = "17">obs17_05</option>
-                <option value = "17">obs17_06</option>
-                <option value = "17">obs17_07</option>
-                <option value = "17">obs17_08</option>
-                <option value = "17">obs17_09</option>
-                <option value = "17">obs17_10</option>
-                <option value = "18">obs18_01</option>
-                <option value = "18">obs18_02</option>
-                <option value = "18">obs18_03</option>
-                <option value = "18">obs18_04</option>
-                <option value = "18">obs18_05</option>
-                <option value = "18">obs18_06</option>
-                <option value = "18">obs18_07</option>
-                <option value = "18">obs18_08</option>
-                <option value = "18">obs18_09</option>
-                <option value = "18">obs18_10</option>
-                <option value = "19">obs19_01</option>
-                <option value = "19">obs19_02</option>
-                <option value = "19">obs19_03</option>
-                <option value = "19">obs19_04</option>
-                <option value = "19">obs19_05</option>
-                <option value = "19">obs19_06</option>
-                <option value = "19">obs19_07</option>
-                <option value = "19">obs19_08</option>
-                <option value = "19">obs19_09</option>
-                <option value = "19">obs19_10</option>
-                <option value = "20">obs20_01</option>
-                <option value = "20">obs20_02</option>
-                <option value = "20">obs20_03</option>
-                <option value = "20">obs20_04</option>
-                <option value = "20">obs20_05</option>
-                <option value = "20">obs20_06</option>
-                <option value = "20">obs20_07</option>
-                <option value = "20">obs20_08</option>
-                <option value = "20">obs20_09</option>
-                <option value = "20">obs20_10</option>
-              </select>
-              <small class="form-text text-muted">Select a map for experiment</small>
-              <br>
-              <button type="button" id="changeMapinExpMode" class="btn btn-success" onclick = "applyExpMap()">Apply</button>
               <br></br>
+              <small class="form-text text-muted">* To see all the maps on one page, please refer to the <a href="{% url 'mapLibrary'%}" onlcick="window.open('{% url 'mapLibrary'%}')">Map Library</a> page</small>
+              <br></br>
+
+              <div id = "default_mode">
+              <div class="form-group">
+                <label>Choose the number of obstacles:</label>
+                <select class="form-control" id="default_maps_level1">
+                  <option value = "5">5 Obstacles</option>
+                  <option value = "6">6 Obstacles</option>
+                  <option value = "7">7 Obstacles</option>
+                  <option value = "8">8 Obstacles</option>
+                  <option value = "9">9 Obstacles</option>
+                  <option value = "10">10 Obstacles</option>
+                  <option value = "11">11 Obstacles</option>
+                  <option value = "12">12 Obstacles</option>
+                  <option value = "13">13 Obstacles</option>
+                  <option value = "14">14 Obstacles</option>
+                  <option value = "15">15 Obstacles</option>
+                  <option value = "16">16 Obstacles</option>
+                  <option value = "17">17 Obstacles</option>
+                  <option value = "18">18 Obstacles</option>
+                  <option value = "19">19 Obstacles</option>
+                  <option value = "20">20 Obstacles</option>
+                </select>
+                <label>Choose the map option:</label>
+                <select class="form-control" id="default_maps_level2">
+                  <option value = "5">obs5_01</option>
+                  <option value = "5">obs5_02</option>
+                  <option value = "5">obs5_03</option>
+                  <option value = "5">obs5_04</option>
+                  <option value = "5">obs5_05</option>
+                  <option value = "5">obs5_06</option>
+                  <option value = "5">obs5_07</option>
+                  <option value = "5">obs5_08</option>
+                  <option value = "5">obs5_09</option>
+                  <option value = "5">obs5_10</option>
+                  <option value = "6">obs6_01</option>
+                  <option value = "6">obs6_02</option>
+                  <option value = "6">obs6_03</option>
+                  <option value = "6">obs6_04</option>
+                  <option value = "6">obs6_05</option>
+                  <option value = "6">obs6_06</option>
+                  <option value = "6">obs6_07</option>
+                  <option value = "6">obs6_08</option>
+                  <option value = "6">obs6_09</option>
+                  <option value = "6">obs6_10</option>
+                  <option value = "7">obs7_01</option>
+                  <option value = "7">obs7_02</option>
+                  <option value = "7">obs7_03</option>
+                  <option value = "7">obs7_04</option>
+                  <option value = "7">obs7_05</option>
+                  <option value = "7">obs7_06</option>
+                  <option value = "7">obs7_07</option>
+                  <option value = "7">obs7_08</option>
+                  <option value = "7">obs7_09</option>
+                  <option value = "7">obs7_10</option>
+                  <option value = "8">obs8_01</option>
+                  <option value = "8">obs8_02</option>
+                  <option value = "8">obs8_03</option>
+                  <option value = "8">obs8_04</option>
+                  <option value = "8">obs8_05</option>
+                  <option value = "8">obs8_06</option>
+                  <option value = "8">obs8_07</option>
+                  <option value = "8">obs8_08</option>
+                  <option value = "8">obs8_09</option>
+                  <option value = "8">obs8_10</option>
+                  <option value = "9">obs9_01</option>
+                  <option value = "9">obs9_02</option>
+                  <option value = "9">obs9_03</option>
+                  <option value = "9">obs9_04</option>
+                  <option value = "9">obs9_05</option>
+                  <option value = "9">obs9_06</option>
+                  <option value = "9">obs9_07</option>
+                  <option value = "9">obs9_08</option>
+                  <option value = "9">obs9_09</option>
+                  <option value = "9">obs9_10</option>
+                  <option value = "10">obs10_01</option>
+                  <option value = "10">obs10_02</option>
+                  <option value = "10">obs10_03</option>
+                  <option value = "10">obs10_04</option>
+                  <option value = "10">obs10_05</option>
+                  <option value = "10">obs10_06</option>
+                  <option value = "10">obs10_07</option>
+                  <option value = "10">obs10_08</option>
+                  <option value = "10">obs10_09</option>
+                  <option value = "10">obs10_10</option>
+                  <option value = "11">obs11_01</option>
+                  <option value = "11">obs11_02</option>
+                  <option value = "11">obs11_03</option>
+                  <option value = "11">obs11_04</option>
+                  <option value = "11">obs11_05</option>
+                  <option value = "11">obs11_06</option>
+                  <option value = "11">obs11_07</option>
+                  <option value = "11">obs11_08</option>
+                  <option value = "11">obs11_09</option>
+                  <option value = "11">obs11_10</option>
+                  <option value = "12">obs12_01</option>
+                  <option value = "12">obs12_02</option>
+                  <option value = "12">obs12_03</option>
+                  <option value = "12">obs12_04</option>
+                  <option value = "12">obs12_05</option>
+                  <option value = "12">obs12_06</option>
+                  <option value = "12">obs12_07</option>
+                  <option value = "12">obs12_08</option>
+                  <option value = "12">obs12_09</option>
+                  <option value = "12">obs12_10</option>
+                  <option value = "13">obs13_01</option>
+                  <option value = "13">obs13_02</option>
+                  <option value = "13">obs13_03</option>
+                  <option value = "13">obs13_04</option>
+                  <option value = "13">obs13_05</option>
+                  <option value = "13">obs13_06</option>
+                  <option value = "13">obs13_07</option>
+                  <option value = "13">obs13_08</option>
+                  <option value = "13">obs13_09</option>
+                  <option value = "13">obs13_10</option>
+                  <option value = "14">obs14_01</option>
+                  <option value = "14">obs14_02</option>
+                  <option value = "14">obs14_03</option>
+                  <option value = "14">obs14_04</option>
+                  <option value = "14">obs14_05</option>
+                  <option value = "14">obs14_06</option>
+                  <option value = "14">obs14_07</option>
+                  <option value = "14">obs14_08</option>
+                  <option value = "14">obs14_09</option>
+                  <option value = "14">obs14_10</option>
+                  <option value = "15">obs15_01</option>
+                  <option value = "15">obs15_02</option>
+                  <option value = "15">obs15_03</option>
+                  <option value = "15">obs15_04</option>
+                  <option value = "15">obs15_05</option>
+                  <option value = "15">obs15_06</option>
+                  <option value = "15">obs15_07</option>
+                  <option value = "15">obs15_08</option>
+                  <option value = "15">obs15_09</option>
+                  <option value = "15">obs15_10</option>
+                  <option value = "16">obs16_01</option>
+                  <option value = "16">obs16_02</option>
+                  <option value = "16">obs16_03</option>
+                  <option value = "16">obs16_04</option>
+                  <option value = "16">obs16_05</option>
+                  <option value = "16">obs16_06</option>
+                  <option value = "16">obs16_07</option>
+                  <option value = "16">obs16_08</option>
+                  <option value = "16">obs16_09</option>
+                  <option value = "16">obs16_10</option>
+                  <option value = "17">obs17_01</option>
+                  <option value = "17">obs17_02</option>
+                  <option value = "17">obs17_03</option>
+                  <option value = "17">obs17_04</option>
+                  <option value = "17">obs17_05</option>
+                  <option value = "17">obs17_06</option>
+                  <option value = "17">obs17_07</option>
+                  <option value = "17">obs17_08</option>
+                  <option value = "17">obs17_09</option>
+                  <option value = "17">obs17_10</option>
+                  <option value = "18">obs18_01</option>
+                  <option value = "18">obs18_02</option>
+                  <option value = "18">obs18_03</option>
+                  <option value = "18">obs18_04</option>
+                  <option value = "18">obs18_05</option>
+                  <option value = "18">obs18_06</option>
+                  <option value = "18">obs18_07</option>
+                  <option value = "18">obs18_08</option>
+                  <option value = "18">obs18_09</option>
+                  <option value = "18">obs18_10</option>
+                  <option value = "19">obs19_01</option>
+                  <option value = "19">obs19_02</option>
+                  <option value = "19">obs19_03</option>
+                  <option value = "19">obs19_04</option>
+                  <option value = "19">obs19_05</option>
+                  <option value = "19">obs19_06</option>
+                  <option value = "19">obs19_07</option>
+                  <option value = "19">obs19_08</option>
+                  <option value = "19">obs19_09</option>
+                  <option value = "19">obs19_10</option>
+                  <option value = "20">obs20_01</option>
+                  <option value = "20">obs20_02</option>
+                  <option value = "20">obs20_03</option>
+                  <option value = "20">obs20_04</option>
+                  <option value = "20">obs20_05</option>
+                  <option value = "20">obs20_06</option>
+                  <option value = "20">obs20_07</option>
+                  <option value = "20">obs20_08</option>
+                  <option value = "20">obs20_09</option>
+                  <option value = "20">obs20_10</option>
+                </select>
+                <br>
+                <button type="button" id="changeMapinExpMode" class="btn btn-success" onclick = "applyExpMap()">Apply</button>
+              </div>
+              </div>
+
+              <label>------ OR ------</label>
+              <br>
+              <label class="btn btn-primary">
+              <input type="radio" name="options" data-id="play_mode" id="play_mode_radio_button"> Choose a random new map
+              </label>
+              <br><br></br>
+
+              <div id = "play_mode">
+              <div class="form-group">
+                <label for="sel1">Select the number of obstacles:</label>
+                <select class="form-control" id="obstalce_nums">
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                  <option>10</option>
+                  <option>11</option>
+                  <option>12</option>
+                  <option>13</option>
+                  <option>14</option>
+                  <option>15</option>
+                  <option>16</option>
+                  <option>17</option>
+                  <option>18</option>
+                  <option>19</option>
+                  <option>20</option>
+                </select>
+                <br>
+                <button type="button" id="changeMapinRandomMode" class="btn btn-success" onclick="changeMap(document.getElementById('obstalce_nums').value)">Apply</button>
+              </div>
+              </div>
+
             </div>
-            </div>
+            <br><br></br></br>
+
 
             <form id = "gameInput">
               <label>Step 3: Start planning</label>
                 <div class="range-slider"> {% csrf_token %}
-                  <label>Risk tolerance per leg:</label>
+                  <div class = "row">
+                    <div class = "col-sm-9">
+                      <label>Risk tolerance per leg:</label>
+                      <img src="{% static "BasicApp/images/help_icon.png" %}" width="6%" height="6%" class="imageTooltip"><span class="tooltiptext31">The risk level you choose to take for each leg. A higher risk level may lead to a shorter path length.</span>
+                    </div>
+                  </div>
                   <input class="range-slider__range" type="range" name="risk" id="risk" value="0.0001" min="0.0001" max="0.0200" step="0.0001">
                   <span class="range-slider__value">0</span>
+
                 </div>
 
                 <div class="range-slider"> {% csrf_token %}
-                  <label>Number of steps per leg:</label>
+                  <div class = "row">
+                    <div class = "col-sm-9">
+                      <label>Number of steps per leg:</label>
+                      <img src="{% static "BasicApp/images/help_icon.png" %}" width="6%" height="6%" class="imageTooltip"><span class="tooltiptext32">The number of units you prefer to travel for each leg. A larger number of units means a longer distance the leg travels.
+</span>
+                    </div>
+                  </div>
                   <input class="range-slider__range" type="range" name="waypoints" id="waypoints" value="1" min="1" max="12" step="1">
                   <span class="range-slider__value">0</span>
+
                 </div>
 
-                <input type="submit" id = "submit" class="btn btn-primary" value="Visualize the Path"></input>
+                <input type="submit" id = "submit" class="btn btn-primary" value="Visualize the path"></input>
                 <button type="button" id = "decidedToGo" class="btn btn-danger" onclick="decidedToGoClicked()">Execute</button>
           </form>
+
+          <hr>
+          <div class = "row">
+            <div class = "col-sm-9">
+              <label>- Surfacing budget:</label>
+              <img src="{% static "BasicApp/images/help_icon.png" %}" width="6%" height="6%" class="imageTooltip"><span class="SurfacingBudgetExplanation">The resources allow for the underwater robot to surface some amount of times. </span>
+            </div>
+          </div>
+
+          <div class = "row">
+            <div class = "col-sm-9">
+              <label>- Risk budget:</label>
+              <img src="{% static "BasicApp/images/help_icon.png" %}" width="6%" height="6%" class="imageTooltip"><span class="RiskBudgetExplanation">An aggregated risk for the whole trip based on the sum of the legs.</span>
+            </div>
+          </div>
 
 
             <script>
@@ -368,7 +401,7 @@
             });
 
             $("#submit").attr("disabled", true);
-            $("#submit").val("Dont Click for 7 secs...");
+            $("#submit").val("Loading...");
             $("#changeMapinRandomMode").attr("disabled", true);
             $("#changeMapinExpMode").attr("disabled", true);
             setTimeout(function() {
@@ -379,7 +412,7 @@
 
            function enableSubmitButton() {
              $("#submit").removeAttr("disabled");
-             $("#submit").val("Visualize the Path");
+             $("#submit").val("Visualize the path");
              $("#changeMapinRandomMode").removeAttr("disabled");
              $("#changeMapinExpMode").removeAttr("disabled");
            }
@@ -417,7 +450,7 @@
 
            function startButtonClicked() {
              //prompt for knowing it is the experiment mode or for fun mode
-             var participantID = prompt("Please Enter you Participant ID\nFor Expierment: please enter a valid ID(no validation now)\nFor Fun: please enter -1");
+             var participantID = prompt("Please enter you participant ID\nFor experiment: Please enter a unique ID for each participant's trials (E.g., Duke0711228_01)");
              if (participantID == null || participantID == "") {
                return;
              }

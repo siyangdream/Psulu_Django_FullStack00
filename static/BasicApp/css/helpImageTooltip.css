@@ -1,0 +1,146 @@
+.imageTooltip {
+  position: relative;
+  display: inline-block;
+  width: 6%;
+  height: auto;
+}
+
+.imageTooltip + .tooltiptext31 {
+  visibility: hidden;
+  width: 110%;
+  background-color: #ce2389;
+  color: #eddee6;
+  text-align: center;
+  border-radius: 10px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  top: -30px;
+  left: 65%;
+  font-size: 100%;
+  font-family: Arial;
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+.imageTooltip + .tooltiptext31::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent black transparent transparent;
+}
+
+.imageTooltip:hover + .tooltiptext31 {
+  visibility: visible;
+  opacity: 1;
+}
+
+.imageTooltip + .tooltiptext32 {
+  visibility: hidden;
+  width: 110%;
+  background-color: #ce2389;
+  color: #eddee6;
+  text-align: center;
+  border-radius: 10px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  top: -50px;
+  left: 70%;
+  font-size: 100%;
+  font-family: Arial;
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+.imageTooltip + .tooltiptext32::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent black transparent transparent;
+}
+
+.imageTooltip:hover + .tooltiptext32 {
+  visibility: visible;
+  opacity: 1;
+}
+
+
+
+.imageTooltip + .SurfacingBudgetExplanation {
+  visibility: hidden;
+  width: 110%;
+  background-color: #ce2389;
+  color: #eddee6;
+  text-align: center;
+  border-radius: 10px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  top: -13px;
+  left: 58%;
+  font-size: 100%;
+  font-family: Arial;
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+.imageTooltip + .SurfacingBudgetExplanation::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent black transparent transparent;
+}
+
+.imageTooltip:hover + .SurfacingBudgetExplanation {
+  visibility: visible;
+  opacity: 1;
+}
+
+
+
+.imageTooltip + .RiskBudgetExplanation {
+  visibility: hidden;
+  width: 110%;
+  background-color: #ce2389;
+  color: #eddee6;
+  text-align: center;
+  border-radius: 10px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  top: 0px;
+  left: 48%;
+  font-size: 100%;
+  font-family: Arial;
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+.imageTooltip + .RiskBudgetExplanation::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent black transparent transparent;
+}
+
+.imageTooltip:hover + .RiskBudgetExplanation {
+  visibility: visible;
+  opacity: 1;
+}

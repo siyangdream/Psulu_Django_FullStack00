@@ -40,6 +40,7 @@
       p {
         line-height: 28px;
         margin-bottom: 25px;
+        font-size:110%;
       }
 
       #headerwrap {
@@ -82,7 +83,6 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Psulu-HAL</a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav">
@@ -109,10 +109,14 @@
 
         <div class="col-sm-10 text-center">
           <center><h1>Welcome to the <b>HAIER</b></h1></center>
-          <h3>Introduction</h3>
-          <p>This software platform Human–Autonomy Interface for Exploration of Risks (HAIER) is to examine human interactions with a risk-aware, human-cooperative autonomous path planner (Figure 1). In HAIER, participants guide a single unmanned vehicle from start to finish across a field of obstacles. HAIER allows human supervisors to view autonomy-generated potential paths and adjust them according to their level of perceived risk. While HAIER can be used to represent any generic unmanned vehicle, in this version, the unmanned vehicle was considered to be an unmanned underwater vehicle (UUV) that can surface occasionally to communicate with a hypothetical satellite to update its position. The autonomous planner is considered “risk-aware” since it can propose the shortest path between its current position and the goal position while accounting for a user-specified corresponding risk level precisely. High-risk paths result in paths that are the shortest but come closest to obstacles.
-          <img src="{% static "BasicApp/images/Index_demo_experimentPlatform.png" %}" class="img-responsive" style="width:100%" alt="Image">
-          <p>Figure 1. HAIER Interface </p>
+          <br>
+          <h3>Project Objectives</h3>
+          <p>Humans must often assess risk in path-planning tasks when remotely supervising an autonomous vehicle under uncertainty. While risk-aware autonomy can be designed that is capable of generating optimized paths and quantifying corresponding risks, it is essential to design an interface that enhances operators’ performance while promoting appropriate trust.</p>
+          <h3>Introduction of the Software</h3>
+          <p>This software platform Human–Autonomy Interface for Exploration of Risks (HAIER) is to examine human interactions with a risk-aware, human-cooperative autonomous path planner. In HAIER, participants guide a single unmanned vehicle from start to finish across a field of obstacles. HAIER allows human supervisors to view autonomy-generated potential paths and adjust them according to their level of perceived risk. While HAIER can be used to represent any generic unmanned vehicle, in this version, the unmanned vehicle was considered to be an unmanned underwater vehicle (UUV) that can surface occasionally to communicate with a hypothetical satellite to update its position. The autonomous planner is considered “risk-aware” since it can propose the shortest path between its current position and the goal position while accounting for a user-specified corresponding risk level precisely. High-risk paths result in paths that are the shortest but come closest to obstacles.
+          <!--img src="{% static "BasicApp/images/Index_demo_experimentPlatform.png" %}" class="img-responsive" style="width:100%" alt="Image"-->
+
+          <!--<p>Figure 1. HAIER Interface </p>-->
 
           <p> In HAIER, it is assumed that when a vehicle “surfaces”, it resolves all ambiguity about its position. However, the longer a vehicle remains underwater, the more uncertainty grows in where the vehicle will surface (which is also true in the real world). Thus, while it is possible to go from the start to goal in a single leg, the uncertainty would be extremely high, and thus the vehicle needs to surface periodically to resolve the uncertainty in its position. However, given that surfacing requires extra fuel and exposes UUVs to danger, the number of surfacings should be minimized. Thus, participants have to balance the risk of hitting an obstacle against the risk of not completing a mission by surfacing too frequently. In HAIER, operators are given a “surfacing budget” so they know how often they can surface for a specific mission. Each path between surfacing events is referred to as a leg. This number can be seen in the upper middle portion of Figure 1, and in this case, the operator should not surface more than 6 times. This constraint is soft in that operators can surface more if needed, but they put the vehicle at much greater risk if they do so. </p>
 
@@ -126,13 +130,27 @@
           <p>***risk perception and representation</li></p>
           <p>***path planning algorithms</li></p>
 
-
-          <hr>
           <h3>References</h3>
           <p>
             Ono, M. (2012). Robust, goal-directed plan execution with bounded risk. Massachusetts Institute of Technology. Retrieved from https://dspace.mit.edu/handle/1721.1/71451 </p>
 	        <p> Ono, M., Williams, B. C., & Blackmore, L. (2013). Probabilistic planning for continuous dynamic systems under bounded risk. Journal of Artificial Intelligence Research, 46, 511–577.</p>
-        </div>
+
+
+          <div class = "container-fluid bg-3 text-center">
+            <h3>Sponsors</h3>
+            <br></br>
+            <div class="row">
+              <div class="col-sm-3">
+              </div>
+              <div class="col-sm-4">
+                <img src="{% static "BasicApp/images/nasa-jpl.gif" %}" class="img-responsive" style="width:200%">
+              </div>
+              <div class="col-sm-2">
+                <img src="{% static "BasicApp/images/duke_branding.jpeg" %}" class="img-responsive" style="width:100%">
+              </div>
+            </div>
+          </div>
+
 
         <div class="col-sm-1 sidenav">
         </div>
