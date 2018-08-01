@@ -9,6 +9,8 @@ var graphics;
 var plan_path; // show the plan_path
 var real_path; // record the walked path
 var breakPoints; // Draw the breakPoints
+var planStepBreakPoints; //Draw the stepbreakPoints
+var smallBreakPoints; // Draw the step break per leg
 
 var backgroundPic_source = backgroundPic_url;
 var submarinePic_source = submarinePic_url;
@@ -51,6 +53,12 @@ var precision = 1; // it can be 0.1, but !*** precision >= 0 ***!
 
 //:Marker Size Setting
 var diameter_circle_marker = 15;
+
+//:Marker for Plan Step Break Points drawCircle
+var plan_step_break_point_circle_diameter = 5;
+
+//:Marker for step break points per leg
+var small_circle_marker_step_per_leg = 5;
 
 //:Risk Float Fixed to Setting
 var to_val_decimal_places = 4;
@@ -132,6 +140,14 @@ var GameState = {
     breakPoints = game.add.graphics(0, 0);
     breakPoints.beginFill(0x2b2591);
 
+    //#Draw planStepBreakPoints
+    planStepBreakPoints = game.add.graphics(0, 0);
+    planStepBreakPoints.beginFill(0x351616);
+
+    //#Draw smallBreakPoints
+    smallBreakPoints = game.add.graphics(0, 0);
+    smallBreakPoints.beginFill(0x351616);
+
     //#Game Stat
     var style = {font: '30px Arial', fill: '#fff'};
     this.game.add.text(10, 20, 'Surfacing Budget:', style);
@@ -193,6 +209,7 @@ function showPlanPath(expected_routes) {
   plan_path.moveTo(submarine.x,submarine.y);
   for (var i = 1; i < expected_routes.length; ++i) {
     plan_path.lineTo(expected_routes[i][0] * scale + bias, (1.0 - expected_routes[i][1]) * scale + bias);
+    planStepBreakPoints.drawCircle(expected_routes[i][0] * scale + bias, (1.0 - expected_routes[i][1]) * scale + bias, plan_step_break_point_circle_diameter);
   }
 
 }
@@ -201,6 +218,8 @@ function showPlanPath(expected_routes) {
  */
 function clearPlanPath() {
   plan_path.clear();
+  planStepBreakPoints.clear();
+  planStepBreakPoints.beginFill(0x351616);
 }
 
 
@@ -256,6 +275,8 @@ function submarine_move(step) {
     //Draw the break points
     if (step == 1) {
       breakPoints.drawCircle(prevX, prevY, diameter_circle_marker);
+    } else {
+      smallBreakPoints.drawCircle(prevX, prevY, small_circle_marker_step_per_leg);
     }
     //Draw the walked line
     real_path.lineStyle(3, 0xffcd59);

@@ -64,7 +64,7 @@
               <input type="radio" name="options" data-id="default_mode" id="default_mode_radio_button"> Choose from the map library
               </label>
               <br></br>
-              <small class="form-text text-muted">* To see all the maps on one page, please refer to the <a href="{% url 'mapLibrary'%}" onlcick="window.open('{% url 'mapLibrary'%}')">Map Library</a> page</small>
+              <small class="form-text text-muted">* To see all the maps on one page, please refer to the <a href="{% url 'mapLibrary'%}" onclick="location.assign('{% url 'mapLibrary'%}'),'_top'">Map Library</a> page</small>
               <br></br>
 
               <div id = "default_mode">
@@ -315,8 +315,8 @@
 </span>
                     </div>
                   </div>
-                  <input class="range-slider__range" type="range" name="waypoints" id="waypoints" value="1" min="1" max="12" step="1">
-                  <span class="range-slider__value">0</span>
+                  <input class="range-slider__range" type="range" name="waypoints" id="waypoints" value="2" min="2" max="12" step="1">
+                  <span class="range-slider__value">2</span>
 
                 </div>
 
