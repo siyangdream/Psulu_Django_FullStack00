@@ -256,9 +256,8 @@ function decidedToGoClicked() {
     userLogDict['details'][bigStepCount]['wayPointsChosen'] = parseFloat($('#waypoints').val());
     userLogDict['details'][bigStepCount]['real_route'] = acutual_routes;
     userLogDict['details'][bigStepCount]['expected_route'] = expected_routes;
-
   } else {
-    alert("please do the plan first, always!");
+    alert("please visualize the path first, always!");
   }
 }
 
