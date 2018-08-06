@@ -518,7 +518,6 @@ function sendEmail() {
   var template_id = "psulu_hal_2018_result";
   var template_params = {
     email_to: emailAddress,
-    project_team_name: 'Psulu_HAL_TEAM',
     date_now: userLogDict['Time'],
     experiment_data: JSON.stringify(userLogDict),
   };
