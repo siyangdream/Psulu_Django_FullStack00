@@ -316,7 +316,8 @@ function submarine_move(step) {
               //game failed and deal with the following procedure
               alert("Crashed and Failed!!!");
               initButtonState();
-              sendEmail();
+              //sendEmail();
+              download_report_csv();
               game.state.start('GameState');
               acutual_routes = [];
               crashed_flag = true;
@@ -345,7 +346,8 @@ function submarine_move(step) {
         //game won and deal with the following procedure
         alert("Success!!!");
         initButtonState();
-        sendEmail();
+        //sendEmail();
+        download_report_csv();
         game.state.start('GameState');
         acutual_routes = [];
         won_flag = true;
@@ -500,6 +502,7 @@ function saveLogDataToDB() {
 
 
 //Helper Function for sending the email
+/*
 function sendEmail() {
   var emailAddress = prompt("If you would like to receive a copy of your data, please enter your email address:");
   if (emailAddress == null) {
@@ -522,13 +525,152 @@ function sendEmail() {
     experiment_data: JSON.stringify(userLogDict),
   };
 
+  //Sending Email Part
+
   emailjs.send(service_id,template_id,template_params).then(function(){
        alert("Sent!");
     }, function(err) {
        alert("Send email failed!\r\n Response:\n " + JSON.stringify(err));
     });
+}
+*/
+
+function download_report_csv() {
+  var download_prompt = prompt("If you would like to receive a copy of your data, please create a name of the report. Otherwise, click cancel.");
+  if (download_prompt == null) {
+    return;
+  }
+
+  var report_json = JSON.stringify(preProcess_buildCSVModule01());
+  report_json = '['.concat(report_json);
+  report_json = report_json.concat(']');
+  JSONToCSVConvertor(report_json, download_prompt, true);
+}
+
+/*
+ *@Param : none
+ *@Return : none
+ *Convert the dict to a csv output format dict
+ */
+function preProcess_buildCSVModule01() {
+  var myCSV = {};
+  myCSV['participantID'] = userLogDict['participantID'];
+  myCSV['time'] = userLogDict['time'];
+  myCSV['result'] = userLogDict['result'];
+  myCSV['real_path_total_sum'] = userLogDict['real_path_total_sum'];
+  myCSV['expected_path_total_sum'] = userLogDict['expected_path_total_sum'];
+  myCSV['surfacingStepTotalCost'] = userLogDict['surfacingStepTotalCost'];
+  myCSV['riskTotalCost'] = userLogDict['riskTotalCost'];
+  myCSV['wayPointTotalCost'] = userLogDict['wayPointTotalCost'];
+  myCSV['RiskBudgetTotal'] = userLogDict['RiskBudgetTotal'];
+  myCSV['SurfacingStepBudgetTotal'] = userLogDict['SurfacingStepBudgetTotal'];
+  myCSV['canvas_scale'] = userLogDict['canvas_scale'];
+  myCSV['canvas_bias'] = userLogDict['canvas_bias'];
+  myCSV['collision_detection_precision'] = userLogDict['collision_detection_precision'];
+  myCSV['obstacles_map_name'] = userLogDict['obstacles_map_name'];
+  myCSV['obstacles_coodinates'] = JSON.stringify(userLogDict['obstacles_coodinates']);
 
 
+  var keyValueList = Object.keys(userLogDict['details']);
+  for (var i = 0; i < keyValueList.length; ++i) {
+    var key = keyValueList[i];
+    var RiskBudgetLeft_withKey = 'RiskBudgetLeft_'.concat(key);
+    var riskChosen_withKey = 'riskChosen_'.concat(key);
+    var wayPointsChosen_withKey = 'wayPointsChosen_'.concat(key);
+    var real_path_route_sum_withKey = 'real_path_route_sum_'.concat(key);
+    var expected_path_route_sum_withKey = 'expected_path_route_sum_'.concat(key);
+    var real_route_withKey = 'real_route_'.concat(key);
+    var expected_route_withKey = 'expected_route_'.concat(key);
+
+    myCSV[RiskBudgetLeft_withKey] = userLogDict['details'][key]['RiskBudgetLeft'];
+    myCSV[riskChosen_withKey] = userLogDict['details'][key]['riskChosen'];
+    myCSV[wayPointsChosen_withKey] = userLogDict['details'][key]['wayPointsChosen'];
+    myCSV[real_path_route_sum_withKey] = userLogDict['details'][key]['real_path_route_sum'];
+    myCSV[expected_path_route_sum_withKey] = userLogDict['details'][key]['expected_path_route_sum'];
+    myCSV[real_route_withKey] = JSON.stringify(userLogDict['details'][key]['real_route']);
+    myCSV[expected_route_withKey] = JSON.stringify(userLogDict['details'][key]['expected_route']);
+  }
+  return myCSV;
+}
+
+/*
+ *credit to : http://jsfiddle.net/JXrwM/11699/
+ *@param : JSONData, ReportTitle, ShowLabelBool
+ *@return : none
+ *Download the csv file
+ */
+function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
+    //If JSONData is not an object then JSON.parse will parse the JSON string in an Object
+    var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
+    //console.log(arrData);
+
+    var CSV = '';
+    //Set Report title in first row or line
+
+    //CSV += ReportTitle + '\r\n\n';
+
+    //This condition will generate the Label/Header
+    if (ShowLabel) {
+        var row = "";
+
+        //This loop will extract the label from 1st index of on array
+        for (var index in arrData[0]) {
+
+            //Now convert each value to string and comma-seprated
+            row += index + ',';
+        }
+
+        row = row.slice(0, -1);
+
+        //append Label row with line break
+        CSV += row + '\r\n';
+    }
+
+    //1st loop is to extract each row
+    for (var i = 0; i < arrData.length; i++) {
+        var row = "";
+
+        //2nd loop will extract each column and convert it in string comma-seprated
+        for (var index in arrData[i]) {
+            row += '"' + arrData[i][index] + '",';
+        }
+
+        row.slice(0, row.length - 1);
+
+        //add a line break after each row
+        CSV += row + '\r\n';
+    }
+
+    if (CSV == '') {
+        alert("Invalid data");
+        return;
+    }
+
+    //Generate a file name
+    var fileName = "MyReport_";
+    //this will remove the blank-spaces from the title and replace it with an underscore
+    fileName += ReportTitle.replace(/ /g,"_");
+
+    //Initialize file format you want csv or xls
+    var uri = 'data:text/csv;charset=utf-8,' + escape(CSV);
+
+    // Now the little tricky part.
+    // you can use either>> window.open(uri);
+    // but this will not work in some browsers
+    // or you will not get the correct file extension
+
+    //this trick will generate a temp <a /> tag
+    var link = document.createElement("a");
+    link.href = uri;
+
+    //set the visibility hidden so it will not effect on your web-layout
+    link.style = "visibility:hidden";
+    link.download = fileName + ".csv";
+
+    //this part will append the anchor tag and remove it after automatic click
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 }
 
 
