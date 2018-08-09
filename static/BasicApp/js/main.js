@@ -257,7 +257,7 @@ function decidedToGoClicked() {
     userLogDict['details'][bigStepCount]['real_route'] = acutual_routes;
     userLogDict['details'][bigStepCount]['expected_route'] = expected_routes;
   } else {
-    alert("please visualize the path first, always!");
+    alert("Please visualize the path first, always!");
   }
 }
 
@@ -536,7 +536,11 @@ function sendEmail() {
 */
 
 function download_report_csv() {
-  var download_prompt = prompt("If you would like to receive a copy of your data, please create a name of the report. Otherwise, click cancel.");
+  var default_name = '';
+  default_name = default_name.concat(userLogDict['participantID']);
+  default_name = default_name.concat('_');
+  default_name = default_name.concat(getMyCode(7));
+  var download_prompt = prompt("If you would like to download a copy of the data, please click OK. Otherwise, click cancel.", default_name);
   if (download_prompt == null) {
     return;
   }
@@ -647,7 +651,7 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
     }
 
     //Generate a file name
-    var fileName = "MyReport_";
+    var fileName = "HaierReport_";
     //this will remove the blank-spaces from the title and replace it with an underscore
     fileName += ReportTitle.replace(/ /g,"_");
 
@@ -671,6 +675,16 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+}
+
+//CodeGeneration
+function getMyCode(len) {
+    let alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let results = '';
+    for (let i = 0; i < len; i++) {
+        results += alphabet[Math.floor(Math.random() * 62)];
+    }
+    return results;
 }
 
 
