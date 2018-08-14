@@ -10,7 +10,9 @@
   <link rel="stylesheet" href="{% static "BasicApp/css/gamePage.css" %}"/>
   <link rel="stylesheet" href="{% static "BasicApp/css/helpImageTooltip.css" %}"/>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
   <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <script type="text/javascript">
     (function () {
@@ -337,8 +339,7 @@
               <div class="row">
                 <div class="col-sm-9">
                   <label>Risk tolerance per leg:
-                    <img src="{% static "BasicApp/images/help_icon.png" %}" width="6%" height="6%" class="imageTooltip">
-                    <span class="tooltiptext31">The risk level you choose to take for each leg. A higher risk level may lead to a shorter path length.</span>
+                    <img src="{% static "BasicApp/images/help_icon.png" %}" class="imageTooltip" data-placement="auto" data-container="body" data-toggle="tooltip" title="The risk level you choose to take for each leg. A higher risk level may lead to a shorter path length.">
                   </label>                  
                 </div>
               </div>
@@ -351,10 +352,8 @@
               <div class="row">
                 <div class="col-sm-9">
                   <label>Number of steps per leg:
-                      <img src="{% static "BasicApp/images/help_icon.png" %}" width="6%" height="6%" class="imageTooltip">
-                      <span class="tooltiptext32">The number of units you prefer to travel for each leg. A larger number of units means a longer distance
-                        the leg travels.
-                      </span>
+                      <img src="{% static "BasicApp/images/help_icon.png" %}" class="imageTooltip" data-placement="auto" data-container="body" data-toggle="tooltip" title="The number of units you prefer to travel for each leg. A larger number of units means a longer distance
+                      the leg travels.">
                   </label>                  
                 </div>
               </div>
@@ -371,8 +370,7 @@
           <div class="row">
             <div class="col-sm-9">
               <label>- Surfacing budget:
-                <img src="{% static "BasicApp/images/help_icon.png" %}" width="6%" height="6%" class="imageTooltip">
-                <span class="SurfacingBudgetExplanation">The resources allow for the underwater robot to surface some amount of times. </span>    
+                <img src="{% static "BasicApp/images/help_icon.png" %}" class="imageTooltip" data-placement="auto" data-container="body" data-toggle="tooltip" title="The resources allow for the underwater robot to surface some amount of times.">
               </label>
             </div>
           </div>
@@ -380,8 +378,7 @@
           <div class="row">
             <div class="col-sm-9">
               <label>- Risk budget:
-                <img src="{% static "BasicApp/images/help_icon.png" %}" width="6%" height="6%" class="imageTooltip">
-                <span class="RiskBudgetExplanation">An aggregated risk for the whole trip based on the sum of the legs.</span>
+                <img src="{% static "BasicApp/images/help_icon.png" %}" class="imageTooltip" data-placement="auto" data-container="body" data-toggle="tooltip" title="An aggregated risk for the whole trip based on the sum of the legs.">
               </label>
             </div>
           </div>
@@ -539,6 +536,9 @@
               var options = $(this).data('options').filter('[value=' + id + ']');
               $('#default_maps_level2').html(options);
             });
+
+            // enable bootstrap tooltip
+            $('[data-toggle="tooltip"]').tooltip();
           </script>
         </div>
 
