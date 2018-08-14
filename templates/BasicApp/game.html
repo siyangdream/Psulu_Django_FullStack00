@@ -7,6 +7,7 @@
   <title>GamePage</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="{% static "BasicApp/css/indexPage.css" %}"/>
+  <link rel="stylesheet" href="{% static "BasicApp/css/gamePage.css" %}"/>
   <link rel="stylesheet" href="{% static "BasicApp/css/helpImageTooltip.css" %}"/>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -16,18 +17,6 @@
       emailjs.init("user_UnwLtHuXDI1h8kj3fKQbx");
     })();
   </script>
-  <style>  
-      @media screen and (max-width: 560px) {
-        body #step1, body #step2, body #step3, .btn, .form-control {
-          font-size: calc(14 * (100vw / 560));
-        }
-      }
-      @media screen and (max-width: 320px) {
-        body #step1, body #step2, body #step3, .btn, .form-control {
-          font-size: 8px;
-        }
-      }       
-  </style>
 </head>
 
 <body>
@@ -36,6 +25,7 @@
   <nav class="navbar navbar-inverse">
     <div class="container-fluid">
       <div class="navbar-header">
+        <label class="showOnMobile">Participant ID: <span class="participantID"></span></label>
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
@@ -81,15 +71,17 @@
             <hr>
             <label for="startButton">Step 1: Enter Participant ID</label>
             <br>
-            <button type="button" id="startButton" class="btn btn-warning participantID" onclick="startButtonClicked()">Enter Participant ID</button>
+            <button type="button" id="startButton" class="btn btn-primary participantID" onclick="startButtonClicked()">Enter Participant ID</button>
             <br>
             <br></br>
             <!-- <button type="button" class="btn btn-primary btn-md" onClick="showHideElement('#step2', '#step1')">Next</button> -->
           </div>
 
           <div id="step2" class="hidden">
-            <label><span class="hidden">Participant</span> ID: <span class="participantID"></span></label>
-            <br><br>
+            <div class="showOnDesktop">
+              <label>Participant ID: <span class="participantID"></span></label>
+              <br/><br/>
+            </div>
             <div><label>Step 2: Choose a map</label></div>
             <div class="btn-group" data-toggle="buttons">
               <label class="btn btn-primary">
@@ -333,8 +325,11 @@
         </div>
 
           <div id="step3" class="hidden">
-            <label><span class="hidden">Participant</span> ID: <span class="participantID"></span></label>
-            <br><br>           
+              <div class="showOnDesktop">
+                  <label>Participant ID: <span class="participantID"></span></label>
+                  <br/><br/>
+              </div>
+               
 
             <form id="gameInput">
             <label>Step 3: Start planning</label>
