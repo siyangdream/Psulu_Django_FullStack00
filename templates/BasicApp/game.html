@@ -336,9 +336,10 @@
             <div class="range-slider"> {% csrf_token %}
               <div class="row">
                 <div class="col-sm-9">
-                  <label>Risk tolerance per leg:</label>
-                  <img src="{% static "BasicApp/images/help_icon.png" %}" width="6%" height="6%" class="imageTooltip">
-                  <span class="tooltiptext31">The risk level you choose to take for each leg. A higher risk level may lead to a shorter path length.</span>
+                  <label>Risk tolerance per leg:
+                    <img src="{% static "BasicApp/images/help_icon.png" %}" width="6%" height="6%" class="imageTooltip">
+                    <span class="tooltiptext31">The risk level you choose to take for each leg. A higher risk level may lead to a shorter path length.</span>
+                  </label>                  
                 </div>
               </div>
               <input class="range-slider__range" type="range" name="risk" id="risk" value="0.0001" min="0.0001" max="0.0200" step="0.0001">
@@ -349,11 +350,12 @@
             <div class="range-slider"> {% csrf_token %}
               <div class="row">
                 <div class="col-sm-9">
-                  <label>Number of steps per leg:</label>
-                  <img src="{% static "BasicApp/images/help_icon.png" %}" width="6%" height="6%" class="imageTooltip">
-                  <span class="tooltiptext32">The number of units you prefer to travel for each leg. A larger number of units means a longer distance
-                    the leg travels.
-                  </span>
+                  <label>Number of steps per leg:
+                      <img src="{% static "BasicApp/images/help_icon.png" %}" width="6%" height="6%" class="imageTooltip">
+                      <span class="tooltiptext32">The number of units you prefer to travel for each leg. A larger number of units means a longer distance
+                        the leg travels.
+                      </span>
+                  </label>                  
                 </div>
               </div>
               <input class="range-slider__range" type="range" name="waypoints" id="waypoints" value="2" min="2" max="12" step="1">
@@ -368,17 +370,19 @@
           <hr>
           <div class="row">
             <div class="col-sm-9">
-              <label>- Surfacing budget:</label>
-              <img src="{% static "BasicApp/images/help_icon.png" %}" width="6%" height="6%" class="imageTooltip">
-              <span class="SurfacingBudgetExplanation">The resources allow for the underwater robot to surface some amount of times. </span>
+              <label>- Surfacing budget:
+                <img src="{% static "BasicApp/images/help_icon.png" %}" width="6%" height="6%" class="imageTooltip">
+                <span class="SurfacingBudgetExplanation">The resources allow for the underwater robot to surface some amount of times. </span>    
+              </label>
             </div>
           </div>
 
           <div class="row">
             <div class="col-sm-9">
-              <label>- Risk budget:</label>
-              <img src="{% static "BasicApp/images/help_icon.png" %}" width="6%" height="6%" class="imageTooltip">
-              <span class="RiskBudgetExplanation">An aggregated risk for the whole trip based on the sum of the legs.</span>
+              <label>- Risk budget:
+                <img src="{% static "BasicApp/images/help_icon.png" %}" width="6%" height="6%" class="imageTooltip">
+                <span class="RiskBudgetExplanation">An aggregated risk for the whole trip based on the sum of the legs.</span>
+              </label>
             </div>
           </div>
           <!-- <button type="button" class="btn btn-primary btn-md" onClick="showHideElement('#step2', '#step3')">Prev</button> -->

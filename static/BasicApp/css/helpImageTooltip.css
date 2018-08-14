@@ -1,7 +1,7 @@
 .imageTooltip {
   position: relative;
   display: inline-block;
-  width: 6%;
+  width: 1em;
   height: auto;
 }
 
