@@ -26,7 +26,7 @@ SECRET_KEY = 'xyomoxk4#1571p@*_&$p$6syuzdfwnk8czll=fk*0o=9nvmc0i'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', 'apps.hal.pratt.duke.edu', 'www.hanwiz.com']
 
 
 # Application definition
