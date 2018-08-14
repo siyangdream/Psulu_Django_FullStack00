@@ -63,7 +63,7 @@
   </nav>
 
   <!--Introduction-->
-  <div class="jumbotron bg-dark text-white">
+  <div class="jumbotron bg-dark text-white no-margin">
     <div class="container">
       <div class="row content">
         <!--Map Generation-->
@@ -382,7 +382,7 @@
               </label>
             </div>
           </div>
-          <!-- <button type="button" class="btn btn-primary btn-md" onClick="showHideElement('#step2', '#step3')">Prev</button> -->
+          <!-- <button type="button" class="btn btn-primary" onClick="initButtonState()">Restart</button> -->
         </div>
 
           <script>
@@ -469,6 +469,9 @@
             function initButtonState() {
 
               //step1 button:
+              if (typeof showHideElement === typeof Function)
+                showHideElement("#step1", "#step3");
+              $(".participantID").html("");              
               $("#startButton").attr("disabled", false);
               $("#startButton").html("Enter Participant ID");
 
@@ -483,7 +486,7 @@
               $("#default_maps_level2").attr("disabled", true);
               $("#changeMapinRandomMode").attr("disabled", true);
               $("#obstalce_nums").attr("disabled", true);
-
+              $(".stepNext").addClass("hidden");
 
               //step3 button:
               $("#risk").attr("disabled", true);
@@ -538,7 +541,9 @@
             });
 
             // enable bootstrap tooltip
-            $('[data-toggle="tooltip"]').tooltip();
+            $(function() {
+              $('[data-toggle="tooltip"]').tooltip();
+            });
           </script>
         </div>
 

@@ -26,3 +26,7 @@
 #submit, #decidedToGo {
   margin-top: 1em;
 }
+
+.no-margin {
+  margin: 0;
+}
