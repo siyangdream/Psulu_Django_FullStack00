@@ -815,6 +815,12 @@ function getCookie(name) {
     return cookieValue;
 }
 
+// show/hide element
+function showHideElement(showId, hideId) {
+  $(showId).removeClass('hidden');
+  $(hideId).addClass('hidden');
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////
 //MARK: Entry Point of the Program
 
