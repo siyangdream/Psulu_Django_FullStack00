@@ -17,8 +17,12 @@
     font-size: calc(14 * (100vw / 560));
   }
 }
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 400px) {
   body #step1, body #step2, body #step3, .btn, .form-control {
-    font-size: 8px;
+    font-size: 10px;
   }
 }   
+
+#submit, #decidedToGo {
+  margin-top: 1em;
+}
