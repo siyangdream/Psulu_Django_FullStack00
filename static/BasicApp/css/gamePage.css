@@ -1,0 +1,48 @@
+.showOnMobile {
+  display: none;        
+}
+@media screen and (max-width: 767px) {
+  .showOnMobile {
+    display: block;
+    position: absolute;
+    left: 1em;
+    top: 1em;
+  }
+  .showOnDesktop {
+    display: none;
+  }
+}
+@media screen and (max-width: 560px) {
+  body #step1, body #step2, body #step3, .btn, .form-control {
+    font-size: calc(14 * (100vw / 560));
+  }
+}
+@media screen and (max-width: 400px) {
+  body #step1, body #step2, body #step3, .btn, .form-control {
+    font-size: 10px;
+  }
+}   
+
+.margin-top {
+  margin-top: 1em;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.table-style {
+  display: table;
+}
+.table-row {
+  display: table-row;
+}
+
+.table-cell {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.table-cell:first-child {
+  padding-right: 0.4em;
+}

@@ -12,6 +12,6 @@ max_control: 0.98
 max_velocity: 0.06
 outFolder: '[./output/]'
 receding_horizon: true
-start_location: [0.7840123704128157, 0.9564983018491755, 0, 0]
-waypoints: 12
+start_location: [0.4554344008518308, 0.5010171195402707, 0, 0]
+waypoints: 3
 waypoints_val: 7.0

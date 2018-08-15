@@ -15,6 +15,7 @@ var smallBreakPoints; // Draw the step break per leg
 var backgroundPic_source = backgroundPic_url;
 var submarinePic_source = submarinePic_url;
 var finish_linePic_source = finish_linePic_url;
+var scale_matrix_source = scale_matrix_url;
 
 var bigStepText; //visual stats - step
 var riskText; //visual stats - risk
@@ -63,6 +64,11 @@ var small_circle_marker_step_per_leg = 5;
 //:Risk Float Fixed to Setting
 var to_val_decimal_places = 4;
 
+//:Risk Budget Volume
+var riskBudgetVolume = 0.055;
+
+//:Surfacing Step Bedget Volume
+var surfacingStepBudgetVolume = 6;
 
 ////Data Structure for recording User Activity
 var userLogDict;
@@ -88,6 +94,7 @@ var GameState = {
     this.load.image('background', backgroundPic_source);
     this.load.image('submarine', submarinePic_source);
     this.load.image('finish_line', finish_linePic_source);
+    this.load.image('scale_matrix', scale_matrix_source);
   },
 
   //executed after everything is loaded
@@ -114,6 +121,9 @@ var GameState = {
     finish_line.scale.setTo(0.3, 0.3);
     this.game.physics.arcade.enable(finish_line);
 
+    //*Draw Scale Matrix
+    scale_matrix = this.game.add.sprite(300, 40, 'scale_matrix');
+    scale_matrix.scale.setTo(0.3, 0.3);
 
     //*Draw Obstacle Objects
     graphics = game.add.graphics(0, 0);
@@ -150,16 +160,20 @@ var GameState = {
 
     //#Game Stat
     var style = {font: '30px Arial', fill: '#fff'};
-    this.game.add.text(10, 20, 'Surfacing Budget:', style);
-    this.game.add.text(400, 20, 'Risk Budget:', style);
+    this.game.add.text(710, 30, 'Surfacing Budget:', style);
+    this.game.add.text(20, 30, 'Risk Budget:', style);
 
-    bigStepText = this.game.add.text(260, 20, '', style);
-    RiskText = this.game.add.text(580, 20, '', style);
+    bigStepText = this.game.add.text(960, 30, '', style);
+    RiskText = this.game.add.text(200, 30, '', style);
 
     //#Initialize Stat for "step" and "riskBudget"
-    bigStepDownCount = 6;
-    riskBudget = 0.055;
+    bigStepDownCount = surfacingStepBudgetVolume;
+    riskBudget = riskBudgetVolume;
     refreshStats();
+
+    //#RiskBudgetBar
+    RiskBudgetBar = new HealthBar(this.game, {x: 479, y: 45, width: 355});
+    RiskBudgetBar.setBarColor('#68ff63');
 
     //#Initialize userLogDict
     bigStepCount = 0;
@@ -194,6 +208,12 @@ var GameState = {
 function refreshStats() {
   bigStepText.text = bigStepDownCount;
   RiskText.text = riskBudget.toFixed(to_val_decimal_places);
+  if (bigStepDownCount <= 0) {
+    bigStepText.addColor('#f44242', 0);
+  }
+  if (riskBudget.toFixed(to_val_decimal_places) <= 0) {
+    RiskText.addColor('#f44242', 0);
+  }
 }
 
 
@@ -248,6 +268,13 @@ function decidedToGoClicked() {
     bigStepDownCount--;
     riskTotalCost += parseFloat($('#risk').val());
     riskBudget -= parseFloat($('#risk').val());
+    RiskBudgetBar.setPercent(riskBudget / riskBudgetVolume * 100);
+    if (riskBudget / riskBudgetVolume * 100 <= 30) {
+      RiskBudgetBar.setBarColor('#f95b00');
+    }
+    if (riskBudget / riskBudgetVolume * 100 <= 10) {
+      RiskBudgetBar.setBarColor('#ed0000');
+    }
     refreshStats();
     //log the data to userLogDict
     userLogDict['details'][bigStepCount] = {};
@@ -813,6 +840,12 @@ function getCookie(name) {
         }
     }
     return cookieValue;
+}
+
+// show/hide element
+function showHideElement(showId, hideId) {
+  $(showId).removeClass('hidden');
+  $(hideId).addClass('hidden');
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////

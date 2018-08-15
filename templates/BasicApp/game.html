@@ -1,269 +1,299 @@
-<!DOCTYPE html>
-{% load staticfiles %}
+<!DOCTYPE html> {% load staticfiles %}
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=0.5">
-    <title>GamePage</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{% static "BasicApp/css/indexPage.css" %}"/>
-    <link rel="stylesheet" href="{% static "BasicApp/css/helpImageTooltip.css" %}"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
-    <script type="text/javascript">
-      (function(){
-        emailjs.init("user_UnwLtHuXDI1h8kj3fKQbx");
-      })();
-    </script>
-  </head>
 
-  <body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=0.5">
+  <title>GamePage</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{% static "BasicApp/css/indexPage.css" %}"/>
+  <link rel="stylesheet" href="{% static "BasicApp/css/gamePage.css" %}"/>
+  <link rel="stylesheet" href="{% static "BasicApp/css/helpImageTooltip.css" %}"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    <!--Navigation Bar Section-->
-    <nav class="navbar navbar-inverse">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-        </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-          <ul class="nav navbar-nav">
-            <li><a href="{% url 'index'%}">Home</a></li>
-            <li><a href="{% url 'about'%}">About</a></li>
-            <li><a href="{% url 'mapLibrary'%}">Map Library</a></li>
-            <li class = "active"><a href="{% url 'game'%}">Software</a></li>
-            <li><a href="{% url 'contact'%}">Contact</a></li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="{% url 'admin:index'%}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-          </ul>
-        </div>
+  <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function () {
+      emailjs.init("user_UnwLtHuXDI1h8kj3fKQbx");
+    })();
+  </script>
+</head>
+
+<body>
+
+  <!--Navigation Bar Section-->
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <label class="showOnMobile">Participant ID: <span class="participantID"></span></label>
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
       </div>
-    </nav>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+          <li>
+            <a href="{% url 'index'%}">Home</a>
+          </li>
+          <li>
+            <a href="{% url 'about'%}">About</a>
+          </li>
+          <li>
+            <a href="{% url 'mapLibrary'%}">Map Library</a>
+          </li>
+          <li class="active">
+            <a href="{% url 'game'%}">Software</a>
+          </li>
+          <li>
+            <a href="{% url 'contact'%}">Contact</a>
+          </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a href="{% url 'admin:index'%}">
+              <span class="glyphicon glyphicon-log-in"></span> Login</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-    <!--Introduction-->
-    <div class = "jumbotron bg-dark text-white">
-      <div class = "container">
-        <div class = "row content">
-          <!--Map Generation-->
-          <div class = "col-sm-4">
+  <!--Introduction-->
+  <div class="jumbotron bg-dark text-white no-margin">
+    <div class="container">
+      <div class="row content">
+        <!--Map Generation-->
+        <div class="col-xs-4">
+          <div id="step1">
             <label>Note: Following all three steps is required to play the game.</label>
             <hr>
             <label for="startButton">Step 1: Enter Participant ID</label>
             <br>
-            <button type="button" id = "startButton" class="btn btn-warning" onclick="startButtonClicked()">Enter Participant ID</button>
-            <br><br></br>
+            <button type="button" id="startButton" class="btn btn-primary participantID" onclick="startButtonClicked()">Enter Participant ID</button>
+            <br>
+            <br></br>
+            <!-- <button type="button" class="btn btn-primary btn-md" onClick="showHideElement('#step2', '#step1')">Next</button> -->
+          </div>
 
-            <label>Step 2: Choose a map</label>
+          <div id="step2" class="hidden">
+            <div class="showOnDesktop">
+              <label>Participant ID: <span class="participantID"></span></label>
+              <br/><br/>
+            </div>
+            <div><label>Step 2: Choose a map</label></div>
             <div class="btn-group" data-toggle="buttons">
               <label class="btn btn-primary">
-              <input type="radio" name="options" data-id="default_mode" id="default_mode_radio_button"> Choose from the map library
+                <input type="radio" name="options" data-id="default_mode" id="default_mode_radio_button">From the map library
               </label>
               <br></br>
-              <small class="form-text text-muted">* To see all the maps on one page, please refer to the <a href="{% url 'mapLibrary'%}" onclick="location.assign('{% url 'mapLibrary'%}'),'_top'">Map Library</a> page</small>
-              <br></br>
 
-              <div id = "default_mode">
-              <div class="form-group">
-                <label>Choose the number of obstacles:</label>
-                <select class="form-control" id="default_maps_level1">
-                  <option value = "5">5 Obstacles</option>
-                  <option value = "6">6 Obstacles</option>
-                  <option value = "7">7 Obstacles</option>
-                  <option value = "8">8 Obstacles</option>
-                  <option value = "9">9 Obstacles</option>
-                  <option value = "10">10 Obstacles</option>
-                  <option value = "11">11 Obstacles</option>
-                  <option value = "12">12 Obstacles</option>
-                  <option value = "13">13 Obstacles</option>
-                  <option value = "14">14 Obstacles</option>
-                  <option value = "15">15 Obstacles</option>
-                  <option value = "16">16 Obstacles</option>
-                  <option value = "17">17 Obstacles</option>
-                  <option value = "18">18 Obstacles</option>
-                  <option value = "19">19 Obstacles</option>
-                  <option value = "20">20 Obstacles</option>
-                </select>
-                <label>Choose the map option:</label>
-                <select class="form-control" id="default_maps_level2">
-                  <option value = "5">obs5_01</option>
-                  <option value = "5">obs5_02</option>
-                  <option value = "5">obs5_03</option>
-                  <option value = "5">obs5_04</option>
-                  <option value = "5">obs5_05</option>
-                  <option value = "5">obs5_06</option>
-                  <option value = "5">obs5_07</option>
-                  <option value = "5">obs5_08</option>
-                  <option value = "5">obs5_09</option>
-                  <option value = "5">obs5_10</option>
-                  <option value = "6">obs6_01</option>
-                  <option value = "6">obs6_02</option>
-                  <option value = "6">obs6_03</option>
-                  <option value = "6">obs6_04</option>
-                  <option value = "6">obs6_05</option>
-                  <option value = "6">obs6_06</option>
-                  <option value = "6">obs6_07</option>
-                  <option value = "6">obs6_08</option>
-                  <option value = "6">obs6_09</option>
-                  <option value = "6">obs6_10</option>
-                  <option value = "7">obs7_01</option>
-                  <option value = "7">obs7_02</option>
-                  <option value = "7">obs7_03</option>
-                  <option value = "7">obs7_04</option>
-                  <option value = "7">obs7_05</option>
-                  <option value = "7">obs7_06</option>
-                  <option value = "7">obs7_07</option>
-                  <option value = "7">obs7_08</option>
-                  <option value = "7">obs7_09</option>
-                  <option value = "7">obs7_10</option>
-                  <option value = "8">obs8_01</option>
-                  <option value = "8">obs8_02</option>
-                  <option value = "8">obs8_03</option>
-                  <option value = "8">obs8_04</option>
-                  <option value = "8">obs8_05</option>
-                  <option value = "8">obs8_06</option>
-                  <option value = "8">obs8_07</option>
-                  <option value = "8">obs8_08</option>
-                  <option value = "8">obs8_09</option>
-                  <option value = "8">obs8_10</option>
-                  <option value = "9">obs9_01</option>
-                  <option value = "9">obs9_02</option>
-                  <option value = "9">obs9_03</option>
-                  <option value = "9">obs9_04</option>
-                  <option value = "9">obs9_05</option>
-                  <option value = "9">obs9_06</option>
-                  <option value = "9">obs9_07</option>
-                  <option value = "9">obs9_08</option>
-                  <option value = "9">obs9_09</option>
-                  <option value = "9">obs9_10</option>
-                  <option value = "10">obs10_01</option>
-                  <option value = "10">obs10_02</option>
-                  <option value = "10">obs10_03</option>
-                  <option value = "10">obs10_04</option>
-                  <option value = "10">obs10_05</option>
-                  <option value = "10">obs10_06</option>
-                  <option value = "10">obs10_07</option>
-                  <option value = "10">obs10_08</option>
-                  <option value = "10">obs10_09</option>
-                  <option value = "10">obs10_10</option>
-                  <option value = "11">obs11_01</option>
-                  <option value = "11">obs11_02</option>
-                  <option value = "11">obs11_03</option>
-                  <option value = "11">obs11_04</option>
-                  <option value = "11">obs11_05</option>
-                  <option value = "11">obs11_06</option>
-                  <option value = "11">obs11_07</option>
-                  <option value = "11">obs11_08</option>
-                  <option value = "11">obs11_09</option>
-                  <option value = "11">obs11_10</option>
-                  <option value = "12">obs12_01</option>
-                  <option value = "12">obs12_02</option>
-                  <option value = "12">obs12_03</option>
-                  <option value = "12">obs12_04</option>
-                  <option value = "12">obs12_05</option>
-                  <option value = "12">obs12_06</option>
-                  <option value = "12">obs12_07</option>
-                  <option value = "12">obs12_08</option>
-                  <option value = "12">obs12_09</option>
-                  <option value = "12">obs12_10</option>
-                  <option value = "13">obs13_01</option>
-                  <option value = "13">obs13_02</option>
-                  <option value = "13">obs13_03</option>
-                  <option value = "13">obs13_04</option>
-                  <option value = "13">obs13_05</option>
-                  <option value = "13">obs13_06</option>
-                  <option value = "13">obs13_07</option>
-                  <option value = "13">obs13_08</option>
-                  <option value = "13">obs13_09</option>
-                  <option value = "13">obs13_10</option>
-                  <option value = "14">obs14_01</option>
-                  <option value = "14">obs14_02</option>
-                  <option value = "14">obs14_03</option>
-                  <option value = "14">obs14_04</option>
-                  <option value = "14">obs14_05</option>
-                  <option value = "14">obs14_06</option>
-                  <option value = "14">obs14_07</option>
-                  <option value = "14">obs14_08</option>
-                  <option value = "14">obs14_09</option>
-                  <option value = "14">obs14_10</option>
-                  <option value = "15">obs15_01</option>
-                  <option value = "15">obs15_02</option>
-                  <option value = "15">obs15_03</option>
-                  <option value = "15">obs15_04</option>
-                  <option value = "15">obs15_05</option>
-                  <option value = "15">obs15_06</option>
-                  <option value = "15">obs15_07</option>
-                  <option value = "15">obs15_08</option>
-                  <option value = "15">obs15_09</option>
-                  <option value = "15">obs15_10</option>
-                  <option value = "16">obs16_01</option>
-                  <option value = "16">obs16_02</option>
-                  <option value = "16">obs16_03</option>
-                  <option value = "16">obs16_04</option>
-                  <option value = "16">obs16_05</option>
-                  <option value = "16">obs16_06</option>
-                  <option value = "16">obs16_07</option>
-                  <option value = "16">obs16_08</option>
-                  <option value = "16">obs16_09</option>
-                  <option value = "16">obs16_10</option>
-                  <option value = "17">obs17_01</option>
-                  <option value = "17">obs17_02</option>
-                  <option value = "17">obs17_03</option>
-                  <option value = "17">obs17_04</option>
-                  <option value = "17">obs17_05</option>
-                  <option value = "17">obs17_06</option>
-                  <option value = "17">obs17_07</option>
-                  <option value = "17">obs17_08</option>
-                  <option value = "17">obs17_09</option>
-                  <option value = "17">obs17_10</option>
-                  <option value = "18">obs18_01</option>
-                  <option value = "18">obs18_02</option>
-                  <option value = "18">obs18_03</option>
-                  <option value = "18">obs18_04</option>
-                  <option value = "18">obs18_05</option>
-                  <option value = "18">obs18_06</option>
-                  <option value = "18">obs18_07</option>
-                  <option value = "18">obs18_08</option>
-                  <option value = "18">obs18_09</option>
-                  <option value = "18">obs18_10</option>
-                  <option value = "19">obs19_01</option>
-                  <option value = "19">obs19_02</option>
-                  <option value = "19">obs19_03</option>
-                  <option value = "19">obs19_04</option>
-                  <option value = "19">obs19_05</option>
-                  <option value = "19">obs19_06</option>
-                  <option value = "19">obs19_07</option>
-                  <option value = "19">obs19_08</option>
-                  <option value = "19">obs19_09</option>
-                  <option value = "19">obs19_10</option>
-                  <option value = "20">obs20_01</option>
-                  <option value = "20">obs20_02</option>
-                  <option value = "20">obs20_03</option>
-                  <option value = "20">obs20_04</option>
-                  <option value = "20">obs20_05</option>
-                  <option value = "20">obs20_06</option>
-                  <option value = "20">obs20_07</option>
-                  <option value = "20">obs20_08</option>
-                  <option value = "20">obs20_09</option>
-                  <option value = "20">obs20_10</option>
-                </select>
-                <br>
-                <button type="button" id="changeMapinExpMode" class="btn btn-success" onclick = "applyExpMap()">Apply</button>
+              <div id="default_mode">
+                <small class="form-text text-muted">* To see all the maps on one page, please refer to the
+                  <a href="{% url 'mapLibrary'%}" onclick="location.assign('{% url 'mapLibrary'%}'),'_top'">Map Library</a> page</small>
+                <br></br>                
+                <div class="form-group">
+                  <label>Choose the number of obstacles:</label>
+                  <select class="form-control" id="default_maps_level1">
+                    <option value="5">5 Obstacles</option>
+                    <option value="6">6 Obstacles</option>
+                    <option value="7">7 Obstacles</option>
+                    <option value="8">8 Obstacles</option>
+                    <option value="9">9 Obstacles</option>
+                    <option value="10">10 Obstacles</option>
+                    <option value="11">11 Obstacles</option>
+                    <option value="12">12 Obstacles</option>
+                    <option value="13">13 Obstacles</option>
+                    <option value="14">14 Obstacles</option>
+                    <option value="15">15 Obstacles</option>
+                    <option value="16">16 Obstacles</option>
+                    <option value="17">17 Obstacles</option>
+                    <option value="18">18 Obstacles</option>
+                    <option value="19">19 Obstacles</option>
+                    <option value="20">20 Obstacles</option>
+                  </select>
+                  <label>Choose the map option:</label>
+                  <select class="form-control" id="default_maps_level2">
+                    <option value="5">obs5_01</option>
+                    <option value="5">obs5_02</option>
+                    <option value="5">obs5_03</option>
+                    <option value="5">obs5_04</option>
+                    <option value="5">obs5_05</option>
+                    <option value="5">obs5_06</option>
+                    <option value="5">obs5_07</option>
+                    <option value="5">obs5_08</option>
+                    <option value="5">obs5_09</option>
+                    <option value="5">obs5_10</option>
+                    <option value="6">obs6_01</option>
+                    <option value="6">obs6_02</option>
+                    <option value="6">obs6_03</option>
+                    <option value="6">obs6_04</option>
+                    <option value="6">obs6_05</option>
+                    <option value="6">obs6_06</option>
+                    <option value="6">obs6_07</option>
+                    <option value="6">obs6_08</option>
+                    <option value="6">obs6_09</option>
+                    <option value="6">obs6_10</option>
+                    <option value="7">obs7_01</option>
+                    <option value="7">obs7_02</option>
+                    <option value="7">obs7_03</option>
+                    <option value="7">obs7_04</option>
+                    <option value="7">obs7_05</option>
+                    <option value="7">obs7_06</option>
+                    <option value="7">obs7_07</option>
+                    <option value="7">obs7_08</option>
+                    <option value="7">obs7_09</option>
+                    <option value="7">obs7_10</option>
+                    <option value="8">obs8_01</option>
+                    <option value="8">obs8_02</option>
+                    <option value="8">obs8_03</option>
+                    <option value="8">obs8_04</option>
+                    <option value="8">obs8_05</option>
+                    <option value="8">obs8_06</option>
+                    <option value="8">obs8_07</option>
+                    <option value="8">obs8_08</option>
+                    <option value="8">obs8_09</option>
+                    <option value="8">obs8_10</option>
+                    <option value="9">obs9_01</option>
+                    <option value="9">obs9_02</option>
+                    <option value="9">obs9_03</option>
+                    <option value="9">obs9_04</option>
+                    <option value="9">obs9_05</option>
+                    <option value="9">obs9_06</option>
+                    <option value="9">obs9_07</option>
+                    <option value="9">obs9_08</option>
+                    <option value="9">obs9_09</option>
+                    <option value="9">obs9_10</option>
+                    <option value="10">obs10_01</option>
+                    <option value="10">obs10_02</option>
+                    <option value="10">obs10_03</option>
+                    <option value="10">obs10_04</option>
+                    <option value="10">obs10_05</option>
+                    <option value="10">obs10_06</option>
+                    <option value="10">obs10_07</option>
+                    <option value="10">obs10_08</option>
+                    <option value="10">obs10_09</option>
+                    <option value="10">obs10_10</option>
+                    <option value="11">obs11_01</option>
+                    <option value="11">obs11_02</option>
+                    <option value="11">obs11_03</option>
+                    <option value="11">obs11_04</option>
+                    <option value="11">obs11_05</option>
+                    <option value="11">obs11_06</option>
+                    <option value="11">obs11_07</option>
+                    <option value="11">obs11_08</option>
+                    <option value="11">obs11_09</option>
+                    <option value="11">obs11_10</option>
+                    <option value="12">obs12_01</option>
+                    <option value="12">obs12_02</option>
+                    <option value="12">obs12_03</option>
+                    <option value="12">obs12_04</option>
+                    <option value="12">obs12_05</option>
+                    <option value="12">obs12_06</option>
+                    <option value="12">obs12_07</option>
+                    <option value="12">obs12_08</option>
+                    <option value="12">obs12_09</option>
+                    <option value="12">obs12_10</option>
+                    <option value="13">obs13_01</option>
+                    <option value="13">obs13_02</option>
+                    <option value="13">obs13_03</option>
+                    <option value="13">obs13_04</option>
+                    <option value="13">obs13_05</option>
+                    <option value="13">obs13_06</option>
+                    <option value="13">obs13_07</option>
+                    <option value="13">obs13_08</option>
+                    <option value="13">obs13_09</option>
+                    <option value="13">obs13_10</option>
+                    <option value="14">obs14_01</option>
+                    <option value="14">obs14_02</option>
+                    <option value="14">obs14_03</option>
+                    <option value="14">obs14_04</option>
+                    <option value="14">obs14_05</option>
+                    <option value="14">obs14_06</option>
+                    <option value="14">obs14_07</option>
+                    <option value="14">obs14_08</option>
+                    <option value="14">obs14_09</option>
+                    <option value="14">obs14_10</option>
+                    <option value="15">obs15_01</option>
+                    <option value="15">obs15_02</option>
+                    <option value="15">obs15_03</option>
+                    <option value="15">obs15_04</option>
+                    <option value="15">obs15_05</option>
+                    <option value="15">obs15_06</option>
+                    <option value="15">obs15_07</option>
+                    <option value="15">obs15_08</option>
+                    <option value="15">obs15_09</option>
+                    <option value="15">obs15_10</option>
+                    <option value="16">obs16_01</option>
+                    <option value="16">obs16_02</option>
+                    <option value="16">obs16_03</option>
+                    <option value="16">obs16_04</option>
+                    <option value="16">obs16_05</option>
+                    <option value="16">obs16_06</option>
+                    <option value="16">obs16_07</option>
+                    <option value="16">obs16_08</option>
+                    <option value="16">obs16_09</option>
+                    <option value="16">obs16_10</option>
+                    <option value="17">obs17_01</option>
+                    <option value="17">obs17_02</option>
+                    <option value="17">obs17_03</option>
+                    <option value="17">obs17_04</option>
+                    <option value="17">obs17_05</option>
+                    <option value="17">obs17_06</option>
+                    <option value="17">obs17_07</option>
+                    <option value="17">obs17_08</option>
+                    <option value="17">obs17_09</option>
+                    <option value="17">obs17_10</option>
+                    <option value="18">obs18_01</option>
+                    <option value="18">obs18_02</option>
+                    <option value="18">obs18_03</option>
+                    <option value="18">obs18_04</option>
+                    <option value="18">obs18_05</option>
+                    <option value="18">obs18_06</option>
+                    <option value="18">obs18_07</option>
+                    <option value="18">obs18_08</option>
+                    <option value="18">obs18_09</option>
+                    <option value="18">obs18_10</option>
+                    <option value="19">obs19_01</option>
+                    <option value="19">obs19_02</option>
+                    <option value="19">obs19_03</option>
+                    <option value="19">obs19_04</option>
+                    <option value="19">obs19_05</option>
+                    <option value="19">obs19_06</option>
+                    <option value="19">obs19_07</option>
+                    <option value="19">obs19_08</option>
+                    <option value="19">obs19_09</option>
+                    <option value="19">obs19_10</option>
+                    <option value="20">obs20_01</option>
+                    <option value="20">obs20_02</option>
+                    <option value="20">obs20_03</option>
+                    <option value="20">obs20_04</option>
+                    <option value="20">obs20_05</option>
+                    <option value="20">obs20_06</option>
+                    <option value="20">obs20_07</option>
+                    <option value="20">obs20_08</option>
+                    <option value="20">obs20_09</option>
+                    <option value="20">obs20_10</option>
+                  </select>
+                  <br>
+                  <button type="button" id="changeMapinExpMode" class="btn btn-success" onclick="applyExpMap()">Apply</button>
+                  <button type="button" class="btn btn-warning hidden stepNext" onClick="showHideElement('#step3', '#step2')">Next</button>
+                </div>
               </div>
-              </div>
 
-              <label>------ OR ------</label>
-              <br>
-              <label class="btn btn-primary">
-              <input type="radio" name="options" data-id="play_mode" id="play_mode_radio_button"> Choose a random new map
-              </label>
-              <br><br></br>
 
-              <div id = "play_mode">
+            <label>------ OR ------</label>
+            <br>
+            <label class="btn btn-primary">
+              <input type="radio" name="options" data-id="play_mode" id="play_mode_radio_button">Create a random map
+            </label>
+            <br>
+            <br></br>
+
+            <div id="play_mode">
               <div class="form-group">
                 <label for="sel1">Select the number of obstacles:</label>
                 <select class="form-control" id="obstalce_nums">
@@ -286,241 +316,289 @@
                 </select>
                 <br>
                 <button type="button" id="changeMapinRandomMode" class="btn btn-success" onclick="changeMap(document.getElementById('obstalce_nums').value)">Apply</button>
+                <button type="button" class="btn btn-warning btn-md hidden stepNext" onClick="showHideElement('#step3', '#step2')">Next</button>
               </div>
+            </div>
+
+          </div>
+          <br>
+          <br></br>
+          </br>
+        </div>
+
+          <div id="step3" class="hidden">
+              <div class="showOnDesktop">
+                  <label>Participant ID: <span class="participantID"></span></label>
+                  <br/><br/>
               </div>
+               
+
+            <form id="gameInput">
+            <label>Step 3: Start planning</label>
+            <div class="range-slider"> {% csrf_token %}
+              <div class="table-style">
+                <div class="table-row">
+                  <div class="table-cell">                    
+                    <label>Risk tolerance per leg:</label>
+                  </div>
+                  <div class="table-cell">
+                    <img src="{% static "BasicApp/images/help_icon.png" %}" class="imageTooltip" data-placement="right" data-container="body" data-toggle="tooltip" title="The risk level you choose to take for each leg. A higher risk level may lead to a shorter path length.">
+                  </div>                  
+                </div>
+              </div>
+              <input class="range-slider__range" type="range" name="risk" id="risk" value="0.0001" min="0.0001" max="0.0200" step="0.0001">
+              <span class="range-slider__value">0</span>
 
             </div>
-            <br><br></br></br>
 
-
-            <form id = "gameInput">
-              <label>Step 3: Start planning</label>
-                <div class="range-slider"> {% csrf_token %}
-                  <div class = "row">
-                    <div class = "col-sm-9">
-                      <label>Risk tolerance per leg:</label>
-                      <img src="{% static "BasicApp/images/help_icon.png" %}" width="6%" height="6%" class="imageTooltip"><span class="tooltiptext31">The risk level you choose to take for each leg. A higher risk level may lead to a shorter path length.</span>
-                    </div>
+            <div class="range-slider"> {% csrf_token %}
+              <div class="table-style">
+                <div class="table-row">
+                  <div class="table-cell">
+                    <label>Number of steps per leg:</label>
                   </div>
-                  <input class="range-slider__range" type="range" name="risk" id="risk" value="0.0001" min="0.0001" max="0.0200" step="0.0001">
-                  <span class="range-slider__value">0</span>
-
-                </div>
-
-                <div class="range-slider"> {% csrf_token %}
-                  <div class = "row">
-                    <div class = "col-sm-9">
-                      <label>Number of steps per leg:</label>
-                      <img src="{% static "BasicApp/images/help_icon.png" %}" width="6%" height="6%" class="imageTooltip"><span class="tooltiptext32">The number of units you prefer to travel for each leg. A larger number of units means a longer distance the leg travels.
-</span>
-                    </div>
+                  <div class="table-cell img">
+                    <img src="{% static "BasicApp/images/help_icon.png" %}" class="imageTooltip" data-placement="right" data-container="body" data-toggle="tooltip" title="The number of units you prefer to travel for each leg. A larger number of units means a longer distance
+                      the leg travels.">
                   </div>
-                  <input class="range-slider__range" type="range" name="waypoints" id="waypoints" value="2" min="2" max="12" step="1">
-                  <span class="range-slider__value">2</span>
+                </div>                
+              </div>              
+            <input class="range-slider__range" type="range" name="waypoints" id="waypoints" value="3" min="3" max="12" step="1">
+              <span class="range-slider__value">3</span>
 
+            </div>
+
+            <div class="table-style margin-top">
+              <div class="table-row">
+                <div class="table-cell">
+                  <input type="submit" id="submit" class="btn btn-primary" value="Visualize the path"></input>                  
                 </div>
-
-                <input type="submit" id = "submit" class="btn btn-primary" value="Visualize the path"></input>
-                <button type="button" id = "decidedToGo" class="btn btn-danger" onclick="decidedToGoClicked()">Execute</button>
+                <div class="table-cell">
+                  <img src="{% static "BasicApp/images/help_icon.png" %}" class="imageTooltip" data-placement="right" data-container="body" data-toggle="tooltip" title="Planning paths that have over 15 obstacles and more than 10 steps per leg could result in a longer planning time."/>
+                </div>                  
+              </div>
+            </div>
+            <button type="button" id="decidedToGo" class="btn btn-danger margin-top" onclick="decidedToGoClicked()">Execute</button>
           </form>
 
           <hr>
-          <div class = "row">
-            <div class = "col-sm-9">
-              <label>- Surfacing budget:</label>
-              <img src="{% static "BasicApp/images/help_icon.png" %}" width="6%" height="6%" class="imageTooltip"><span class="SurfacingBudgetExplanation">The resources allow for the underwater robot to surface some amount of times. </span>
-            </div>
+          <div>
+            <label>- Surfacing budget:
+              <img src="{% static "BasicApp/images/help_icon.png" %}" class="imageTooltip" data-placement="right" data-container="body" data-toggle="tooltip" title="The resources allow for the underwater robot to surface some amount of times.">
+            </label>
           </div>
 
-          <div class = "row">
-            <div class = "col-sm-9">
-              <label>- Risk budget:</label>
-              <img src="{% static "BasicApp/images/help_icon.png" %}" width="6%" height="6%" class="imageTooltip"><span class="RiskBudgetExplanation">An aggregated risk for the whole trip based on the sum of the legs.</span>
-            </div>
+          <div>
+            <label>- Risk budget:
+              <img src="{% static "BasicApp/images/help_icon.png" %}" class="imageTooltip" data-placement="bottom" data-container="body" data-toggle="tooltip" title="An aggregated risk for the whole trip based on the sum of the legs.">
+            </label>
           </div>
+          <!-- <button type="button" class="btn btn-primary" onClick="initButtonState()">Restart</button> -->
+        </div>
 
+          <script>
+            //Step2 Console Hide and Display
+            $('#default_mode').hide();
+            $('#play_mode').hide();
+            $(':radio').change(function (event) {
+              var id = $(this).data('id');
+              if (id == 'default_mode') {
+                $('#default_mode').show();
+                $('#play_mode').hide();
+              } else if (id == 'play_mode') {
+                $('#default_mode').hide();
+                $('#play_mode').show();
+              }
+            });
 
-            <script>
-              //Step2 Console Hide and Display
-              $('#default_mode').hide();
-              $('#play_mode').hide();
-              $(':radio').change(function (event) {
-                var id = $(this).data('id');
-                if (id == 'default_mode') {
-                  $('#default_mode').show();
-                  $('#play_mode').hide();
-                } else if (id == 'play_mode') {
-                  $('#default_mode').hide();
-                  $('#play_mode').show();
-                }
-              });
-
-              //Range Slider
-              var rangeSlider = function(){
-                var slider = $('.range-slider'),
+            //Range Slider
+            var rangeSlider = function () {
+              var slider = $('.range-slider'),
                 range = $('.range-slider__range'),
                 value = $('.range-slider__value');
-                slider.each(function(){
-                  value.each(function(){
-                    var value = $(this).prev().attr('value');
-                    $(this).html(value);
-                  });
-                  range.on('input', function(){
-                    $(this).next(value).html(this.value);
-                  });
+              slider.each(function () {
+                value.each(function () {
+                  var value = $(this).prev().attr('value');
+                  $(this).html(value);
                 });
-              };
-              rangeSlider();
+                range.on('input', function () {
+                  $(this).next(value).html(this.value);
+                });
+              });
+            };
+            rangeSlider();
 
-              //RESTful API POST
-              $(document).on('submit', '#gameInput', function(e){
-                e.preventDefault();
-                //console.log("sending data to backend...");
-                //console.log(m2pos);
-                $.ajax({
-                  type : "POST",
-                  url : "/game/",
-                  data : {
-                  risk : $('#risk').val(),
-                  waypoints : $('#waypoints').val(),
-                  curr_x : (submarine.x - bias) / scale,
-                  curr_y : 1.0 - (submarine.y - bias) / scale,
-                  obstacle_coordinates : JSON.stringify(m2pos),
-                  csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val(),
+            //RESTful API POST
+            $(document).on('submit', '#gameInput', function (e) {
+              e.preventDefault();
+              //console.log("sending data to backend...");
+              //console.log(m2pos);
+              $("#submit").attr("disabled", true);
+              $("#submit").val("Loading...");
+              $("#changeMapinRandomMode").attr("disabled", true);
+              $("#changeMapinExpMode").attr("disabled", true);
+
+              $.ajax({
+                type: "POST",
+                url: "/game/",
+                data: {
+                  risk: $('#risk').val(),
+                  waypoints: $('#waypoints').val(),
+                  curr_x: (submarine.x - bias) / scale,
+                  curr_y: 1.0 - (submarine.y - bias) / scale,
+                  obstacle_coordinates: JSON.stringify(m2pos),
+                  csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
                 },
-                success : function(received_json){
+                success: function (received_json) {
                   //console.log(received_json);
-                  showPlanPath(received_json['expected_route'])
+
                   expected_routes = received_json['expected_route'];
-                  acutual_routes = received_json['real_route'];
+                  acutual_routes = received_json['real_route'];                  
+
+                  if (expected_routes.length === 0) {
+                    alert("Path planner failed to find a feasible path. Consider increasing the risk tolerance or changing the number of steps per leg");
+                  } else {
+                    showPlanPath(received_json['expected_route'])
+                  }
                   //dx = received_json['dx'];
                   //dy = received_json['dy'];
                   //console.log(dx);
                   //console.log(dy);
+                },
+                error: function (e) {
+                  alert("Server Error - Please contact server administrator!");
+                },
+                complete: function (e) {
+                  enableSubmitButton();
                 }
+              });
             });
 
-            $("#submit").attr("disabled", true);
-            $("#submit").val("Loading...");
-            $("#changeMapinRandomMode").attr("disabled", true);
-            $("#changeMapinExpMode").attr("disabled", true);
-            setTimeout(function() {
-              enableSubmitButton();
-            }, 7000);
-           });
+            function enableSubmitButton() {
+              $("#submit").removeAttr("disabled");
+              $("#submit").val("Visualize the path");
+              $("#changeMapinRandomMode").removeAttr("disabled");
+              $("#changeMapinExpMode").removeAttr("disabled");
+            }
 
 
-           function enableSubmitButton() {
-             $("#submit").removeAttr("disabled");
-             $("#submit").val("Visualize the path");
-             $("#changeMapinRandomMode").removeAttr("disabled");
-             $("#changeMapinExpMode").removeAttr("disabled");
-           }
+            //Button Control Attribute
+            initButtonState();
+
+            function initButtonState() {
+
+              //step1 button:
+              if (typeof showHideElement === typeof Function)
+                showHideElement("#step1", "#step3");
+              $(".participantID").html("");              
+              $("#startButton").attr("disabled", false);
+              $("#startButton").html("Enter Participant ID");
+
+              //step2 button:
+              // $('#default_mode').hide();
+              // $('#play_mode').hide();
+              // $('default_mode_radio_button').prop('checked', false);
+              // $('play_mode_radio_button').prop('checked', false);
+
+              $("#changeMapinExpMode").attr("disabled", true);
+              $("#default_maps_level1").attr("disabled", true);
+              $("#default_maps_level2").attr("disabled", true);
+              $("#changeMapinRandomMode").attr("disabled", true);
+              $("#obstalce_nums").attr("disabled", true);
+              $(".stepNext").addClass("hidden");
+
+              //step3 button:
+              $("#risk").attr("disabled", true);
+              $("#waypoints").attr("disabled", true);
+              $("#submit").attr("disabled", true);
+              $("#decidedToGo").attr("disabled", true);
+              wantDataFlag = false;
+            }
 
 
-           //Button Control Attribute
-           initButtonState();
-           function initButtonState() {
-
-             //step1 button:
-             $("#startButton").attr("disabled", false);
-             $("#startButton").html("Enter Participant ID");
-
-             //step2 button:
-             // $('#default_mode').hide();
-             // $('#play_mode').hide();
-             // $('default_mode_radio_button').prop('checked', false);
-             // $('play_mode_radio_button').prop('checked', false);
-
-             $("#changeMapinExpMode").attr("disabled", true);
-             $("#default_maps_level1").attr("disabled", true);
-             $("#default_maps_level2").attr("disabled", true);
-             $("#changeMapinRandomMode").attr("disabled", true);
-             $("#obstalce_nums").attr("disabled", true);
-
-
-             //step3 button:
-             $("#risk").attr("disabled", true);
-             $("#waypoints").attr("disabled", true);
-             $("#submit").attr("disabled", true);
-             $("#decidedToGo").attr("disabled", true);
-             wantDataFlag = false;
-           }
-
-
-           function startButtonClicked() {
-             //prompt for knowing it is the experiment mode or for fun mode
-             var participantID = prompt("Please enter you participant ID\nFor experiment: Please enter a unique ID for each participant's trials (E.g., Duke0711228_01)");
-             if (participantID == null || participantID == "") {
-               return;
-             }
-
-             //step 1 buttons deactivated
-             $("#startButton").attr('disabled', true);
-             $("#startButton").html(participantID);
-
-             //step 2 buttons activated
-             $("#changeMapinExpMode").attr("disabled", false);
-             $("#default_maps_level1").attr("disabled", false);
-             $("#default_maps_level2").attr("disabled", false);
-             $("#changeMapinRandomMode").attr("disabled", false);
-             $("#obstalce_nums").attr("disabled", false);
-
-             userLogDict = initUserLogDict();
-           }
-
-           function activatePlanInputControle() {
-             //game stage on
-             $("#risk").removeAttr("disabled");
-             $("#waypoints").removeAttr("disabled");
-             $("#submit").removeAttr("disabled");
-             $("#decidedToGo").removeAttr("disabled");
-
-           }
-
-           $('#default_maps_level1').change(function() {
-             if ($(this).data('options') === undefined) {
-               $(this).data('options', $('#default_maps_level2 option').clone());
-             }
-             var id = $(this).val();
-             var options = $(this).data('options').filter('[value=' + id + ']');
-             $('#default_maps_level2').html(options);
-           });
-
-
-           </script>
-          </div>
-
-          <!--Playing Section-->
-          <div class = "col-sm-8" id = "gamePlace">
-            <style>
-              body {
-                padding: 0px;
-                margin: 2px;
-                background: #001f3f;
+            function startButtonClicked() {
+              //prompt for knowing it is the experiment mode or for fun mode
+              var participantID = prompt(
+                "Please enter you participant ID\nFor experiment: Please enter a unique ID for each participant's trials (E.g., Duke0711228_01)"
+              );
+              if (participantID == null || participantID == "") {
+                return;
               }
-            </style>
-          </div>
+
+              //step 1 buttons deactivated
+              $(".participantID").attr('disabled', true);
+              $(".participantID").html(participantID);
+
+              showHideElement('#step2', '#step1');
+
+              //step 2 buttons activated
+              $("#changeMapinExpMode").attr("disabled", false);
+              $("#default_maps_level1").attr("disabled", false);
+              $("#default_maps_level2").attr("disabled", false);
+              $("#changeMapinRandomMode").attr("disabled", false);
+              $("#obstalce_nums").attr("disabled", false);
+
+              userLogDict = initUserLogDict();
+            }
+
+            function activatePlanInputControle() {
+              //game stage on
+              $("#risk").removeAttr("disabled");
+              $("#waypoints").removeAttr("disabled");
+              $("#submit").removeAttr("disabled");
+              $("#decidedToGo").removeAttr("disabled");
+              $(".stepNext").removeClass("hidden");
+            }
+
+            $('#default_maps_level1').change(function () {
+              if ($(this).data('options') === undefined) {
+                $(this).data('options', $('#default_maps_level2 option').clone());
+              }
+              var id = $(this).val();
+              var options = $(this).data('options').filter('[value=' + id + ']');
+              $('#default_maps_level2').html(options);
+            });
+
+            // enable bootstrap tooltip
+            $(function() {
+              $('[data-toggle="tooltip"]').tooltip();
+            });
+          </script>
+        </div>
+
+        <!--Playing Section-->
+        <div class="col-xs-8" id="gamePlace">
+          <style>
+            body {
+              padding: 0px;
+              margin: 2px;
+              background: #001f3f;
+            }
+          </style>
         </div>
       </div>
     </div>
+  </div>
 
 
 
-    <!-- Game Canvas Place -->
-    <script type="text/javascript" src="{% static "BasicApp/js/phaser.js" %}"></script>
-    <script>
-      var backgroundPic_url = "{% static "BasicApp/images/colorwater.jpg" %}";
-      var submarinePic_url = "{% static "BasicApp/images/submarine.png" %}";
-      var finish_linePic_url = "{% static "BasicApp/images/finish_line.png" %}";
-    </script>
-    <script src="{% static "BasicApp/js/main.js" %}"> </script>
-    <script src="{% static "BasicApp/js/map_library.js" %}"> </script>
+  <!-- Game Canvas Place -->
+  <script type="text/javascript" src="{% static "BasicApp/js/phaser.js" %}"></script>
+  <script>
+    var backgroundPic_url = "{% static "BasicApp/images/colorwater.jpg" %}";
+    var submarinePic_url = "{% static "BasicApp/images/submarine.png" %}";
+    var finish_linePic_url = "{% static "BasicApp/images/finish_line.png" %}";
+    var scale_matrix_url = "{% static "BasicApp/images/scale_matrix.png" %}";
+  </script>
+  <script src="{% static "BasicApp/js/main.js" %}"> </script>
+  <script src="{% static "BasicApp/js/map_library.js" %}"> </script>
+  <script src="{% static "BasicApp/js/HealthBar.standalone.js" %}"> </script>
 
-    <!-- Footer -->
-    <footer class="container-fluid text-center">
-      <p> © 2018 Duke University Humans and Autonomy Laboratory</p>
-    </footer>
+  <!-- Footer -->
+  <footer class="container-fluid text-center">
+    <p> © 2018 Duke University Humans and Autonomy Laboratory</p>
+  </footer>
 
-  </body>
+</body>
+
 </html>

@@ -1,9 +1,34 @@
 .imageTooltip {
   position: relative;
   display: inline-block;
-  width: 6%;
+  width: 1em;
   height: auto;
 }
+
+.tooltip.top .tooltip-inner {
+  background-color: #ce2389;
+}
+.tooltip.top .tooltip-arrow {
+  border-top-color: #ce2389;
+}
+.tooltip.right .tooltip-inner {
+  background-color:#ce2389;
+}
+.tooltip.right .tooltip-arrow {
+  border-right-color: #ce2389;
+}
+.tooltip.bottom .tooltip-inner {
+  background-color:#ce2389;
+}
+.tooltip.bottom .tooltip-arrow {
+  border-bottom-color: #ce2389;
+}  
+.tooltip.left .tooltip-inner {
+  background-color:#ce2389;
+}
+.tooltip.left .tooltip-arrow {
+  border-left-color: #ce2389;
+} 
 
 .imageTooltip + .tooltiptext31 {
   visibility: hidden;
