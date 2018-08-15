@@ -363,8 +363,8 @@
                   </div>
                 </div>                
               </div>              
-            <input class="range-slider__range" type="range" name="waypoints" id="waypoints" value="2" min="2" max="12" step="1">
-              <span class="range-slider__value">2</span>
+            <input class="range-slider__range" type="range" name="waypoints" id="waypoints" value="3" min="3" max="12" step="1">
+              <span class="range-slider__value">3</span>
 
             </div>
 
@@ -445,14 +445,17 @@
                   csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
                 },
                 success: function (received_json) {
-                  //console.log(received_json);
+                  console.log(received_json);
                   showPlanPath(received_json['expected_route'])
                   expected_routes = received_json['expected_route'];
-                  acutual_routes = received_json['real_route'];
+                  acutual_routes = received_json['real_route'];                  
                   //dx = received_json['dx'];
                   //dy = received_json['dy'];
                   //console.log(dx);
                   //console.log(dy);
+                },
+                error: function (e) {
+                  alert("Server Error - Please contact server administrator!");
                 }
               });
 
@@ -462,7 +465,7 @@
               $("#changeMapinExpMode").attr("disabled", true);
               setTimeout(function () {
                 enableSubmitButton();
-              }, 7000);
+              }, 5000);
             });
 
 
