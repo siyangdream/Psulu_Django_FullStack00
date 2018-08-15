@@ -433,6 +433,11 @@
               e.preventDefault();
               //console.log("sending data to backend...");
               //console.log(m2pos);
+              $("#submit").attr("disabled", true);
+              $("#submit").val("Loading...");
+              $("#changeMapinRandomMode").attr("disabled", true);
+              $("#changeMapinExpMode").attr("disabled", true);
+
               $.ajax({
                 type: "POST",
                 url: "/game/",
@@ -445,10 +450,16 @@
                   csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
                 },
                 success: function (received_json) {
-                  console.log(received_json);
-                  showPlanPath(received_json['expected_route'])
+                  //console.log(received_json);
+
                   expected_routes = received_json['expected_route'];
                   acutual_routes = received_json['real_route'];                  
+
+                  if (expected_routes.length === 0) {
+                    alert("Path planner failed to find a feasible path. Consider increasing the risk tolerance or changing the number of steps per leg");
+                  } else {
+                    showPlanPath(received_json['expected_route'])
+                  }
                   //dx = received_json['dx'];
                   //dy = received_json['dy'];
                   //console.log(dx);
@@ -456,18 +467,12 @@
                 },
                 error: function (e) {
                   alert("Server Error - Please contact server administrator!");
+                },
+                complete: function (e) {
+                  enableSubmitButton();
                 }
               });
-
-              $("#submit").attr("disabled", true);
-              $("#submit").val("Loading...");
-              $("#changeMapinRandomMode").attr("disabled", true);
-              $("#changeMapinExpMode").attr("disabled", true);
-              setTimeout(function () {
-                enableSubmitButton();
-              }, 5000);
             });
-
 
             function enableSubmitButton() {
               $("#submit").removeAttr("disabled");
