@@ -30,3 +30,15 @@
 .no-margin {
   margin: 0;
 }
+
+.table-style {
+  display: table;
+}
+.table-row {
+  display: table-row;
+}
+
+.table-cell {
+  display: table-cell;
+  vertical-align: middle;
+}

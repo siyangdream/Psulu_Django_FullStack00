@@ -336,11 +336,14 @@
             <form id="gameInput">
             <label>Step 3: Start planning</label>
             <div class="range-slider"> {% csrf_token %}
-              <div class="row">
-                <div class="col-sm-9">
-                  <label>Risk tolerance per leg:
-                    <img src="{% static "BasicApp/images/help_icon.png" %}" class="imageTooltip" data-placement="auto" data-container="body" data-toggle="tooltip" title="The risk level you choose to take for each leg. A higher risk level may lead to a shorter path length.">
-                  </label>                  
+              <div class="table-style">
+                <div class="table-row">
+                  <div class="table-cell">                    
+                    <label>Risk tolerance per leg:</label>
+                  </div>
+                  <div class="table-cell">
+                    <img src="{% static "BasicApp/images/help_icon.png" %}" class="imageTooltip" data-placement="right" data-container="body" data-toggle="tooltip" title="The risk level you choose to take for each leg. A higher risk level may lead to a shorter path length.">
+                  </div>                  
                 </div>
               </div>
               <input class="range-slider__range" type="range" name="risk" id="risk" value="0.0001" min="0.0001" max="0.0200" step="0.0001">
@@ -349,15 +352,18 @@
             </div>
 
             <div class="range-slider"> {% csrf_token %}
-              <div class="row">
-                <div class="col-sm-9">
-                  <label>Number of steps per leg:
-                      <img src="{% static "BasicApp/images/help_icon.png" %}" class="imageTooltip" data-placement="auto" data-container="body" data-toggle="tooltip" title="The number of units you prefer to travel for each leg. A larger number of units means a longer distance
+              <div class="table-style">
+                <div class="table-row">
+                  <div class="table-cell">
+                    <label>Number of steps per leg:</label>
+                  </div>
+                  <div class="table-cell img">
+                    <img src="{% static "BasicApp/images/help_icon.png" %}" class="imageTooltip" data-placement="right" data-container="body" data-toggle="tooltip" title="The number of units you prefer to travel for each leg. A larger number of units means a longer distance
                       the leg travels.">
-                  </label>                  
-                </div>
-              </div>
-              <input class="range-slider__range" type="range" name="waypoints" id="waypoints" value="2" min="2" max="12" step="1">
+                  </div>
+                </div>                
+              </div>              
+            <input class="range-slider__range" type="range" name="waypoints" id="waypoints" value="2" min="2" max="12" step="1">
               <span class="range-slider__value">2</span>
 
             </div>
@@ -368,19 +374,15 @@
 
           <hr>
           <div class="row">
-            <div class="col-sm-9">
-              <label>- Surfacing budget:
-                <img src="{% static "BasicApp/images/help_icon.png" %}" class="imageTooltip" data-placement="auto" data-container="body" data-toggle="tooltip" title="The resources allow for the underwater robot to surface some amount of times.">
-              </label>
-            </div>
+            <label>- Surfacing budget:
+              <img src="{% static "BasicApp/images/help_icon.png" %}" class="imageTooltip" data-placement="right" data-container="body" data-toggle="tooltip" title="The resources allow for the underwater robot to surface some amount of times.">
+            </label>
           </div>
 
           <div class="row">
-            <div class="col-sm-9">
-              <label>- Risk budget:
-                <img src="{% static "BasicApp/images/help_icon.png" %}" class="imageTooltip" data-placement="auto" data-container="body" data-toggle="tooltip" title="An aggregated risk for the whole trip based on the sum of the legs.">
-              </label>
-            </div>
+            <label>- Risk budget:
+              <img src="{% static "BasicApp/images/help_icon.png" %}" class="imageTooltip" data-placement="bottom" data-container="body" data-toggle="tooltip" title="An aggregated risk for the whole trip based on the sum of the legs.">
+            </label>
           </div>
           <!-- <button type="button" class="btn btn-primary" onClick="initButtonState()">Restart</button> -->
         </div>
