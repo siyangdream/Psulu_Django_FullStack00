@@ -368,20 +368,27 @@
 
             </div>
 
-            <div>
-              <input type="submit" id="submit" class="btn btn-primary" value="Visualize the path" data-placement="right" data-container="body" data-toggle="tooltip" title="Planning paths that have over 15 obstacles and more than 10 steps per leg could result in a longer planning time."></input>
+            <div class="table-style margin-top">
+              <div class="table-row">
+                <div class="table-cell">
+                  <input type="submit" id="submit" class="btn btn-primary" value="Visualize the path"></input>                  
+                </div>
+                <div class="table-cell">
+                  <img src="{% static "BasicApp/images/help_icon.png" %}" class="imageTooltip" data-placement="right" data-container="body" data-toggle="tooltip" title="Planning paths that have over 15 obstacles and more than 10 steps per leg could result in a longer planning time."/>
+                </div>                  
+              </div>
             </div>
-            <button type="button" id="decidedToGo" class="btn btn-danger" onclick="decidedToGoClicked()">Execute</button>
+            <button type="button" id="decidedToGo" class="btn btn-danger margin-top" onclick="decidedToGoClicked()">Execute</button>
           </form>
 
           <hr>
-          <div class="row">
+          <div>
             <label>- Surfacing budget:
               <img src="{% static "BasicApp/images/help_icon.png" %}" class="imageTooltip" data-placement="right" data-container="body" data-toggle="tooltip" title="The resources allow for the underwater robot to surface some amount of times.">
             </label>
           </div>
 
-          <div class="row">
+          <div>
             <label>- Risk budget:
               <img src="{% static "BasicApp/images/help_icon.png" %}" class="imageTooltip" data-placement="bottom" data-container="body" data-toggle="tooltip" title="An aggregated risk for the whole trip based on the sum of the legs.">
             </label>

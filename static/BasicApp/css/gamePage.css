@@ -23,7 +23,7 @@
   }
 }   
 
-#submit, #decidedToGo {
+.margin-top {
   margin-top: 1em;
 }
 
@@ -41,4 +41,8 @@
 .table-cell {
   display: table-cell;
   vertical-align: middle;
+}
+
+.table-cell:first-child {
+  padding-right: 0.4em;
 }
