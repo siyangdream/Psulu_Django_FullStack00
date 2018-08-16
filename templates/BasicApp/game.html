@@ -92,7 +92,7 @@
 
               <div id="default_mode">
                 <small class="form-text text-muted">* To see all the maps on one page, please refer to the
-                  <a href="{% url 'mapLibrary'%}" onclick="location.assign('{% url 'mapLibrary'%}'),'_top'">Map Library</a> page</small>
+                  <a href="{% url 'mapLibrary'%}" onclick="location.assign('{% url "mapLibrary" %}'),'_top'">Map Library</a> page</small>
                 <br></br>
                 <div class="form-group">
                   <label>Choose the number of obstacles:</label>
@@ -583,14 +583,14 @@
   <!-- Game Canvas Place -->
   <script type="text/javascript" src="{% static "BasicApp/js/phaser.js" %}"></script>
   <script>
-    var backgroundPic_url = "{% static "BasicApp/images/colorwater.jpg" %}";
-    var submarinePic_url = "{% static "BasicApp/images/submarine.png" %}";
-    var finish_linePic_url = "{% static "BasicApp/images/finish_line.png" %}";
-    var scale_matrix_url = "{% static "BasicApp/images/scale_matrix.png" %}";
+    var backgroundPic_url = "{% static 'BasicApp/images/colorwater.jpg' %}";
+    var submarinePic_url = "{% static 'BasicApp/images/submarine.png' %}";
+    var finish_linePic_url = "{% static 'BasicApp/images/finish_line.png' %}";
+    var scale_matrix_url = "{% static 'BasicApp/images/scale_matrix.png' %}";
   </script>
-  <script src="{% static "BasicApp/js/main.js" %}"> </script>
-  <script src="{% static "BasicApp/js/map_library.js" %}"> </script>
-  <script src="{% static "BasicApp/js/HealthBar.standalone.js" %}"> </script>
+  <script src="{% static 'BasicApp/js/main.js' %}"> </script>
+  <script src="{% static 'BasicApp/js/map_library.js' %}"> </script>
+  <script src="{% static 'BasicApp/js/HealthBar.standalone.js' %}"> </script>
 
   <!-- Footer -->
   <footer class="container-fluid text-center">

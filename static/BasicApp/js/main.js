@@ -22,6 +22,7 @@ var bigStepText; //visual stats - step
 var riskText; //visual stats - risk
 var bigStepDownCount; //Init in Game Create function, please set value there
 var riskBudget; //Init in Game Create function, please set value there
+var RiskBudgetBar;
 
 var wantDataFlag = false;
 
