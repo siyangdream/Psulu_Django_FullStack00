@@ -11,6 +11,7 @@ var real_path; // record the walked path
 var breakPoints; // Draw the breakPoints
 var planStepBreakPoints; //Draw the stepbreakPoints
 var smallBreakPoints; // Draw the step break per leg
+var deviationCircle; // Draw the deviationCircle
 
 var backgroundPic_source = backgroundPic_url;
 var submarinePic_source = submarinePic_url;
@@ -158,6 +159,11 @@ var GameState = {
     smallBreakPoints = game.add.graphics(0, 0);
     smallBreakPoints.beginFill(0x351616);
 
+    //#Draw the last deviation circle
+    deviationCircle = game.add.graphics(0, 0);
+    deviationCircle.beginFill(0x2bff59);
+    deviationCircle.alpha = 0.5;
+
     //#Game Stat
     var style = {font: '30px Arial', fill: '#fff'};
     this.game.add.text(710, 30, 'Surfacing Budget:', style);
@@ -230,6 +236,15 @@ function showPlanPath(expected_routes) {
   for (var i = 1; i < expected_routes.length; ++i) {
     plan_path.lineTo(expected_routes[i][0] * scale + bias, (1.0 - expected_routes[i][1]) * scale + bias);
     planStepBreakPoints.drawCircle(expected_routes[i][0] * scale + bias, (1.0 - expected_routes[i][1]) * scale + bias, plan_step_break_point_circle_diameter);
+    if (i <= expected_routes.length - 1) {
+      var x1 = expected_routes[0][0] * scale + bias;
+      var y1 = (1.0 - expected_routes[0][1]) * scale + bias;
+      var x2 = expected_routes[i][0] * scale + bias;
+      var y2 = (1.0 - expected_routes[i][1]) * scale + bias;
+      var radius = Math.sqrt( Math.pow((y2 - y1), 2) + Math.pow((x2 - x1), 2) );
+      radius = radius / 10 * 2;
+      deviationCircle.drawCircle(x2, y2, radius);
+    }
   }
 
 }
@@ -240,6 +255,8 @@ function clearPlanPath() {
   plan_path.clear();
   planStepBreakPoints.clear();
   planStepBreakPoints.beginFill(0x351616);
+  deviationCircle.clear();
+  deviationCircle.beginFill(0x2bff59);
 }
 
 

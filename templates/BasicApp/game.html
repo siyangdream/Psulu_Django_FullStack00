@@ -52,12 +52,11 @@
             <a href="{% url 'contact'%}">Contact</a>
           </li>
         </ul>
+        <!--
         <ul class="nav navbar-nav navbar-right">
-          <li>
-            <a href="{% url 'admin:index'%}">
-              <span class="glyphicon glyphicon-log-in"></span> Login</a>
-          </li>
+          <li><a href="{% url 'admin:index'%}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
         </ul>
+        -->
       </div>
     </div>
   </nav>
@@ -94,7 +93,7 @@
               <div id="default_mode">
                 <small class="form-text text-muted">* To see all the maps on one page, please refer to the
                   <a href="{% url 'mapLibrary'%}" onclick="location.assign('{% url 'mapLibrary'%}'),'_top'">Map Library</a> page</small>
-                <br></br>                
+                <br></br>
                 <div class="form-group">
                   <label>Choose the number of obstacles:</label>
                   <select class="form-control" id="default_maps_level1">
@@ -331,19 +330,19 @@
                   <label>Participant ID: <span class="participantID"></span></label>
                   <br/><br/>
               </div>
-               
+
 
             <form id="gameInput">
             <label>Step 3: Start planning</label>
             <div class="range-slider"> {% csrf_token %}
               <div class="table-style">
                 <div class="table-row">
-                  <div class="table-cell">                    
+                  <div class="table-cell">
                     <label>Risk tolerance per leg:</label>
                   </div>
                   <div class="table-cell">
                     <img src="{% static "BasicApp/images/help_icon.png" %}" class="imageTooltip" data-placement="right" data-container="body" data-toggle="tooltip" title="The risk level you choose to take for each leg. A higher risk level may lead to a shorter path length.">
-                  </div>                  
+                  </div>
                 </div>
               </div>
               <input class="range-slider__range" type="range" name="risk" id="risk" value="0.0001" min="0.0001" max="0.0200" step="0.0001">
@@ -361,8 +360,8 @@
                     <img src="{% static "BasicApp/images/help_icon.png" %}" class="imageTooltip" data-placement="right" data-container="body" data-toggle="tooltip" title="The number of units you prefer to travel for each leg. A larger number of units means a longer distance
                       the leg travels.">
                   </div>
-                </div>                
-              </div>              
+                </div>
+              </div>
             <input class="range-slider__range" type="range" name="waypoints" id="waypoints" value="3" min="3" max="12" step="1">
               <span class="range-slider__value">3</span>
 
@@ -371,11 +370,11 @@
             <div class="table-style margin-top">
               <div class="table-row">
                 <div class="table-cell">
-                  <input type="submit" id="submit" class="btn btn-primary" value="Visualize the path"></input>                  
+                  <input type="submit" id="submit" class="btn btn-primary" value="Visualize the path"></input>
                 </div>
                 <div class="table-cell">
                   <img src="{% static "BasicApp/images/help_icon.png" %}" class="imageTooltip" data-placement="right" data-container="body" data-toggle="tooltip" title="Planning paths that have over 15 obstacles and more than 10 steps per leg could result in a longer planning time."/>
-                </div>                  
+                </div>
               </div>
             </div>
             <button type="button" id="decidedToGo" class="btn btn-danger margin-top" onclick="decidedToGoClicked()">Execute</button>
@@ -453,7 +452,7 @@
                   //console.log(received_json);
 
                   expected_routes = received_json['expected_route'];
-                  acutual_routes = received_json['real_route'];                  
+                  acutual_routes = received_json['real_route'];
 
                   if (expected_routes.length === 0) {
                     alert("Path planner failed to find a feasible path. Consider increasing the risk tolerance or changing the number of steps per leg");
@@ -490,7 +489,7 @@
               //step1 button:
               if (typeof showHideElement === typeof Function)
                 showHideElement("#step1", "#step3");
-              $(".participantID").html("");              
+              $(".participantID").html("");
               $("#startButton").attr("disabled", false);
               $("#startButton").html("Enter Participant ID");
 

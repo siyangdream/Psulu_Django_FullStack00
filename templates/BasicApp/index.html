@@ -43,6 +43,12 @@
         font-size:110%;
       }
 
+      tutorialNote {
+        line-height: 15px;
+        margin-bottom: -20px;
+        font-size:100%;
+      }
+
       #headerwrap {
 	       background-color: #34495e;
       }
@@ -68,6 +74,10 @@
 	      text-align: left;
 	      color: white
       }
+
+      #headerwrap tutorialNote {
+        color: red
+      }
     </style>
   </head>
 
@@ -92,9 +102,11 @@
             <li><a href="{% url 'game'%}">Software</a></li>
             <li><a href="{% url 'contact'%}">Contact</a></li>
           </ul>
+          <!--
           <ul class="nav navbar-nav navbar-right">
             <li><a href="{% url 'admin:index'%}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
           </ul>
+          -->
         </div>
       </div>
     </nav>
@@ -108,8 +120,18 @@
         </div>
 
         <div class="col-sm-10 text-center">
-          <center><h1>Welcome to the <b>HAIER</b></h1></center>
-          <br>
+          <div class="row">
+            <div class="col-sm-10">
+              &nbsp&nbsp<h1>Welcome to the <b>HAIER</b></h1>
+            </div>
+            <div class="col-sm-2">
+              <br></br>
+              <a href="{% url 'game'%}"><img src="{% static "BasicApp/images/play_game.png" %}" class="img-responsive" style="width:100%" alt="Image"></a>
+              <tutorialNote>Click to play. For instructions, please refer to the <a href="{% url 'about'%}">game tutorial.</a></tutorialNote>
+            </div>
+          </div>
+
+
           <h3>Project Objectives</h3>
           <p>Humans must often assess risk in path-planning tasks when remotely supervising an autonomous vehicle under uncertainty. While risk-aware autonomy can be designed that is capable of generating optimized paths and quantifying corresponding risks, it is essential to design an interface that enhances operators’ performance while promoting appropriate trust.</p>
           <h3>Introduction of the Software</h3>
