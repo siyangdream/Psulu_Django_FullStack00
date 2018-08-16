@@ -43,6 +43,12 @@
         font-size:110%;
       }
 
+      tutorialNote {
+        line-height: 15px;
+        margin-bottom: -20px;
+        font-size:100%;
+      }
+
       #headerwrap {
 	       background-color: #34495e;
       }
@@ -68,6 +74,10 @@
 	      text-align: left;
 	      color: white
       }
+
+      #headerwrap tutorialNote {
+        color: red
+      }
     </style>
   </head>
 
@@ -87,14 +97,16 @@
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav">
             <li class="active"><a href="{% url 'index'%}">Home</a></li>
-            <li><a href="{% url 'about'%}">About</a></li>
+            <li><a href="{% url 'about'%}">Game Tutorial</a></li>
             <li><a href="{% url 'mapLibrary'%}">Map Library</a></li>
             <li><a href="{% url 'game'%}">Software</a></li>
             <li><a href="{% url 'contact'%}">Contact</a></li>
           </ul>
+          <!--
           <ul class="nav navbar-nav navbar-right">
             <li><a href="{% url 'admin:index'%}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
           </ul>
+          -->
         </div>
       </div>
     </nav>
@@ -108,8 +120,18 @@
         </div>
 
         <div class="col-sm-10 text-center">
-          <center><h1>Welcome to the <b>HAIER</b></h1></center>
-          <br>
+          <div class="row">
+            <div class="col-sm-10">
+              &nbsp&nbsp<h1>Welcome to the <b>HAIER</b></h1>
+            </div>
+            <div class="col-sm-2">
+              <br></br>
+              <a href="{% url 'game'%}"><img src="{% static "BasicApp/images/play_game.png" %}" class="img-responsive" style="width:100%" alt="Image"></a>
+              <tutorialNote>Click to play. For instructions, please refer to the <a href="{% url 'about'%}">game tutorial.</a></tutorialNote>
+            </div>
+          </div>
+
+
           <h3>Project Objectives</h3>
           <p>Humans must often assess risk in path-planning tasks when remotely supervising an autonomous vehicle under uncertainty. While risk-aware autonomy can be designed that is capable of generating optimized paths and quantifying corresponding risks, it is essential to design an interface that enhances operators’ performance while promoting appropriate trust.</p>
           <h3>Introduction of the Software</h3>
@@ -120,9 +142,9 @@
 
           <p> In HAIER, it is assumed that when a vehicle “surfaces”, it resolves all ambiguity about its position. However, the longer a vehicle remains underwater, the more uncertainty grows in where the vehicle will surface (which is also true in the real world). Thus, while it is possible to go from the start to goal in a single leg, the uncertainty would be extremely high, and thus the vehicle needs to surface periodically to resolve the uncertainty in its position. However, given that surfacing requires extra fuel and exposes UUVs to danger, the number of surfacings should be minimized. Thus, participants have to balance the risk of hitting an obstacle against the risk of not completing a mission by surfacing too frequently. In HAIER, operators are given a “surfacing budget” so they know how often they can surface for a specific mission. Each path between surfacing events is referred to as a leg. This number can be seen in the upper middle portion of Figure 1, and in this case, the operator should not surface more than 6 times. This constraint is soft in that operators can surface more if needed, but they put the vehicle at much greater risk if they do so. </p>
 
-          <h3>Anecdote of the name HAIER_pSulu</h3>
+          <h3>Anecdote of the Name HAIER_pSulu</h3>
           <p>HAIER stands for Humans and Autonomy Interface for Exploring Risks. This name has its relatedness in the Chinese culture and story. HAIER is a famous appliance brand in China. In 2001, the company finished the longest cartoon in China, called Haier Brother, with 200+ episodes. This cartoon is shown around the world. Haier brothers are two artificial intelligence embedded humanoid robots who travelled five continents and four oceans and explored 238 difficult and dangerous journeys in 56 countries. HAIER represents the Chinese spirit of courage, the role of artificial intelligence in autonomy and its interaction with humans, and the process of exploring risks and uncertainty in various challenging environments.</p>
-          <p>p-Sulu stands for probabilistic Sulu (Ono, 2012). Sulu is a deterministic plan executive developed by L’eaut’e (2005). The name of the executive was taken from Hikaru Sulu,a character in the science ﬁction drama StarTrek. In the story, Sulu serves as a helmsman of the starship USS Enterprise. The plan executive was named after him because its role is to “steeraship” in order to achieve a given plan.</p>
+          <p>pSulu, the current path planning algorithm, stands for probabilistic Sulu (Ono, 2012). Sulu is a deterministic plan executive developed by L’eaut’e (2005). The name of the executive was taken from Hikaru Sulu,a character in the science ﬁction drama StarTrek. In the story, Sulu serves as a helmsman of the starship USS Enterprise. The plan executive was named after him because its role is to “steeraship” in order to achieve a given plan.</p>
 
           <h3> Possible research topics for the HAIER platform </h3>
           <p>The HAIER platform can be used to study the following topics:</p>
