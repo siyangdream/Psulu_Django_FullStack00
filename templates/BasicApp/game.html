@@ -455,9 +455,10 @@
 
                   if (expected_routes.length === 0) {
                     alert("Path planner failed to find a feasible path. Consider increasing the risk tolerance or changing the number of steps per leg");
+                    updateRiskBarPossible(0);                    
                   } else {
                     showPlanPath(received_json['expected_route']);
-                    updateRiskBarPossible();
+                    updateRiskBarPossible(1);
                   }
                   //dx = received_json['dx'];
                   //dy = received_json['dy'];

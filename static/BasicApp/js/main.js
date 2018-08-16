@@ -911,9 +911,10 @@ function createRiskBar() {
   riskPossibleBar.anchor.set(0.5, 0.5);
 }
 
-function updateRiskBarPossible() {
-  // riskBudget / riskBudgetVolume * 100
-  var riskBudget = this.riskBudget - parseFloat($('#risk').val());
+function updateRiskBarPossible(update) {
+  var riskBudget = this.riskBudget;
+  if (update) riskBudget -= parseFloat($('#risk').val());
+
   var m = riskBudget / riskBudgetVolume;
   var bw = 355 * m;
   var offset = 355 - bw;
@@ -937,7 +938,7 @@ function updateRiskBarGo() {
   var bw = 355 * m;
   var offset = 355 - bw;
   
-  // riskBar.key.context.fillStyle = "#68ff63";
+  // riskPossibleBar.key.context.fillStyle = "#68ff63";
   // if (riskBudget / riskBudgetVolume * 100 <= 30) {
   //   riskPossibleBar.key.context.fillStyle = "#f95b00";
   // } 
