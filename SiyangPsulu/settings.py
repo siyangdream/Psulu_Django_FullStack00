@@ -26,7 +26,7 @@ SECRET_KEY = 'xyomoxk4#1571p@*_&$p$6syuzdfwnk8czll=fk*0o=9nvmc0i'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['rapid-673.vm.duke.edu','apps.hal.pratt.duke.edu']
+ALLOWED_HOSTS = ['localhost', 'rapid-673.vm.duke.edu','apps.hal.pratt.duke.edu']
 
 
 # Application definition

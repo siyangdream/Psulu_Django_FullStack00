@@ -22,6 +22,7 @@ var bigStepText; //visual stats - step
 var riskText; //visual stats - risk
 var bigStepDownCount; //Init in Game Create function, please set value there
 var riskBudget; //Init in Game Create function, please set value there
+var RiskBudgetBar;
 
 var wantDataFlag = false;
 
@@ -178,8 +179,9 @@ var GameState = {
     refreshStats();
 
     //#RiskBudgetBar
-    RiskBudgetBar = new HealthBar(this.game, {x: 479, y: 45, width: 355});
-    RiskBudgetBar.setBarColor('#68ff63');
+    //RiskBudgetBar = new HealthBar(this.game, {x: 479, y: 45, width: 355});
+    //RiskBudgetBar.setBarColor('#68ff63');
+    createRiskBar();
 
     //#Initialize userLogDict
     bigStepCount = 0;
@@ -285,13 +287,14 @@ function decidedToGoClicked() {
     bigStepDownCount--;
     riskTotalCost += parseFloat($('#risk').val());
     riskBudget -= parseFloat($('#risk').val());
-    RiskBudgetBar.setPercent(riskBudget / riskBudgetVolume * 100);
-    if (riskBudget / riskBudgetVolume * 100 <= 30) {
-      RiskBudgetBar.setBarColor('#f95b00');
-    }
-    if (riskBudget / riskBudgetVolume * 100 <= 10) {
-      RiskBudgetBar.setBarColor('#ed0000');
-    }
+    // RiskBudgetBar.setPercent(riskBudget / riskBudgetVolume * 100);
+    // if (riskBudget / riskBudgetVolume * 100 <= 30) {
+    //   RiskBudgetBar.setBarColor('#f95b00');
+    // }
+    // if (riskBudget / riskBudgetVolume * 100 <= 10) {
+    //   RiskBudgetBar.setBarColor('#ed0000');
+    // }
+    updateRiskBarGo();
     refreshStats();
     //log the data to userLogDict
     userLogDict['details'][bigStepCount] = {};
@@ -863,6 +866,89 @@ function getCookie(name) {
 function showHideElement(showId, hideId) {
   $(showId).removeClass('hidden');
   $(hideId).addClass('hidden');
+}
+
+function createRiskBar() {
+  meters = game.add.group();
+
+  // create a plain black rectangle to use as the background of a risk bar
+  var meterBackgroundBitmap = game.add.bitmapData(355, 40);
+  meterBackgroundBitmap.ctx.beginPath();
+  meterBackgroundBitmap.ctx.rect(0, 0, meterBackgroundBitmap.width, meterBackgroundBitmap.height);
+  meterBackgroundBitmap.ctx.fillStyle = '#000000';
+  meterBackgroundBitmap.ctx.fill();
+
+  // create a Sprite using the background bitmap data
+  var riskMeterBG = game.add.sprite(479, 45, meterBackgroundBitmap);
+  riskMeterBG.fixedToCamera = true;
+  meters.add(riskMeterBG);
+
+  // create a medium bar for showing possible risk with yellow bar
+  var meterRiskPossibleBitmap = game.add.bitmapData(355, 40);
+  meterRiskPossibleBitmap.ctx.beginPath();
+  meterRiskPossibleBitmap.ctx.rect(0, 0, meterRiskPossibleBitmap.width, meterRiskPossibleBitmap.height);
+  meterRiskPossibleBitmap.ctx.fillStyle = '#808000';
+  meterRiskPossibleBitmap.ctx.fill();
+
+  // create a Sprite using the risk possible bitmap data
+  riskPossibleBar = game.add.sprite(479, 45, meterRiskPossibleBitmap);
+  riskPossibleBar.fixedToCamera = true;
+  meters.add(riskPossibleBar);
+
+  // create a rectangle to use as the risk meter itself
+  var riskBitmap = game.add.bitmapData(355, 40);
+  riskBitmap.ctx.beginPath();
+  riskBitmap.ctx.rect(0, 0, riskBitmap.width, riskBitmap.height);
+  riskBitmap.ctx.fillStyle = '#68ff63';
+  riskBitmap.ctx.fill();
+
+  // create the health Sprite using the red rectangle bitmap data
+  riskBar = game.add.sprite(479, 45, riskBitmap);
+  meters.add(riskBar);
+  riskBar.fixedToCamera = true;
+  riskBar.anchor.set(0.5, 0.5);
+  riskMeterBG.anchor.set(0.5, 0.5);  
+  riskPossibleBar.anchor.set(0.5, 0.5);
+}
+
+function updateRiskBarPossible(update) {
+  var riskBudget = this.riskBudget;
+  if (update) riskBudget -= parseFloat($('#risk').val());
+
+  var m = riskBudget / riskBudgetVolume;
+  var bw = 355 * m;
+  var offset = 355 - bw;
+  
+  riskBar.key.context.fillStyle = "#68ff63";
+  if (riskBudget / riskBudgetVolume * 100 <= 30) {
+    riskBar.key.context.fillStyle = "#f95b00";
+  } 
+  if (riskBudget / riskBudgetVolume * 100 <= 10) {
+    riskBar.key.context.fillStyle = "#ed0000";
+  }
+
+  riskBar.key.context.clearRect(0, 0, riskBar.width, riskBar.height);
+  riskBar.key.context.fillRect(0, 0, bw, riskBar.height);
+  riskBar.key.dirty = true;  
+}
+
+function updateRiskBarGo() {
+  // riskBudget / riskBudgetVolume * 100
+  var m = riskBudget / riskBudgetVolume;
+  var bw = 355 * m;
+  var offset = 355 - bw;
+  
+  // riskPossibleBar.key.context.fillStyle = "#68ff63";
+  // if (riskBudget / riskBudgetVolume * 100 <= 30) {
+  //   riskPossibleBar.key.context.fillStyle = "#f95b00";
+  // } 
+  // if (riskBudget / riskBudgetVolume * 100 <= 10) {
+  //   riskPossibleBar.key.context.fillStyle = "#ed0000";
+  // }
+
+  riskPossibleBar.key.context.clearRect(0, 0, riskPossibleBar.width, riskPossibleBar.height);
+  riskPossibleBar.key.context.fillRect(0, 0, bw, riskPossibleBar.height);
+  riskPossibleBar.key.dirty = true;  
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////

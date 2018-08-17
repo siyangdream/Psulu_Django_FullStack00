@@ -92,7 +92,7 @@
 
               <div id="default_mode">
                 <small class="form-text text-muted">* To see all the maps on one page, please refer to the
-                  <a href="{% url 'mapLibrary'%}" onclick="location.assign('{% url 'mapLibrary'%}'),'_top'">Map Library</a> page</small>
+                  <a href="{% url 'mapLibrary'%}" onclick="location.assign('{% url "mapLibrary" %}'),'_top'">Map Library</a> page</small>
                 <br></br>
                 <div class="form-group">
                   <label>Choose the number of obstacles:</label>
@@ -279,6 +279,7 @@
                   </select>
                   <br>
                   <button type="button" id="changeMapinExpMode" class="btn btn-success" onclick="applyExpMap()">Apply</button>
+
                   <button type="button" class="btn btn-warning hidden stepNext" onClick="showHideElement('#step3', '#step2')">Next</button>
                 </div>
               </div>
@@ -330,8 +331,6 @@
                   <label>Participant ID: <span class="participantID"></span></label>
                   <br/><br/>
               </div>
-
-
             <form id="gameInput">
             <label>Step 3: Start planning</label>
             <div class="range-slider"> {% csrf_token %}
@@ -456,8 +455,10 @@
 
                   if (expected_routes.length === 0) {
                     alert("Path planner failed to find a feasible path. Consider increasing the risk tolerance or changing the number of steps per leg");
+                    updateRiskBarPossible(0);                    
                   } else {
-                    showPlanPath(received_json['expected_route'])
+                    showPlanPath(received_json['expected_route']);
+                    updateRiskBarPossible(1);
                   }
                   //dx = received_json['dx'];
                   //dy = received_json['dy'];
@@ -584,14 +585,14 @@
   <!-- Game Canvas Place -->
   <script type="text/javascript" src="{% static "BasicApp/js/phaser.js" %}"></script>
   <script>
-    var backgroundPic_url = "{% static "BasicApp/images/colorwater.jpg" %}";
-    var submarinePic_url = "{% static "BasicApp/images/submarine.png" %}";
-    var finish_linePic_url = "{% static "BasicApp/images/finish_line.png" %}";
-    var scale_matrix_url = "{% static "BasicApp/images/scale_matrix.png" %}";
+    var backgroundPic_url = "{% static 'BasicApp/images/colorwater.jpg' %}";
+    var submarinePic_url = "{% static 'BasicApp/images/submarine.png' %}";
+    var finish_linePic_url = "{% static 'BasicApp/images/finish_line.png' %}";
+    var scale_matrix_url = "{% static 'BasicApp/images/scale_matrix.png' %}";
   </script>
-  <script src="{% static "BasicApp/js/main.js" %}"> </script>
-  <script src="{% static "BasicApp/js/map_library.js" %}"> </script>
-  <script src="{% static "BasicApp/js/HealthBar.standalone.js" %}"> </script>
+  <script src="{% static 'BasicApp/js/main.js' %}"> </script>
+  <script src="{% static 'BasicApp/js/map_library.js' %}"> </script>
+  <script src="{% static 'BasicApp/js/HealthBar.standalone.js' %}"> </script>
 
   <!-- Footer -->
   <footer class="container-fluid text-center">
