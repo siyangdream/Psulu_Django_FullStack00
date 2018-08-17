@@ -23,7 +23,7 @@ var riskText; //visual stats - risk
 var bigStepDownCount; //Init in Game Create function, please set value there
 var riskBudget; //Init in Game Create function, please set value there
 var riskBarWidth = 355; // Risk Bar Width
-var riskBarHeight = 42; // Risk Bar Height
+var riskBarHeight = 44; // Risk Bar Height
 var wantDataFlag = false;
 
 //:Obstacles
