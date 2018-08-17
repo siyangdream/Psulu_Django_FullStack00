@@ -22,8 +22,8 @@ var bigStepText; //visual stats - step
 var riskText; //visual stats - risk
 var bigStepDownCount; //Init in Game Create function, please set value there
 var riskBudget; //Init in Game Create function, please set value there
-var RiskBudgetBar;
-
+var riskBarWidth = 355; // Risk Bar Width
+var riskBarHeight = 44; // Risk Bar Height
 var wantDataFlag = false;
 
 //:Obstacles
@@ -181,7 +181,7 @@ var GameState = {
     //#RiskBudgetBar
     //RiskBudgetBar = new HealthBar(this.game, {x: 479, y: 45, width: 355});
     //RiskBudgetBar.setBarColor('#68ff63');
-    createRiskBar();
+    createRiskBar(479, 45, riskBarWidth, riskBarHeight);
 
     //#Initialize userLogDict
     bigStepCount = 0;
@@ -221,7 +221,8 @@ function refreshStats() {
   }
   if (riskBudget.toFixed(to_val_decimal_places) <= 0) {
     RiskText.addColor('#f44242', 0);
-  }
+  } else
+    RiskText.addColor('#ffffff', 0);  
 }
 
 
@@ -868,44 +869,47 @@ function showHideElement(showId, hideId) {
   $(hideId).addClass('hidden');
 }
 
-function createRiskBar() {
+// 479, 45, riskBarWidth, riskBarHeight
+function createRiskBar(x, y, w, h) {
   meters = game.add.group();
 
   // create a plain black rectangle to use as the background of a risk bar
-  var meterBackgroundBitmap = game.add.bitmapData(355, 40);
+  var meterBackgroundBitmap = game.add.bitmapData(w, h);
   meterBackgroundBitmap.ctx.beginPath();
   meterBackgroundBitmap.ctx.rect(0, 0, meterBackgroundBitmap.width, meterBackgroundBitmap.height);
   meterBackgroundBitmap.ctx.fillStyle = '#000000';
   meterBackgroundBitmap.ctx.fill();
 
   // create a Sprite using the background bitmap data
-  var riskMeterBG = game.add.sprite(479, 45, meterBackgroundBitmap);
+  var riskMeterBG = game.add.sprite(x, y, meterBackgroundBitmap);
   riskMeterBG.fixedToCamera = true;
   meters.add(riskMeterBG);
 
   // create a medium bar for showing possible risk with yellow bar
-  var meterRiskPossibleBitmap = game.add.bitmapData(355, 40);
+  var meterRiskPossibleBitmap = game.add.bitmapData(w, h);
   meterRiskPossibleBitmap.ctx.beginPath();
   meterRiskPossibleBitmap.ctx.rect(0, 0, meterRiskPossibleBitmap.width, meterRiskPossibleBitmap.height);
   meterRiskPossibleBitmap.ctx.fillStyle = '#808000';
   meterRiskPossibleBitmap.ctx.fill();
 
   // create a Sprite using the risk possible bitmap data
-  riskPossibleBar = game.add.sprite(479, 45, meterRiskPossibleBitmap);
+  riskPossibleBar = game.add.sprite(x, y, meterRiskPossibleBitmap);
   riskPossibleBar.fixedToCamera = true;
   meters.add(riskPossibleBar);
 
   // create a rectangle to use as the risk meter itself
-  var riskBitmap = game.add.bitmapData(355, 40);
+  var riskBitmap = game.add.bitmapData(w, h);
   riskBitmap.ctx.beginPath();
   riskBitmap.ctx.rect(0, 0, riskBitmap.width, riskBitmap.height);
   riskBitmap.ctx.fillStyle = '#68ff63';
   riskBitmap.ctx.fill();
 
   // create the health Sprite using the red rectangle bitmap data
-  riskBar = game.add.sprite(479, 45, riskBitmap);
+  riskBar = game.add.sprite(x, y, riskBitmap);
   meters.add(riskBar);
   riskBar.fixedToCamera = true;
+
+  // Anchor position to the center
   riskBar.anchor.set(0.5, 0.5);
   riskMeterBG.anchor.set(0.5, 0.5);  
   riskPossibleBar.anchor.set(0.5, 0.5);
@@ -913,11 +917,20 @@ function createRiskBar() {
 
 function updateRiskBarPossible(update) {
   var riskBudget = this.riskBudget;
-  if (update) riskBudget -= parseFloat($('#risk').val());
+  console.log(riskBudget);
+  if (update) {
+    riskBudget -= parseFloat($('#risk').val());
+    RiskText.text = riskBudget.toFixed(to_val_decimal_places);
+    if (riskBudget.toFixed(to_val_decimal_places) <= 0) {
+      RiskText.addColor('#e76438', 0);      
+    } else
+      RiskText.addColor('#848242', 0);
+  }
+  console.log(riskBudget);
 
   var m = riskBudget / riskBudgetVolume;
-  var bw = 355 * m;
-  var offset = 355 - bw;
+  var bw = riskBarWidth * m;
+  var offset = riskBarWidth - bw;
   
   riskBar.key.context.fillStyle = "#68ff63";
   if (riskBudget / riskBudgetVolume * 100 <= 30) {
@@ -935,8 +948,8 @@ function updateRiskBarPossible(update) {
 function updateRiskBarGo() {
   // riskBudget / riskBudgetVolume * 100
   var m = riskBudget / riskBudgetVolume;
-  var bw = 355 * m;
-  var offset = 355 - bw;
+  var bw = riskBarWidth * m;
+  var offset = riskBarWidth - bw;
   
   // riskPossibleBar.key.context.fillStyle = "#68ff63";
   // if (riskBudget / riskBudgetVolume * 100 <= 30) {
